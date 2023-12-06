@@ -1,6 +1,6 @@
 name: bloodbowl-manager
 type: php
-docroot: public
+docroot: build
 php_version: "8.3"
 webserver_type: nginx-fpm
 router_http_port: "9101"

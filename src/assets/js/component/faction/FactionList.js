@@ -2,7 +2,7 @@ import {FieldGuesser, ListGuesser} from "@api-platform/admin";
 import {ChipField, ReferenceArrayField, SingleFieldList} from "react-admin";
 
 export const FactionList = props => (
-    <ListGuesser {...props} bulkActionButtons={false}>
+    <ListGuesser {...props} bulkActionButtons={false} rowClick={'show'}>
         <FieldGuesser source={"name"}/>
         <ReferenceArrayField label="Positions" reference="positions" source="positions">
             <SingleFieldList linkType="show">
