@@ -8,7 +8,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Griffes'
-        description: ""
+        description: "Quand vous faites un jet d'Armure contre un joueur adverse qui a été Plaqué à cause d'une action de Blocage effectuée par ce joueur, un jet de 8+ avant d'appliquer les modificateurs pénètre son armure, quelle que soit sa caractéristique d'Armure."
     disturbingPresence:
         type: 'Compétence'
         category: 'Mutation'
@@ -30,7 +30,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Cornes'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage pendant une action de Blitz (pas lors d'une action de Blocage seule), vous pouvez ajouter un modificateur de +1 à la caractéristique de Force de ce joueur. Ce modificateur est appliqué avant de compter les soutiens, avant d'appliquer les autres modificateurs de Force et avant d'utiliser d'autres Compétences ou Traits."
     ironHardSkin:
         type: 'Compétence'
         category: 'Mutation'

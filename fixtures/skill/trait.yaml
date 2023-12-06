@@ -21,7 +21,9 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Toujours Affamé'
-        description: ""
+        description: "Si ce joueur veut faire une action de Lancer de Coéquipier, jetez un D6 après qu'il ait fini son mouvement mais avant qu'il lance son coéquipier. Sur 2+, continuez normalement le lancer. Sur un jet de 1, ce joueur tente de manger son coéquipier. Jetez un autre D6 :
+            - Sur un jet de 1, le coéquipier est mangé et est immédiatement retiré de la Liste d'Équipe. Aucun Apothicaire ne peut le sauver et on ne peut faire aucune tentative de Régénération. Si le coéquipier était en possession du ballon, ce dernier rebondit depuis la case que ce joueur occupe.
+            - Sur 2+, le coéquipier réussit à se libérer et l'action de Lancer de Coéquipier donne automatiquement une maladresse, comme décrit page 53."
         mandatory: true
     ballAndChain:
         type: 'Trait'
@@ -75,7 +77,9 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Regard Hypnotique'
-        description: ""
+        description: "Pendant son activation, ce joueur peut effectuer une action Spéciale de regard hypnotique, Il n'y a pas de limite au nombre de joueurs ayant ce trait qui peuvent faire cette action Spéciale par tour d'équipe,
+            Pour faire une action Spéciale de Regard Hypnotique, désignez un seul joueur adverse Debout qui n'a pas perdu sa Zone de tacle et que ce joueur Marque. Faites ensuite un test d'Agilité pour ce joueur, en appliquant un modificateur de -1 pour chaque joueur (autre que le joueur désigné) qui Marque ce joueur. Si le test est réussi, le joueur désigné perd sa Zone de tacle jusqu'à sa prochaine activation.
+            Ce joueur peut se déplacer avant d'effectuer cette action Spéciale, en suivant les règles de mouvement normales, Toutefois, une fois que cette action Spéciale a été effectuée, ce joueur ne peut plus se déplacer et son activation se termine."
     kickTeamMate:
         type: 'Trait'
         category: ''
@@ -97,7 +101,7 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Sans les Mains'
-        description: ""
+        description: "Ce joueur ne peut pas prendre possession du ballon. Il ne peut pas tenter de le ramasser, de le réceptionner, ni d'interférer avec une passe. Toute tentative de le faire rate automatiquement, faisant rebondir le ballon. Si ce joueur se déplace volontairement sur la case où est placé le ballon, il ne peut pas tenter de le ramasser. Le ballon rebondit et cela provoque un Turnover, comme si ce joueur avait raté une tentative de ramasser le ballon."
         mandatory: true
     plagueRidden:
         type: 'Trait'
@@ -108,28 +112,37 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Échasse à Ressort'
-        description: ""
+        description: "Pendant son Mouvement, au lieu d'Enjamber une seule case occupée par un joueur À Terre ou Sonné comme décrit page 45, un joueur ayant ce trait peut choisir de Sauter par-dessus une seule case adjacente, qu'elle soit inoccupée ou occupée par un joueur Debout."
     projectileVomit:
         type: 'Trait'
         category: ''
         name: 'Gerbe de Vomi'
-        description: ""
+        description: "Au lieu de faire une action de Blocage (y compris pendant une action de Blitz), ce joueur peut effectuer une action Spéciale de Gerbe de Vomi. Comme pour une action de Blocage, désignez un seul joueur Debout comme cible de l'action Spéciale de Gerbe de Vomi. Il n'y a pas de limite au nombre de joueurs ayant ce trait qui peuvent faire cette action Spéciale par tour d'équipe.
+            Pour faire une action Spéciale de Gerbe de Vomi, jetez un D6 :
+            - Sur 2+, ce joueur réussit une bile acide sur la cible désignée.
+            - Sur un jet de 1, ce joueur renifle et rote, avant de se couvrir lui-même de bile acide.
+            - Dans les deux cas, un jet d'Armure est effectué contre le joueur touché par la Gerbe de Vomi. Ce jet d'Armure ne peut être modifié d'aucune manière.
+            - Si l'Armure du joueur touché est pénétrée, il est Mis À Terre et on effectue un jet de Blessure contre lui. Ce jet d'Armure ne peut être modifié d'aucune manière.
+            - Si l'Armure du joueur touché n'est pas pénétrée, ce trait n'a aucun effet.
+            Un joueur peut faire cette action Spéciale une seule fois par tour (Gerbe de Vomi ne peut donc pas être utilisé avec Frénésie ni Blocage Multiple)."
     reallyStupid:
         type: 'Trait'
         category: ''
         name: 'Gros Débile'
-        description: ""
+        description: "Quand ce joueur est activé, même s'il est À Terre ou a perdu sa Zone de Tacle, jetez un D6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action, en appliquant un modificateur de +2 au jet si ce joueur est actuellement adjacent à un ou plusieurs coéquipiers Debout et n'ayant pas ce trait :
+            - Sur 1-3, ce joueur oublie ce qu'il était censé faire et son activation se termine immédiatement. De plus, il perd sa Zone de Tacle jusqu'à sa prochaine activation.
+            - Sur 4+, il continue normalement son activation et effectue l'action annoncée."
         mandatory: true
     regeneration:
         type: 'Trait'
         category: ''
         name: 'Régénération'
-        description: ""
+        description: "Après qu'un jet d'Élimination a été effectué contre ce joueur, jetez un D6, Sur 4+, le jet d'Élimination n'a aucun effet, et le joueur est placé dans le box des Réserves de son équipe au lieu du box des joueurs Éliminés. Sur 1-3, le résultat du jet d'Élimination est appliqué normalement."
     rightStuff:
         type: 'Trait'
         category: ''
         name: 'Poids Plume'
-        description: ""
+        description: "Si ce joueur a une caractéristique de Force de 3 ou moins, il peut être lancé par un coéquipier ayant la compétence Lancer de Coéquipier, comme décrit page 52."
         mandatory: true
     secretWeapon:
         type: 'Trait'
@@ -146,13 +159,16 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Minus'
-        description: ""
+        description: "Quand ce joueur fait un test d'Agilité pour Esquiver, il ignore les modificateurs de -1 dus au Marquage sur la case où il se déplace, sauf s'il a également le trait Bombardier, Tronçonneuse, ou Piqué.
+            Toutefois, quand un joueur adverse tente d'interférer avec une action de passe effectuée par ce joueur, le joueur adverse peut appliquer un modificateur de +1 à son test d'Agilité.
+            Enfin, les joueurs ayant ce trait sont plus susceptibles d'être blessés ; quand un jet de Blessure est effectué contre ce joueur, jetez 2d6 et consultez le tableau de Blessure de Minus page 60."
         mandatory: true
     swarming:
         type: 'Trait'
         category: ''
         name: 'Déferlement'
-        description: ""
+        description: "Pendant chaque séquence de Début de Phase, après l'Étape 2 mais avant l'Étape 3, vous pouvez retirer de votre box des Réserves D3 joueurs ayant ce trait et les placer sur le terrain, ce qui permet de placer plus de joueurs que les 11 habituels.
+            Ces joueurs supplémentaires ne peuvent pas être placés sur la Ligne d'Engagement ni dans un Couloir Latéral."
     swoop:
         type: 'Trait'
         category: ''
@@ -162,27 +178,38 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Prendre Racine'
-        description: ""
+        description: "Quand ce joueur est activé, même s'il est A Terre ou a perdu sa Zone de Tacle, jetez un d6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action:
+            * sur un jet de 1, ce joueur devient Enraciné :
+            - un joueur Enraciné ne peut pas se déplacer hors de la case qu'il occupe quelle qu'en soit la raison, volontairement ou non, jusqu'à la fin de cette phase de jeu, ou jusqu'à ce qu'il soit Plaqué ou Mis à Terre.
+            - un joueur Enraciné peut effectuer toute action éligible à condition qu'il puisse la faire sans se déplacer. Par exemple, un joueur Enraciné peut faire une action de passe mais ne peut pas se déplacer avant de faire la passe.
+            * sur 2+, ce joueur continue normalement son activation.
+            
+            Si vous aviez annoncé que ce joueur allait faire une action qui inclut un mouvement (Passe, Transmission, Blitz ou Agression) avant qu'il devienne Enraciné,il peut effectuer l'action si c'est possible.
+            Si c'est impossible, l'action est considérée omme ayant été effectuée et aucun autre joueur de votre équipe ne peut faire la même action à ce tour d'équipe."
         mandatory: true
     titchy:
         type: 'Trait'
         category: ''
         name: 'Microbe'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité pour Esquiver. Toutefois, si un joueur adverse esquive sur une case de la Zone de Tacle de ce joueur, celui-ci ne compte pas comme marquant le joueur en mouvement en ce qui concerne le calcul des modificateurs au test d'Agilité."
         mandatory: true
     timmmBer:
         type: 'Trait'
         category: ''
         name: 'Timmm-ber !'
-        description: ""
+        description: "Si ce joueur a une caractéristique de Mouvement de 2 ou moins, appliquez un modificateur de +1 au jet de dé quand il tente de se relever (comme décrit page 44) pour chaque coéquipier Debout et Démarqué auquel il est actuellement adjacent.
+            Un jet de 1 naturel est toujours un échec, quel que soit l nombre de coéquipiers qui l'aident."
     throwTeamMate:
         type: 'Trait'
         category: ''
         name: 'Lancer de Coéquipier'
-        description: ""
+        description: "Si ce joueur a une caractéristique de Force de 5 ou plus, il peut faire une action de Lancer de Coéquipier, comme décrit page 52, ce qui lu permet de lancer un coéquipier ayant le trait Poids Plume."
     unchannelledFury:
         type: 'Trait'
         category: ''
         name: 'Fureur débridée'
-        description: ""
+        description: "Quand ce joueur est activé, même s'il est A Terre ou a perdu sa Zone de Tacle, jetez un D6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action, en appliquand un modificateur de +2 au jet si vous avez annoncé une action de Blocage ou de Blitz (ou une action Spéciale accordée par un trait ou une compétence s'effectuant à la place d'une action de Blocage):
+            - sur 1-3, il plonge dans une rage incohérente et improductive. Son activation se termine immédiatement.
+            - sur 4+, il continue normalement son activation et effectue l'action annoncée.
+            Si vous avez annoncé que ce joueur allait effectuer une action que ne peut être effectuée qu'une seule fois par tour d'équipe et si l'activation de ce joueur s'est terminée avant d'avoir pu effectué l'action, l'action est considérée comme ayant été effectuée et aucun autre joueur de votre équipe ne peut faire la même action à ce tour d'équipe."
         mandatory: true

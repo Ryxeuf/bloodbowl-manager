@@ -28,7 +28,10 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Rétablissement'
-        description: ""
+        description: "Si ce joueur est A Terre, il peut se relever gratuitement (cela ne lui coûte pas trois (3) cases de Mouvement, comme c'est normalement le cas),
+            De plus, si ce joueur est A Terre quand il est activé, il peut tenter un Rétablissement et effectuer une action de Blocage. Ce joueur fait un test d'Agilité, en appliquant un modificateur de +1, 
+            Si le test est réussi, il se relève et peut effectuer l'action de Blocage. 
+            Si le test est raté, il reste A Terre et son activation se termine."
     leap:
         type: 'Compétence'
         category: 'Agilité'
@@ -43,7 +46,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Glissade Contrôlée'
-        description: ""
+        description: "Si ce joueur est repoussé pour une raison quelconque, il n'est pas déplacé sur une case choisie par le coach adverse. A la place vous pouvez choisir une case inoccupée adjacente à ce joueur, et il est repoussé dans la case choisie. S'il n'y a pas de cases inoccupées adjacentes à ce joueur, cette compétence ne peut pas être utilisée."
     sneakyGit:
         type: 'Compétence'
         category: 'Agilité'

@@ -58,7 +58,8 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Général'
         name: 'Tacle'
-        description: ""
+        description: "Quand un joueur adverse actif tente d'Esquiver depuis une case où il était marqué par un ou plusieurs joueurs de votre équipe ayant cette compétence, le joueur adverse ne peut pas utiliser la compétence Esquive.
+            De plus, quand un joueur adverse est ciblé par une action de Blocage effectuée par un joueur ayant cette compétence, le joueur adverse ne peut pas utiliser la compétence Esquive si un résultat Défenseur Bousculé s'applique à lui."
     wrestle:
         type: 'Compétence'
         category: 'Général'

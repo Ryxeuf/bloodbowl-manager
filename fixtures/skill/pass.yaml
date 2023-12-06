@@ -43,7 +43,8 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Passe'
         name: 'Sur le Ballon'
-        description: ""
+        description: "Ce joueur peut se déplacer de jusqu'à trois cases (quelle que soit sa caractéristique de Mouvement) en suivant les règles normales de mouvement, quand le coach adverse annonce qu'un de ses joueurs va faire une action de passe. Ce mouvement est effectué après avoir indiqué la case cible et mesuré la portée, mais avant que le joueur actif fasse un test de Capacité de passe. Ce mouvement interrompt l'action du joueur adverse qui fait l'action de Passe. Un joueur peut utiliser cette compétence quand un joueur adverse utilise la compétence Délestage, mais si ce joueur chute en se déplaçant, cela provoque un Turnover.
+            De plus, pendant chaque séquence de Début de phase, après l'Étape 2 mais avant l'Étape 3, un seul joueur de l'équipe qui réceptionne, Démarqué et ayant cette compétence, peut se déplacer de jusqu'à trois cases (quel que soit son M). Cette compétence ne peut pas être utilisée quand une remise en jeu est provoquée par une déviation de coup d'envoi, et ne permet pas au joueur d'entrer dans la moitié de terrain adverse."
     pass:
         type: 'Compétence'
         category: 'Passe'
@@ -58,4 +59,4 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Passe'
         name: 'Passe assurée'
-        description: ""
+        description: "Si ce joueur rate une action de Passe, le ballon n'est pas lâché, ne rebondit pas depuis la case de ce joueur, et cela ne provoque pas de Turnover. A la place, ce joueur garde la possession du ballon et son activation se termine."

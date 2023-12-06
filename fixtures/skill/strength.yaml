@@ -13,12 +13,14 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Esquive en force'
-        description: ""
+        description: "Une fois pendant son activation, après avoir effectué un test d'Agilité pour Esquiver, ce joueur peut modifier le jet de +1 si sa caractéristique de Force est de 4 ou moins, ou de +2 si sa caractéristique de Force est de 5 ou plus."
     grab:
         type: 'Compétence'
         category: 'Force'
         name: 'Projection'
-        description: ""
+        description: "Quand ce joueur fait una action de Blocage (y compris pendant une action de Blitz), utiliser cette compétence empêche la cible de l'action de Blocage d'utiliser la compétence Glissade Contrôlée,
+            De plus, quand ce joueur fait une action de Blocage seule (pas pendant une action de Blitz), si la cible est repoussée, ce joueur peut choisir n'importe quelle case inoccupée adjacente à la cible pour l'y repousser. S'il n'y a pas de cases inoccupées, cette compétence ne peut pas être utilisée.
+            Un joueur ayant cette compétence ne peut pas également avoir la compétence Frénésie."
     guard:
         type: 'Compétence'
         category: 'Force'
@@ -28,7 +30,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Juggernaut'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage pendant une action de Blitz (mais pas lors d'une action de Blocage seule), il peut traiter un résultat Les Deux Plaqués comme un résultat Repoussé."
     mightyBlow1:
         type: 'Compétence'
         category: 'Force'
@@ -48,14 +50,16 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Stabilité'
-        description: ""
+        description: "Ce joueur peut choisir de ne pas être repoussé, que ce soit à cause d'un Blocage qui le cible ou d'une poussée à la chaîne.
+            Utiliser cette compétence n'empêche pas un joueur adverse ayant la compétence Frénésie d'effectuer une seconde action de Blocage si ce joueur est encore debout après la première."
     strongArm:
         type: 'Compétence'
         category: 'Force'
         name: 'Bras Musclé'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests de Capacité de Passe quand il fait une action de Lancer de Coéquipier.
+            Un joueur qui n'a pas le trait Lancer de Coéquipier ne peut pas avoir cette compétence."
     thickSkull:
         type: 'Compétence'
         category: 'Force'
         name: 'Crâne Épais'
-        description: ""
+        description: "Quand un jet de Blessure est effectué contre ce joueur (même si ce joueur est À Terre, Sonné ou a perdu sa Zone de Tacle), il peut être mis K.-O, seulement sur un jet de 9, et traite un résultat de 8 comme un résultat Sonné. Si ce joueur a également le trait Minus, il peut être mis K.-O. seulement sur un jet de 8, et traite un jet de 7 comme un résultat Sonné. Les autres résultats ne sont pas affectés."
