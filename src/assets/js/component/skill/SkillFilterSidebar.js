@@ -7,7 +7,7 @@ export const SkillFilterSidebar = () => {
             {/*<SavedQueriesList/>*/}
             {/*<FilterLiveSearch  name={'live_search'}/>*/}
             <FilterList label="Compétence" icon={''}>
-                <FilterListItem label="Trait" value={{ type: 'Trait' }} />
+                <FilterListItem label="Trait" value={{ type: 'Trait', category: '' }} />
                 <FilterListItem label="Général" value={{ type: 'Compétence', category: 'Général' }} />
                 <FilterListItem label="Agilité" value={{ type: 'Compétence', category: 'Agilité' }} />
                 <FilterListItem label="Force" value={{ type: 'Compétence', category: 'Force' }} />

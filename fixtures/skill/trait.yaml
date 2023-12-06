@@ -13,17 +13,17 @@ App\Entity\Skill:
     animosity:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Animosité'
         description: ""
     alwaysHungry:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Toujours Affamé'
         description: ""
     ballAndChain:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Chaîne et Boulet'
         description: ""
     bombardier:
         type: 'Trait'
@@ -52,35 +52,120 @@ App\Entity\Skill:
     boneHead:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Cerveau Lent'
         description: ""
     chainsaw:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Tronçonneuse'
         description: ""
     decay:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Décomposition'
         description: ""
     hypnoticGaze:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Regard Hypnotique'
         description: ""
     kickTeamMate:
         type: 'Trait'
         category: ''
-        name: ''
+        name: 'Botter de Coéquipier'
         description: ""
+    lonerX:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire (X+)'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
     loner4:
         type: 'Trait'
         category: ''
         name: 'Solitaire 4+'
         description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+    onHands:
+        type: 'Trait'
+        category: ''
+        name: 'Sans les Mains'
+        description: ""
+    plagueRidden:
+        type: 'Trait'
+        category: ''
+        name: 'Contagieux'
+        description: ""
+    pogoStick:
+        type: 'Trait'
+        category: ''
+        name: 'Échasse à Ressort'
+        description: ""
+    projectileVomit:
+        type: 'Trait'
+        category: ''
+        name: 'Gerbe de Vomi'
+        description: ""
+    reallyStupid:
+        type: 'Trait'
+        category: ''
+        name: 'Gros Débile'
+        description: ""
+    regeneration:
+        type: 'Trait'
+        category: ''
+        name: 'Régénération'
+        description: ""
+    rightStuff:
+        type: 'Trait'
+        category: ''
+        name: 'Poids Plume'
+        description: ""
     secretWeapon:
         type: 'Trait'
         category: ''
         name: 'Arme secrète'
         description: "Quand une phase de jeu à laquelle ce joueur a participé se termine, même si ce joueur n'était pas sur le terrain à la fin de la phase, il est Expulsé pour avoir commis une Agression, comme décrit page 63."
+    stab:
+        type: 'Trait'
+        category: ''
+        name: 'Poignard'
+        description: ""
+    stunty:
+        type: 'Trait'
+        category: ''
+        name: 'Minus'
+        description: ""
+    swarming:
+        type: 'Trait'
+        category: ''
+        name: 'Déferlement'
+        description: ""
+    swoop:
+        type: 'Trait'
+        category: ''
+        name: 'Piqué'
+        description: ""
+    takeRoot:
+        type: 'Trait'
+        category: ''
+        name: 'Prendre Racine'
+        description: ""
+    titchy:
+        type: 'Trait'
+        category: ''
+        name: 'Microbe'
+        description: ""
+    timmmBer:
+        type: 'Trait'
+        category: ''
+        name: 'Timmm-ber !'
+        description: ""
+    throwTeamMate:
+        type: 'Trait'
+        category: ''
+        name: 'Lancer de Coéquipier'
+        description: ""
+    unchannelledFury:
+        type: 'Trait'
+        category: ''
+        name: 'Fureur débridée'
+        description: ""
