@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PositionRepository::class)]
 #[ApiResource]
-#[ApiFilter(SearchFilter::class, properties: ['faction'])]
+#[ApiFilter(SearchFilter::class, properties: ['faction', 'name' => 'ipartial'])]
 class Position
 {
     #[ORM\Id]
@@ -47,6 +47,12 @@ class Position
 
     #[ORM\Column]
     private int $cost;
+
+    #[ORM\Column(type: 'json')]
+    private array $primarySkills = [];
+
+    #[ORM\Column(type: 'json')]
+    private array $secondarySkills = [];
 
     #[ORM\ManyToOne(targetEntity: Faction::class, inversedBy: 'positions')]
     private Faction $faction;
@@ -182,5 +188,25 @@ class Position
     public function getQuantity(): string
     {
         return $this->min . '-' . $this->max;
+    }
+
+    public function getPrimarySkills(): array
+    {
+        return $this->primarySkills;
+    }
+
+    public function setPrimarySkills(array $primarySkills): void
+    {
+        $this->primarySkills = $primarySkills;
+    }
+
+    public function getSecondarySkills(): array
+    {
+        return $this->secondarySkills;
+    }
+
+    public function setSecondarySkills(array $secondarySkills): void
+    {
+        $this->secondarySkills = $secondarySkills;
     }
 }

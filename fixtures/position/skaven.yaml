@@ -10,6 +10,8 @@ App\Entity\Position:
         cp: 4
         ar: 8
         cost: 50_000
+        primarySkills: ['Général']
+        secondarySkills: ['Agilité', 'Mutation', 'Force']
     skavenBlitzer:
         faction: "@skaven"
         name: "Blitzer"
@@ -22,6 +24,8 @@ App\Entity\Position:
         ar: 9
         cost: 90_000
         skills: ['@block']
+        primarySkills: ['Général', 'Force']
+        secondarySkills: ['Agilité', 'Mutation', 'Passe']
     gutterRunner:
         faction: "@skaven"
         name: "Coureur d'Égout"
@@ -34,6 +38,8 @@ App\Entity\Position:
         ar: 8
         cost: 85_000
         skills: ['@dodge']
+        primarySkills: ['Général', 'Agilité']
+        secondarySkills: ['Passe', 'Mutation', 'Force']
     skavenThrower:
         faction: "@skaven"
         name: "Lanceur"
@@ -46,6 +52,8 @@ App\Entity\Position:
         ar: 8
         cost: 85_000
         skills: ['@pass', '@sureHands']
+        primarySkills: ['Général', 'Passe']
+        secondarySkills: ['Agilité', 'Mutation', 'Force']
     ratOgre:
         faction: "@skaven"
         name: "Rat Ogre"
@@ -58,3 +66,5 @@ App\Entity\Position:
         ar: 9
         cost: 150_000
         skills: ['@mightyBlow1', '@animalSavagery', '@prehensileTail', '@frenzy', '@loner4']
+        primarySkills: ['Force']
+        secondarySkills: ['Agilité', 'Mutation', 'Général']

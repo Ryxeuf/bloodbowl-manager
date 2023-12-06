@@ -1,10 +1,20 @@
 import {FieldGuesser, ListGuesser} from "@api-platform/admin";
-import {AutocompleteInput, ChipField, ReferenceArrayField, ReferenceField, ReferenceInput, SingleFieldList, TextField} from "react-admin";
+import {
+    AutocompleteInput,
+    ChipField,
+    NumberField,
+    ReferenceArrayField,
+    ReferenceField,
+    ReferenceInput,
+    SingleFieldList,
+    TextField, TextInput
+} from "react-admin";
 
 const PositionFilters = [
     <ReferenceInput name={'faction'} source={'faction'} reference={'factions'}>
         <AutocompleteInput name={'faction'} optionText={'name'} filterToQuery={(searchText) => ({ name: searchText })} />
-    </ReferenceInput>
+    </ReferenceInput>,
+    <TextInput name={'name'} source={'name'}/>
 ]
 
 export const PositionList = props => (
@@ -24,6 +34,6 @@ export const PositionList = props => (
                 <ChipField source="name" />
             </SingleFieldList>
         </ReferenceArrayField>
-        <FieldGuesser source={"cost"} />
+        <NumberField source={"cost"} />
     </ListGuesser>
 );
