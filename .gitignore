@@ -80,4 +80,5 @@ phpstan.neon
 /public/bundles/
 /var/
 /vendor/
+/node_modules/
 ###< symfony/framework-bundle ###
