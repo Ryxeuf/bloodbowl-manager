@@ -1,0 +1,13 @@
+App\Entity\TeamSpecialRule:
+    underworldChallenge:
+        name: 'Défi des Bas-fonds'
+    mastersUndeath:
+        name: 'Maîtres de la Non-vie'
+    sylvanianSpotlight:
+        name: 'Spot de Sylvanie'
+    lustrianSuperleague:
+        name: 'Super-ligue de Lustrie'
+    oldWorldClassic:
+        name: 'Classique du Vieux Monde'
+    halflingThimbleCup:
+        name: 'Coupe Dé à Coudre Halfling'

@@ -1,13 +1,41 @@
 App\Entity\Faction:
     skaven:
         name: "Skaven"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 1
+        apothecary: true
+        specialRules: ['@underworldChallenge']
     nobles:
         name: "Nobles"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 2
+        apothecary: true
+        specialRules: ['@oldWorldClassic']
     horrors:
         name: "Horreurs Nécromantiques"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 2
+        apothecary: false
+        specialRules: ['@mastersUndeath', '@sylvanianSpotlight']
     halflings:
         name: "Halflings"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 3
+        apothecary: true
+        specialRules: ['@oldWorldClassic', '@halflingThimbleCup']
     lizardmen:
         name: "Hommes Lézard"
-    amazons:
-        name: "Amazones"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 1
+        apothecary: true
+        specialRules: ['@lustrianSuperleague']

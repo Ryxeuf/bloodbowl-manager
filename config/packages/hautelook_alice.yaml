@@ -6,5 +6,6 @@ when@dev: &dev
             - fixtures/skill
             - fixtures/faction
             - fixtures/position
+            - fixtures/special_rules
 
 when@test: *dev

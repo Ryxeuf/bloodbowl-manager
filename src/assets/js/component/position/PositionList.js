@@ -1,8 +1,14 @@
 import {FieldGuesser, ListGuesser} from "@api-platform/admin";
-import {ChipField, ReferenceArrayField, ReferenceField, SingleFieldList, TextField} from "react-admin";
+import {AutocompleteInput, ChipField, ReferenceArrayField, ReferenceField, ReferenceInput, SingleFieldList, TextField} from "react-admin";
+
+const PositionFilters = [
+    <ReferenceInput name={'faction'} source={'faction'} reference={'factions'}>
+        <AutocompleteInput name={'faction'} optionText={'name'} filterToQuery={(searchText) => ({ name: searchText })} />
+    </ReferenceInput>
+]
 
 export const PositionList = props => (
-    <ListGuesser {...props} bulkActionButtons={false}>
+    <ListGuesser {...props} bulkActionButtons={false} filters={PositionFilters}>
         <ReferenceField reference="factions" source="faction" link="show">
             <TextField source="name" />
         </ReferenceField>
