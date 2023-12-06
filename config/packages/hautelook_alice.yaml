@@ -1,0 +1,10 @@
+when@dev: &dev
+    hautelook_alice:
+        fixtures_path:
+            - fixtures
+            - fixtures/user
+            - fixtures/skill
+            - fixtures/faction
+            - fixtures/position
+
+when@test: *dev

@@ -1,0 +1,63 @@
+App\Entity\Skill:
+    catch:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Réception'
+        description: "Ce joueur peut relancer un test d'Agilité raté quand il tente de réceptionner le ballon."
+    divingCatch:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Réception Plongeante'
+        description: ""
+    divingTackle:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Tacle plongeant'
+        description: ""
+    dodge:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Esquive'
+        description: "Une fois par tour d'équipe, pendant son activation, ce joueur peut relancer un test d'Agilité raté quand il tente d'Esquiver. De plus, ce joueur peut choisir d'utiliser cette comptétence quand il est la cible d'une acton de Blocage et qu'il subit un résultat Défenseur Bousculé, comme décrit page 57."
+    defensive:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Défenseur'
+        description: "Pendant le tour de l'équipe adverse (et pas pendant votre tour d'équipe), les joueurs adverses Marqués par ce joueur ne peuvent pas utiliser la compétence Garde."
+    jumpUp:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Rétablissement'
+        description: ""
+    leap:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Saut'
+        description: ""
+    safePairOfHands:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Libération Contrôlée'
+        description: ""
+    sidestep:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Glissade Contrôlée'
+        description: ""
+    sneakyGit:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Sournois'
+        description: "Quand ce joueur effectue une action d'Agression, il n'est pas Expulsé pour Agression s'il obtient un double naturel sur le jet d'Armure.
+            De plus, l'activation de ce joueur ne prend pas obligatoirement fin une fois l'Agression commise. Si vous le souhaitez, et s'il n'a pas utilisé tout son Mouvement, il peut continuer de se déplacer après avoir commis l'Agression."
+    sprint:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Sprint'
+        description: "Quand ce joueur fait une action qui inclut un mouvement, il peut tenter de Foncer trois fois, au lieu des deux fois habituelles."
+    sureFeet:
+        type: 'Compétence'
+        category: 'Agilité'
+        name: 'Équilibre'
+        description: "Une fois par tour d'équipe, pendant son activation, ce joueur peut relancer le D6 quand il tente de Foncer."
+

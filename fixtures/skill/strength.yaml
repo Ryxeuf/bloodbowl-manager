@@ -1,0 +1,61 @@
+App\Entity\Skill:
+    armBar:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Clé de bras'
+        description: ""
+    brawler:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Bagarreur'
+        description: "Quand ce joueur fait une action de Blocage seule (pas pendant une action de Blitz), ce joueur peut relancer 1 résultat Les Deux Plaqués."
+    breakTackle:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Esquive en force'
+        description: ""
+    grab:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Projection'
+        description: ""
+    guard:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Garde'
+        description: ""
+    juggernaut:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Juggernaut'
+        description: ""
+    mightyBlow1:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Châtaigne +1'
+        description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    multipleBlock:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Blocage Multiple'
+        description: ""
+    pileDriver:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Marteau-pilon'
+        description: ""
+    standFirm:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Stabilité'
+        description: ""
+    strongArm:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Bras Musclé'
+        description: ""
+    thickSkull:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Crâne Épais'
+        description: ""

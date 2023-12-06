@@ -1,0 +1,86 @@
+App\Entity\Skill:
+    animalSavagery:
+        type: 'Trait'
+        category: ''
+        name: 'Sauvagerie animale'
+        description: "Quand ce joueur est activé, même s'il est A Terre ou a perdu sa Zone de Tacle, jetez un D6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action, en appliquant un modificateur de +2 au jet si vous avez annoncé une action de Blocage ou de Blitz (ou une action Spéciale accordée par un trait ou une compétence s'effectuant à la place d'une action de Blocage):\n
+            - sur 1-3, ce joueur se déchaîne sur ses coéquipiers :\n
+                    - 1 coéquipier Debout de votre choix qui est actuellement adjacent à ce joueur est immédiatement Plaqué par ce joueur. Cela ne provoque pas de Turnover, sauf si le joueur Plaqué était en possession du ballon. Après avoir fait un jet d'Armure (pouvant donner lieu à un jet de Blessure) contre le joueur Plaqué, ce joueur peut continuer son activation et effectuer l'action annoncée s'il le peut. Notez que si ce joueur a des compétences applicables, le coach adverse peut les utiliser en faisant le jet d'Armure (pouvant donner lieu à un jet de Blessure) contre le joueur Plaqué.\n
+                    - Si ce joueur n'est pas actuellement adjacent à des coéquipiers Debout, son activation se termine immédiatement. De plus, ce joueur perd sa Zone de Tacle jusqu'à sa prochaine activation.\n
+            - sur 4+, ce joueur continue normalement son activation et effectue l'action annoncée.\n
+            \n
+            Si vous avez annoncé que ce joueur allait faire une action que ne peut être effectuée qu'une seule fois par tour d'équipe et si l'activation de ce joueur s'est terminée avant de pouvoir effectuer l'action, l'action est considérée comme ayant été effectuée et aucun autre joueur de votre équipe ne peut faire la même action à ce tour d'équipe."
+    animosity:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    alwaysHungry:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    ballAndChain:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    bombardier:
+        type: 'Trait'
+        category: ''
+        name: 'Bombardier'
+        description: "Quand ce joueur est activé, s'il est Debout, il peut faire une action Spéciale de Lancer de Bombe, Cette action Spéciale n'est ni une action de Passe, ni une action de Lancer de Coéquipier, et n'empêche donc pas un autre joueur d'effectuer une de ces actions pendant le même tour d'équipe. Toutefois, un seul joueur ayant ce trait peut faire cette action Spéciale à chaque tour d'équipe.
+            Une Bombe peut être lancée et réceptionnée, et on peut interférer avec le lancer, comme avec un ballon, en suivant les règles pour les actions de Passe, comme décrit page 48, avec les exceptions suivantes :
+                - Un joueur ne peut pas se relever ni se déplacer avant de faire une action de Lancer de Bombe.
+                - Les Bombes ne rebondissent pas et peuvent s'immobiliser au sol sur une case occupée. Si un joueur échoue à ramasser une Bombe, elle s'arrête sur la case qu'il occupe.
+                - Si un lancer de Bombe donne une maladresse, la Bombe explose immédiatement sur la case occupée par le joueur qui tente de la lancer.
+                - Si une Bombe s'immobilise sur une case inoccupée ou est réceptionnée par un joueur adverse, cela ne provoque pas un Trunover.
+                - Un joueur qui est en possession du ballon peut quand même réceptionner une Bombe.
+                - Les compétences pouvent être utilisées en effectuant une action de Passe peuvent aussi être utilisées en effectuant une action Spéciale de Lancer de Bombe, à l'exception de Sur Le Ballon.
+            Si une Bombe est réceptionnée par un joueur de l'une ou l'autre équipe, jetez un D6 :
+                - Sur 4+, la Bombe explose immédiatement, comme décrit ci-dessous.
+                - Sur 1-3, le joueur doit immédiatement relancer la Bombe. Ce lancer se déroule en dehors de la séquence de jeu normale.
+                Si une Bombe sort du terrain, elle explose dans le public sans avoir d'effet (sur le match) avant que le public ne puisse la renvoyer.
+            Quand une Bombe s'immobilise au sol, sur une case inoccupée, sur une case occupée par un joueur qui a échoué à réceptionner la Bombe, ou sur une case occupée par un joueur À Terre ou Sonné, elle explose immédiatement :
+                - Si la Bombe explose sur une cas eoccupée, le joueur est touché automatiquement par l'explosion.
+                - Jetez un D6 pour chaque joueur (des deux équipes) qui occupe une case adjacente à celle où la Bombe a explosé :
+                      - Sur 4+, le joueur est touché par l'explosion.
+                      - Sur 1-3, le joueur réussit à éviter l'explosion.
+                - Les joueurs Debout touchés par l'explosion sont Plaqués.
+                - On fait un jet d'Armure (pouvant donner lieu à un jet de Blessure) contre chaque joueur touché par l'explosion, même s'il est déjà À Terre ou Sonné,
+                - Vous pouvez appliquer un modificateur de +1 soit au jet d'Armure, soit au jet de Blessure. Vous pouvez le faire après avoir effectué le jet,"
+    boneHead:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    chainsaw:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    decay:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    hypnoticGaze:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    kickTeamMate:
+        type: 'Trait'
+        category: ''
+        name: ''
+        description: ""
+    loner4:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire 4+'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+    secretWeapon:
+        type: 'Trait'
+        category: ''
+        name: 'Arme secrète'
+        description: "Quand une phase de jeu à laquelle ce joueur a participé se termine, même si ce joueur n'était pas sur le terrain à la fin de la phase, il est Expulsé pour avoir commis une Agression, comme décrit page 63."

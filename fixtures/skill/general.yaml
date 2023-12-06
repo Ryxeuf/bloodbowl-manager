@@ -1,0 +1,66 @@
+App\Entity\Skill:
+    block:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Blocage'
+        description: "Quand on obtient le résultat Les Deux Plaqués lors d'une action de Blocage, ce joueur peut choisir de l'ignorer et ne pas être Plaqué (voir page 57)."
+    dauntless:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Intrépide'
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), si la cible désignée a une caractéristique de Force supérieure à celle de ce joueur avant de compter les soutiens offensifs ou défensifs, mais après avoir appliqué les autres modificateurs, jetez un D6 et ajoutez la caractéristique de Force de ce joueur au résultat. Si le total est supérieur à la caractéristique de Force de la cible, ce joueur augmente sa caractéristique de Force jusqu'à être égale à celle de la cible de l'action de Blocage avant de compter les soutiens offensifs ou défensifs pour la durée de cette action de Blocage.
+            Si ce joueur a une autre compétence qui lui permet d'effectuer plusieurs actions de Blocage, il doit faire un jet d'Intrépide pour chacune de ses actions de Blocage."
+    dirtyPlayer1:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Joueur Déloyal (+1)'
+        description: "Quand ce joueur fait une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, effectué contre la victime, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir fait le jet."
+    fend:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Parade'
+        description: "Si ce joueur est repoussé à cause d'un résultat de blocage s'appliquant à lui, il peut choisir d'empêcher le joueur qui l'a repoussé de le poursuivre.\n
+            Toutefois, le joueur qui l'a repoussé peut continuer de se déplacer s'il est en train de faire une action de blitz s'il lui reste du Mouvement ou en Fonçant.\n
+            Cette compétence ne peut pas être utilisée quand ce joueur est poussé à la chaîne, contre un joueur ayant le trait Chaîne et Boulet, ou contre un joueur ayant la compétence Juggernaut qui a effectué l'action de Blocage pendant un Blitz.\n
+            Notez que si un joueur adverse en possession du ballon est repoussé dans votre Zone d'En-but en étant encore Debout, il marque un touchdown, mettant fin à la phase de jeu. Dans ce cas, la seconde action de Blocage n'est pas effectuée.\n
+            Un joueur ayant cette compétence ne peut pas aussi avoir la compétence Projection."
+    frenzy:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Frénésie'
+        description: "Chaque fois que ce joueur fait une action de Blocage (y compris pendant une action de Blitz), il doit poursuivre si la cible est repoussée et s'il en est capable. Si la cible est encore Debout après avoir été repoussée, il doit faire une seconde action de Blocage contre la même cible, et poursuivre à nouveau si elle est repoussée. Si ce joueur est en train de faire une action de Blitz, la seconde action de Blocage lui coûte une case de Mouvement. S'il ne lui reste plus de Mouvement pour faire une seconde action de Blocage, il doit Foncer pour la faire. S'il ne peut pas Foncer, il ne peut pas faire une seconde action de Blocage."
+    kick:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Frappe précise'
+        description: ""
+    pro:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Pro'
+        description: ""
+    shadowing:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Poursuite'
+        description: ""
+    stripBall:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Arracher le ballon'
+        description: ""
+    sureHands:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Prise sûre'
+        description: "Ce joueur peut relancer les tentatives de ramasser le ballon. De plus, la compétence Arracher le Ballon ne peut pas être utilisée contre un joueur ayant cette compétence."
+    tackle:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Tacle'
+        description: ""
+    wrestle:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Lutte'
+        description: ""

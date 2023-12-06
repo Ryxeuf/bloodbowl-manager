@@ -1,0 +1,13 @@
+App\Entity\Faction:
+    skaven:
+        name: "Skaven"
+    nobles:
+        name: "Nobles"
+    horrors:
+        name: "Horreurs Nécromantiques"
+    halflings:
+        name: "Halflings"
+    lizardmen:
+        name: "Hommes Lézard"
+    amazons:
+        name: "Amazones"

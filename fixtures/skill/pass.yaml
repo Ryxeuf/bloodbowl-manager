@@ -1,0 +1,61 @@
+App\Entity\Skill:
+    accurate:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    cannoneer:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    cloudBurster:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    dumpOff:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    fumblerooskie:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    hailMaryPass:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    leader:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    nervesOfSteel:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    onTheBall:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    pass:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""
+    runningPass:
+        type: 'Compétence'
+        category: 'Passe'
+        name: 'Passe'
+        description: "Ce joueur peut relancer un test de Capacité de passe raté quand il fait une action de passe"
+    safePass:
+        type: 'Compétence'
+        category: 'Passe'
+        name: ''
+        description: ""

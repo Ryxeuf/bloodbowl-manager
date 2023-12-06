@@ -1,0 +1,61 @@
+App\Entity\Skill:
+    bigHands:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    claws:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    disturbingPresence:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    extraArms:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    foulAppearance:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    horns:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    ironHardSkin:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    monstrousMouth:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    prehensileTail:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: 'Queue Préhensile'
+        description: "Quand un joueur adverse actif tente d'Esquiver, d'Enjamber ou de Sauter pour quitter une case où il est Marqué par ce joueur, un modificateur supplémentaire de -1 s'applique au test d'Agilité du joueur actif. Si le joueur actif est Marqué par plusieurs joueurs ayant cette mutation, un seul joueur peut l'utiliser."
+    tentacles:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    twoHeads:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""
+    veryLongLegs:
+        type: 'Compétence'
+        category: 'Mutation'
+        name: ''
+        description: ""

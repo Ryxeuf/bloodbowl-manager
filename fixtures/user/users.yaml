@@ -1,0 +1,6 @@
+App\Entity\User:
+    admin:
+        username: admin
+        email: admin@bb-manager.local
+        password: test
+        roles: ['ROLE_ADMIN']
