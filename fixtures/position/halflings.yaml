@@ -1,0 +1,49 @@
+App\Entity\Position:
+    halflingsLinemen:
+        faction: "@halflings"
+        name: "Trois-Quart Halfling"
+        min: 0
+        max: 16
+        cost: 30_000
+        m: 5
+        f: 2
+        ag: 3
+        cp: 4
+        ar: 7
+        skills: ['@dodge', '@rightStuff', '@stunty']
+    halflingsHeftys:
+        faction: "@halflings"
+        name: "Poids Lourd Halfling"
+        min: 0
+        max: 2
+        cost: 50_000
+        m: 5
+        f: 2
+        ag: 3
+        cp: 3
+        ar: 8
+        skills: ['@dodge', '@fend', '@stunty']
+    halflingsCatcher:
+        faction: "@halflings"
+        name: "Receveur Halfling"
+        min: 0
+        max: 2
+        cost: 55_000
+        m: 5
+        f: 2
+        ag: 3
+        cp: 5
+        ar: 7
+        skills: ['@catch', '@dodge', '@rightStuff', '@stunty', '@sprint']
+    halflingsTreemen:
+        faction: "@halflings"
+        name: "Homme-Arbre"
+        min: 0
+        max: 2
+        cost: 120_000
+        m: 2
+        f: 6
+        ag: 5
+        cp: 5
+        ar: 11
+        skills: ['@mightyBlow1', '@standFirm', '@strongArm', '@takeRoot', '@thickSkull', '@throwTeamMate', '@timmmBer']

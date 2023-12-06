@@ -10,21 +10,25 @@ App\Entity\Skill:
             - sur 4+, ce joueur continue normalement son activation et effectue l'action annoncée.\n
             \n
             Si vous avez annoncé que ce joueur allait faire une action que ne peut être effectuée qu'une seule fois par tour d'équipe et si l'activation de ce joueur s'est terminée avant de pouvoir effectuer l'action, l'action est considérée comme ayant été effectuée et aucun autre joueur de votre équipe ne peut faire la même action à ce tour d'équipe."
+        mandatory: true
     animosity:
         type: 'Trait'
         category: ''
         name: 'Animosité'
         description: ""
+        mandatory: true
     alwaysHungry:
         type: 'Trait'
         category: ''
         name: 'Toujours Affamé'
         description: ""
+        mandatory: true
     ballAndChain:
         type: 'Trait'
         category: ''
         name: 'Chaîne et Boulet'
         description: ""
+        mandatory: true
     bombardier:
         type: 'Trait'
         category: ''
@@ -54,16 +58,19 @@ App\Entity\Skill:
         category: ''
         name: 'Cerveau Lent'
         description: ""
+        mandatory: true
     chainsaw:
         type: 'Trait'
         category: ''
         name: 'Tronçonneuse'
         description: ""
+        mandatory: true
     decay:
         type: 'Trait'
         category: ''
         name: 'Décomposition'
         description: ""
+        mandatory: true
     hypnoticGaze:
         type: 'Trait'
         category: ''
@@ -79,16 +86,19 @@ App\Entity\Skill:
         category: ''
         name: 'Solitaire (X+)'
         description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+        mandatory: true
     loner4:
         type: 'Trait'
         category: ''
         name: 'Solitaire 4+'
         description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
-    onHands:
+        mandatory: true
+    noHands:
         type: 'Trait'
         category: ''
         name: 'Sans les Mains'
         description: ""
+        mandatory: true
     plagueRidden:
         type: 'Trait'
         category: ''
@@ -109,6 +119,7 @@ App\Entity\Skill:
         category: ''
         name: 'Gros Débile'
         description: ""
+        mandatory: true
     regeneration:
         type: 'Trait'
         category: ''
@@ -119,11 +130,13 @@ App\Entity\Skill:
         category: ''
         name: 'Poids Plume'
         description: ""
+        mandatory: true
     secretWeapon:
         type: 'Trait'
         category: ''
         name: 'Arme secrète'
         description: "Quand une phase de jeu à laquelle ce joueur a participé se termine, même si ce joueur n'était pas sur le terrain à la fin de la phase, il est Expulsé pour avoir commis une Agression, comme décrit page 63."
+        mandatory: true
     stab:
         type: 'Trait'
         category: ''
@@ -134,6 +147,7 @@ App\Entity\Skill:
         category: ''
         name: 'Minus'
         description: ""
+        mandatory: true
     swarming:
         type: 'Trait'
         category: ''
@@ -149,11 +163,13 @@ App\Entity\Skill:
         category: ''
         name: 'Prendre Racine'
         description: ""
+        mandatory: true
     titchy:
         type: 'Trait'
         category: ''
         name: 'Microbe'
         description: ""
+        mandatory: true
     timmmBer:
         type: 'Trait'
         category: ''
@@ -169,3 +185,4 @@ App\Entity\Skill:
         category: ''
         name: 'Fureur débridée'
         description: ""
+        mandatory: true

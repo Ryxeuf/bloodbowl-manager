@@ -1,0 +1,61 @@
+App\Entity\Position:
+    zombieLinemen:
+        faction: "@horrors"
+        name: "Zombie"
+        min: 0
+        max: 16
+        cost: 40_000
+        m: 4
+        f: 3
+        ag: 4
+        cp: null
+        ar: 9
+        skills: ['@regeneration']
+    ghoulRunner:
+        faction: "@horrors"
+        name: "Coureur Goule"
+        min: 0
+        max: 2
+        cost: 75_000
+        m: 7
+        f: 3
+        ag: 3
+        cp: 4
+        ar: 8
+        skills: ['@dodge']
+    wraiths:
+        faction: "@horrors"
+        name: "Spectre"
+        min: 0
+        max: 2
+        cost: 95_000
+        m: 6
+        f: 3
+        ag: 3
+        cp: null
+        ar: 9
+        skills: ['@block', '@foulAppearance', '@noHands', '@regeneration', '@sideStep']
+    werewolves:
+        faction: "@horrors"
+        name: "Loup-Garou"
+        min: 0
+        max: 2
+        cost: 125_000
+        m: 8
+        f: 3
+        ag: 3
+        cp: 4
+        ar: 9
+        skills: ['@claws', '@frenzy', '@regeneration']
+    fleshGolem:
+        faction: "@horrors"
+        name: "Golem de Chair"
+        min: 0
+        max: 2
+        cost: 115_000
+        m: 4
+        f: 4
+        ag: 4
+        cp: null
+        ar: 10
+        skills: ['@regeneration', '@standFirm', '@thickSkull']

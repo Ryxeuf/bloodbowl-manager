@@ -2,42 +2,44 @@ App\Entity\Skill:
     bigHands:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Main Démesurée'
         description: ""
     claws:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Griffes'
         description: ""
     disturbingPresence:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Présence Perturbante'
         description: ""
+        mandatory: true
     extraArms:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Bras Supplémentaires'
         description: ""
     foulAppearance:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Répulsion'
         description: ""
+        mandatory: true
     horns:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Cornes'
         description: ""
     ironHardSkin:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Peau de Fer'
         description: ""
     monstrousMouth:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Grande Gueule'
         description: ""
     prehensileTail:
         type: 'Compétence'
@@ -47,15 +49,15 @@ App\Entity\Skill:
     tentacles:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Tentacules'
         description: ""
     twoHeads:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Deux Têtes'
         description: ""
     veryLongLegs:
         type: 'Compétence'
         category: 'Mutation'
-        name: ''
+        name: 'Très Longues Jambes'
         description: ""

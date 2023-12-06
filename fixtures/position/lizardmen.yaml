@@ -1,0 +1,49 @@
+App\Entity\Position:
+    lizardmenLinemen:
+        faction: "@lizardmen"
+        name: "Coureur Skink"
+        min: 0
+        max: 12
+        cost: 60_000
+        m: 8
+        f: 2
+        ag: 3
+        cp: 4
+        ar: 8
+        skills: ['@dodge', '@stunty']
+    chameleonSkink:
+        faction: "@lizardmen"
+        name: "Skink Caméléon"
+        min: 0
+        max: 2
+        cost: 70_000
+        m: 7
+        f: 2
+        ag: 3
+        cp: 3
+        ar: 8
+        skills: ['@dodge', '@stunty', '@onTheBall', '@shadowing']
+    saurusBlocker:
+        faction: "@lizardmen"
+        name: "Bloqueur Saurus"
+        min: 0
+        max: 6
+        cost: 85_000
+        m: 6
+        f: 4
+        ag: 5
+        cp: 6
+        ar: 10
+        skills: []
+    kroxigor:
+        faction: "@lizardmen"
+        name: "Kroxigor"
+        min: 0
+        max: 1
+        cost: 140_000
+        m: 6
+        f: 5
+        ag: 5
+        cp: null
+        ar: 10
+        skills: ['@boneHead', '@loner4', '@mightyBlow1', '@prehensileTail', '@thickSkull']

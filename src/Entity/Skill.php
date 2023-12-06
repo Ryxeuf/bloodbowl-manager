@@ -28,6 +28,9 @@ class Skill
     #[ORM\Column]
     private string $category;
 
+    #[ORM\Column]
+    private bool $mandatory = false;
+
     #[ORM\Column(type: 'text')]
     private string $description;
 
@@ -87,5 +90,15 @@ class Skill
     public function setCategory(string $category): void
     {
         $this->category = $category;
+    }
+
+    public function isMandatory(): bool
+    {
+        return $this->mandatory;
+    }
+
+    public function setMandatory(bool $mandatory): void
+    {
+        $this->mandatory = $mandatory;
     }
 }

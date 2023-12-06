@@ -13,6 +13,7 @@ export const SkillList = props => (
             <TextField source={"name"}/>
             <TextField source={"type"}/>
             <TextField source={"category"}/>
+            <TextField source={"mandatory"}/>
             <TextField source={"description"}/>
             <WrapperField label="Actions">
                 <ShowButton label="" />

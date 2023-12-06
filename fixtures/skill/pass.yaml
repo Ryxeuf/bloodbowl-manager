@@ -2,60 +2,60 @@ App\Entity\Skill:
     accurate:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Précision'
         description: ""
     cannoneer:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Canonnier'
         description: ""
     cloudBurster:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Perce-nuages'
         description: ""
     dumpOff:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Délestage'
         description: ""
     fumblerooskie:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Fumblerooskie'
         description: ""
     hailMaryPass:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Passe Désespérée'
         description: ""
     leader:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Chef'
         description: ""
     nervesOfSteel:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: "Nerfs d'Acier"
         description: ""
     onTheBall:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Sur le Ballon'
         description: ""
     pass:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
-        description: ""
+        name: 'Passe'
+        description: "Ce joueur peut relancer un test de Capacité de passe raté quand il fait une action de passe"
     runningPass:
         type: 'Compétence'
         category: 'Passe'
-        name: 'Passe'
-        description: "Ce joueur peut relancer un test de Capacité de passe raté quand il fait une action de passe"
+        name: 'Passe dans la Course'
+        description: ""
     safePass:
         type: 'Compétence'
         category: 'Passe'
-        name: ''
+        name: 'Passe assurée'
         description: ""

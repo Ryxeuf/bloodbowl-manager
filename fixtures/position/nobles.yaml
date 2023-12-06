@@ -1,0 +1,61 @@
+App\Entity\Position:
+    retainerLinemen:
+        faction: "@nobles"
+        name: "Retenue Impériale"
+        min: 0
+        max: 12
+        cost: 45_000
+        m: 6
+        f: 3
+        ag: 4
+        cp: 4
+        ar: 8
+        skills: ['@fend']
+    nobleThrowers:
+        faction: "@nobles"
+        name: "Lanceur Impérial"
+        min: 0
+        max: 2
+        cost: 75_000
+        m: 6
+        f: 3
+        ag: 3
+        cp: 3
+        ar: 9
+        skills: ['@pass', '@runningPass']
+    nobleBlitzers:
+        faction: "@nobles"
+        name: "Blitzer Noble"
+        min: 0
+        max: 2
+        cost: 105_000
+        m: 7
+        f: 3
+        ag: 3
+        cp: 4
+        ar: 9
+        skills: ['@block', '@catch']
+    bodyguards:
+        faction: "@nobles"
+        name: "Garde du corps"
+        min: 0
+        max: 4
+        cost: 90_000
+        m: 6
+        f: 3
+        ag: 3
+        cp: 5
+        ar: 9
+        skills: ['@standFirm', '@wrestle']
+    nobleOgre:
+        faction: "@nobles"
+        name: "Ogre"
+        min: 0
+        max: 4
+        cost: 90_000
+        m: 5
+        f: 5
+        ag: 4
+        cp: 5
+        ar: 10
+        skills: ['@boneHead', '@loner4', '@mightyBlow1', '@thickSkull', '@throwTeamMate']

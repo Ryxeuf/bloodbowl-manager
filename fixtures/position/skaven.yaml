@@ -1,5 +1,5 @@
 App\Entity\Position:
-    linemen:
+    skavenLinemen:
         faction: "@skaven"
         name: "Trois-Quart"
         min: 0
@@ -10,7 +10,7 @@ App\Entity\Position:
         cp: 4
         ar: 8
         cost: 50_000
-    blitzer:
+    skavenBlitzer:
         faction: "@skaven"
         name: "Blitzer"
         min: 0
@@ -34,7 +34,7 @@ App\Entity\Position:
         ar: 8
         cost: 85_000
         skills: ['@dodge']
-    thrower:
+    skavenThrower:
         faction: "@skaven"
         name: "Lanceur"
         min: 0
