@@ -11,6 +11,8 @@ App\Entity\Position:
         cp: 4
         ar: 8
         skills: ['@dodge', '@stunty']
+        primarySkills: ['Agilité']
+        secondarySkills: ['Général', 'Passe', 'Force']
     chameleonSkink:
         faction: "@lizardmen"
         name: "Skink Caméléon"
@@ -23,6 +25,8 @@ App\Entity\Position:
         cp: 3
         ar: 8
         skills: ['@dodge', '@stunty', '@onTheBall', '@shadowing']
+        primarySkills: ['Agilité']
+        secondarySkills: ['Général', 'Passe', 'Force']
     saurusBlocker:
         faction: "@lizardmen"
         name: "Bloqueur Saurus"
@@ -35,6 +39,8 @@ App\Entity\Position:
         cp: 6
         ar: 10
         skills: []
+        primarySkills: ['Général', 'Force']
+        secondarySkills: ['Agilité']
     kroxigor:
         faction: "@lizardmen"
         name: "Kroxigor"
@@ -47,3 +53,5 @@ App\Entity\Position:
         cp: null
         ar: 10
         skills: ['@boneHead', '@loner4', '@mightyBlow1', '@prehensileTail', '@thickSkull']
+        primarySkills: ['Force']
+        secondarySkills: ['Agilité', 'Général']

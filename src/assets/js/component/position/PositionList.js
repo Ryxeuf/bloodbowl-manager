@@ -18,7 +18,7 @@ const PositionFilters = [
 ]
 
 export const PositionList = props => (
-    <ListGuesser {...props} bulkActionButtons={false} filters={PositionFilters}>
+    <ListGuesser {...props} bulkActionButtons={false} filters={PositionFilters} rowClick={'show'}>
         <ReferenceField reference="factions" source="faction" link="show">
             <TextField source="name" />
         </ReferenceField>

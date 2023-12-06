@@ -1,4 +1,4 @@
-import {DatagridConfigurable, EditButton, InfiniteList, ShowButton, TextField, WrapperField} from "react-admin";
+import {BooleanField, DatagridConfigurable, EditButton, InfiniteList, ShowButton, TextField, WrapperField} from "react-admin";
 import {SkillFilterSidebar} from "./SkillFilterSidebar";
 
 export const SkillList = props => (
@@ -13,8 +13,8 @@ export const SkillList = props => (
             <TextField source={"name"}/>
             <TextField source={"type"}/>
             <TextField source={"category"}/>
-            <TextField source={"mandatory"}/>
-            <TextField source={"description"}/>
+            <BooleanField source={"mandatory"}/>
+            <TextField source={"description"} aria-multiline={true}/>
             <WrapperField label="Actions">
                 <ShowButton label="" />
                 <EditButton label="" />

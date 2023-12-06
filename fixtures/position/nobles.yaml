@@ -11,6 +11,8 @@ App\Entity\Position:
         cp: 4
         ar: 8
         skills: ['@fend']
+        primarySkills: ['Général']
+        secondarySkills: ['Agilité', 'Force']
     nobleThrowers:
         faction: "@nobles"
         name: "Lanceur Impérial"
@@ -23,6 +25,8 @@ App\Entity\Position:
         cp: 3
         ar: 9
         skills: ['@pass', '@runningPass']
+        primarySkills: ['Général', 'Passe']
+        secondarySkills: ['Agilité', 'Force']
     nobleBlitzers:
         faction: "@nobles"
         name: "Blitzer Noble"
@@ -35,6 +39,8 @@ App\Entity\Position:
         cp: 4
         ar: 9
         skills: ['@block', '@catch']
+        primarySkills: ['Agilité', 'Général']
+        secondarySkills: ['Passe', 'Force']
     bodyguards:
         faction: "@nobles"
         name: "Garde du corps"
@@ -47,6 +53,8 @@ App\Entity\Position:
         cp: 5
         ar: 9
         skills: ['@standFirm', '@wrestle']
+        primarySkills: ['Général', 'Force']
+        secondarySkills: ['Agilité']
     nobleOgre:
         faction: "@nobles"
         name: "Ogre"
@@ -59,3 +67,5 @@ App\Entity\Position:
         cp: 5
         ar: 10
         skills: ['@boneHead', '@loner4', '@mightyBlow1', '@thickSkull', '@throwTeamMate']
+        primarySkills: ['Force']
+        secondarySkills: ['Agilité', 'Général']

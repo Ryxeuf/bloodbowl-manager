@@ -11,6 +11,8 @@ App\Entity\Position:
         cp: 4
         ar: 7
         skills: ['@dodge', '@rightStuff', '@stunty']
+        primarySkills: ['Agilité']
+        secondarySkills: ['Général', 'Force']
     halflingsHeftys:
         faction: "@halflings"
         name: "Poids Lourd Halfling"
@@ -23,6 +25,8 @@ App\Entity\Position:
         cp: 3
         ar: 8
         skills: ['@dodge', '@fend', '@stunty']
+        primarySkills: ['Agilité', 'Passe']
+        secondarySkills: ['Général', 'Force']
     halflingsCatcher:
         faction: "@halflings"
         name: "Receveur Halfling"
@@ -35,6 +39,8 @@ App\Entity\Position:
         cp: 5
         ar: 7
         skills: ['@catch', '@dodge', '@rightStuff', '@stunty', '@sprint']
+        primarySkills: ['Agilité']
+        secondarySkills: ['Général', 'Force']
     halflingsTreemen:
         faction: "@halflings"
         name: "Homme-Arbre"
@@ -47,3 +53,5 @@ App\Entity\Position:
         cp: 5
         ar: 11
         skills: ['@mightyBlow1', '@standFirm', '@strongArm', '@takeRoot', '@thickSkull', '@throwTeamMate', '@timmmBer']
+        primarySkills: ['Force']
+        secondarySkills: ['Agilité', 'Général', 'Passe']

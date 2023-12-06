@@ -1,11 +1,21 @@
 import {FieldGuesser, ShowGuesser} from "@api-platform/admin";
-import {ChipField, NumberField, ReferenceArrayField, ReferenceField, SingleFieldList, TextField} from "react-admin";
+import {
+    BooleanField,
+    ChipField, Datagrid,
+    InfiniteList,
+    NumberField,
+    ReferenceArrayField,
+    ReferenceField,
+    ResourceContextProvider,
+    SingleFieldList,
+    TextField, useRecordContext
+} from "react-admin";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 
 export const PositionShowPanelHead = () => (
     <TableRow>
         <TableCell>Faction</TableCell>
-        <TableCell>Qté</TableCell>
+        <TableCell>Quantity</TableCell>
         <TableCell>M</TableCell>
         <TableCell>F</TableCell>
         <TableCell>AG</TableCell>
@@ -13,8 +23,8 @@ export const PositionShowPanelHead = () => (
         <TableCell>AR</TableCell>
         <TableCell>Skills</TableCell>
         <TableCell>Cost</TableCell>
-        <TableCell>Princip.</TableCell>
-        <TableCell>Second.</TableCell>
+        <TableCell>Primary Skills</TableCell>
+        <TableCell>Secondary Skills</TableCell>
     </TableRow>
 );
 export const PositionShowPanelRow = () => (
@@ -26,7 +36,7 @@ export const PositionShowPanelRow = () => (
             </ReferenceField>
         </TableCell>
         <TableCell>
-            <FieldGuesser source={"min"}/>-<FieldGuesser source={"max"}/>
+            <FieldGuesser source={"quantity"}/>
         </TableCell>
         <TableCell>
             <FieldGuesser source={"m"}/>
@@ -62,16 +72,36 @@ export const PositionShowPanelRow = () => (
     </TableRow>
 );
 
-export const PositionShowPanel = props => (
-    <Table>
-        <TableHead>
-            <PositionShowPanelHead/>
-        </TableHead>
-        <TableBody>
-            <PositionShowPanelRow/>
-        </TableBody>
-    </Table>
-);
+export const PositionShowPanel = props => {
+    const record = useRecordContext();
+
+    return <>
+        <Table>
+            <TableHead>
+                <PositionShowPanelHead/>
+            </TableHead>
+            <TableBody>
+                <PositionShowPanelRow/>
+            </TableBody>
+        </Table>
+        <ResourceContextProvider value="skills">
+            <InfiniteList
+                hasCreate={false}
+                storeKey={false}
+                resource="skills"
+                filter={{ positions: [record.id] }}
+                title=" "
+                exporter={false}
+            >
+                <Datagrid rowClick="show" bulkActionButtons={false}>
+                    <TextField source={"name"}/>
+                    <BooleanField source={"mandatory"}/>
+                    <TextField source={"description"}/>
+                </Datagrid>
+            </InfiniteList>
+        </ResourceContextProvider>
+    </>
+};
 
 export const PositionShow = props => (
     <ShowGuesser {...props}>
