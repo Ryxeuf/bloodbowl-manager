@@ -39,3 +39,131 @@ App\Entity\Faction:
         tier: 1
         apothecary: true
         specialRules: ['@lustrianSuperleague']
+    amazons:
+        name: "Amazones"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 1
+        apothecary: true
+        specialRules: ['@lustrianSuperleague']
+    vampires:
+        name: "Vampires"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 2
+        apothecary: true
+        specialRules: ['@sylvanianSpotlight', '@vampireLord']
+    blackOrcs:
+        name: "Orcs Noirs"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 2
+        apothecary: true
+    chaosChosen:
+        name: "Élus du Chaos"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 2
+        apothecary: true
+    chaosRenegade:
+        name: "Renégats du Chaos"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 2
+        apothecary: true
+    darkElf:
+        name: "Elfes noirs"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 1
+        apothecary: true
+    dwarf:
+        name: "Nains"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 1
+        apothecary: true
+    elvenUnion:
+        name: "Union elfique"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 2
+        apothecary: true
+    goblin:
+        name: "Goblins"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 3
+        apothecary: true
+    human:
+        name: "Humains"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 1
+        apothecary: true
+    nurgle:
+        name: "Nurgle"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 2
+        apothecary: false
+    ogre:
+        name: "Ogres"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 3
+        apothecary: true
+    oldWorldAlliance:
+        name: "Alliance du vieux monde"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 1
+        apothecary: true
+    orc:
+        name: "Orques"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 1
+        apothecary: true
+    shamblingUndead:
+        name: "Morts-vivants"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 1
+        apothecary: false
+    snotling:
+        name: "Snotlings"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 60_000
+        tier: 3
+        apothecary: true
+    underworldDenizens:
+        name: "Bas-fond"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 70_000
+        tier: 2
+        apothecary: true
+    woodElf:
+        name: "Elfes Sylvains"
+        rerollMin: 0
+        rerollMax: 8
+        rerollCost: 50_000
+        tier: 1
+        apothecary: true
