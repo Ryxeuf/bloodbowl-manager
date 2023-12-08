@@ -19,7 +19,7 @@ export const SkillList = (props) => {
             <TextField source={"description"} aria-multiline={true}/>
             <WrapperField label="Actions">
                 <ShowButton label=""/>
-                {permissions?.indexOf('ROLE_TOTO') !== -1 && <EditButton label=""/>}
+                {permissions?.indexOf('ROLE_ADMIN') !== -1 && <EditButton label=""/>}
             </WrapperField>
         </DatagridConfigurable>
     </InfiniteList>

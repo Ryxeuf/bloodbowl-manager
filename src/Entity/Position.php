@@ -10,6 +10,7 @@ use App\Repository\PositionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PositionRepository::class)]
 #[ApiResource]
@@ -22,6 +23,7 @@ class Position
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private string $name;
 
     #[ORM\Column]
@@ -31,21 +33,27 @@ class Position
     private int $max = 1;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private ?int $m;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private ?int $f;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private ?int $ag;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['player:read'])]
     private ?int $cp = null;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private ?int $ar;
 
     #[ORM\Column]
+    #[Groups(['player:read'])]
     private int $cost;
 
     #[ORM\Column(type: 'json')]
@@ -59,6 +67,9 @@ class Position
 
     #[ORM\ManyToMany(targetEntity: Skill::class, inversedBy: "positions")]
     private Collection|array $skills;
+
+    #[ORM\OneToMany(mappedBy: 'position', targetEntity: Player::class)]
+    private Collection $players;
 
     public function __construct() {
         $this->skills = new ArrayCollection();
@@ -208,5 +219,15 @@ class Position
     public function setSecondarySkills(array $secondarySkills): void
     {
         $this->secondarySkills = $secondarySkills;
+    }
+
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function setPlayers(Collection $players): void
+    {
+        $this->players = $players;
     }
 }

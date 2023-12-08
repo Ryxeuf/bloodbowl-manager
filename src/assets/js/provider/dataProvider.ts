@@ -13,7 +13,6 @@ const dataProvider = addRefreshAuthToDataProvider(baseHydraDataProvider({
   entrypoint: ENTRYPOINT,
   httpClient: fetchHydra,
   apiDocumentationParser: apiDocumentationParserProvider,
-  useEmbedded: false,
 }), refreshAuth);
 
 export default dataProvider;

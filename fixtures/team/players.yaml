@@ -1,0 +1,9 @@
+App\Entity\Player:
+    player1:
+        team: '@userSkaven7s'
+        position: '@skavenThrower'
+        name: 'Lanceur skav'
+    player2:
+        team: '@userSkaven7s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart skav'

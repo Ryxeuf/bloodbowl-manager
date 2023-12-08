@@ -52,7 +52,8 @@ security:
         - { path: ^/api/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/api/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI docs
         - { path: ^/api/users, roles: ROLE_ADMIN }
-        - { path: ^/api, roles: ROLE_SELLER, methods: [POST, PUT, DELETE] }
+        - { path: ^/api/(factions|positions|skills), roles: ROLE_EDITOR, methods: [POST, PUT, DELETE] }
+        - { path: ^/api, roles: ROLE_USER, methods: [POST, PUT, DELETE] }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

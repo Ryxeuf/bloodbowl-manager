@@ -6,7 +6,7 @@ import {
     ReferenceField,
     ReferenceInput,
     SingleFieldList,
-    TextField, TextInput, usePermissions
+    TextField, TextInput
 } from "react-admin";
 
 const PositionFilters = [

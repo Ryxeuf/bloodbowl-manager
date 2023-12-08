@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Team::class)]
+    private Collection $teams;
 
     public function getId(): ?int
     {
@@ -110,5 +114,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function setTeams(Collection $teams): void
+    {
+        $this->teams = $teams;
     }
 }

@@ -1,0 +1,19 @@
+App\Entity\Team:
+    userSkaven7s:
+        user: "@user"
+        name: "7s skaven"
+        faction: "@skaven"
+        playType: "exhibition"
+        playCategory: "sevens"
+    userLizardmen11s:
+        user: "@user"
+        name: "11s lizardmen"
+        faction: "@lizardmen"
+        playType: "exhibition"
+        playCategory: "elevens"
+    user2Nobles11s:
+        user: "@user2"
+        name: "11s Nobles"
+        faction: "@nobles"
+        playType: "exhibition"
+        playCategory: "sevens"

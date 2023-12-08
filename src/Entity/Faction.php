@@ -39,6 +39,9 @@ class Faction
     #[ORM\OneToMany(mappedBy: 'faction', targetEntity: Position::class)]
     private Collection $positions;
 
+    #[ORM\OneToMany(mappedBy: 'faction', targetEntity: Team::class)]
+    private Collection $teams;
+
     #[ORM\ManyToMany(targetEntity: TeamSpecialRule::class, inversedBy: "factions")]
     private Collection|array $specialRules;
 
@@ -135,5 +138,15 @@ class Faction
     public function getQuantityRerolls(): string
     {
         return $this->rerollMin . '-' . $this->rerollMax;
+    }
+
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function setTeams(Collection $teams): void
+    {
+        $this->teams = $teams;
     }
 }
