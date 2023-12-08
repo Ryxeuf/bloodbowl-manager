@@ -93,7 +93,7 @@ export const PositionShowPanel = props => {
                 title=" "
                 exporter={false}
             >
-                <Datagrid rowClick="show" bulkActionButtons={false}>
+                <Datagrid bulkActionButtons={false}>
                     <TextField source={"name"}/>
                     <BooleanField source={"mandatory"}/>
                     <TextField source={"description"}/>

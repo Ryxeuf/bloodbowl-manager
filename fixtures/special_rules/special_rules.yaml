@@ -11,3 +11,5 @@ App\Entity\TeamSpecialRule:
         name: 'Classique du Vieux Monde'
     halflingThimbleCup:
         name: 'Coupe Dé à Coudre Halfling'
+    vampireLord:
+        name: 'Seigneur Vampire'

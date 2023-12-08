@@ -1,13 +1,17 @@
-import {FieldGuesser, ListGuesser} from "@api-platform/admin";
-import {ChipField, ReferenceArrayField, SingleFieldList} from "react-admin";
+import {ChipField, DatagridConfigurable, InfiniteList, ReferenceArrayField, SingleFieldList, TextField} from "react-admin";
 
 export const FactionList = props => (
-    <ListGuesser {...props} bulkActionButtons={false} rowClick={'show'}>
-        <FieldGuesser source={"name"}/>
-        <ReferenceArrayField label="Positions" reference="positions" source="positions">
-            <SingleFieldList linkType="show">
-                <ChipField source="name" />
-            </SingleFieldList>
-        </ReferenceArrayField>
-    </ListGuesser>
+    <InfiniteList {...props} exporter={false}>
+        <DatagridConfigurable
+            bulkActionButtons={false}
+            rowClick="show"
+        >
+            <TextField source={"name"}/>
+            <ReferenceArrayField label="Positions" reference="positions" source="positions">
+                <SingleFieldList linkType="show">
+                    <ChipField source="name"/>
+                </SingleFieldList>
+            </ReferenceArrayField>
+        </DatagridConfigurable>
+    </InfiniteList>
 );

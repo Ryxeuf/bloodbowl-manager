@@ -10,7 +10,6 @@ import {
     TextField,
     useRecordContext
 } from "react-admin";
-import {PositionShowPanel} from "../position/PositionShow";
 
 export const FactionShow = props => {
     return <ShowGuesser {...props}>

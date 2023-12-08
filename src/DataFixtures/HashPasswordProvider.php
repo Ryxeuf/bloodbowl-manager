@@ -2,18 +2,18 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Users;
+use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class HashPasswordProvider
+readonly class HashPasswordProvider
 {
-    public function __construct(private readonly UserPasswordHasherInterface $hasher)
+    public function __construct(private UserPasswordHasherInterface $hasher)
     {
     }
 
     public function hashPassword(string $plainPassword): string
     {
-        return $this->hasher->hashPassword(new Users(), $plainPassword);
+        return $this->hasher->hashPassword(new User(), $plainPassword);
     }
 
 }

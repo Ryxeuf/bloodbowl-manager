@@ -51,8 +51,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Sournois'
-        description: "Quand ce joueur effectue une action d'Agression, il n'est pas Expulsé pour Agression s'il obtient un double naturel sur le jet d'Armure.
-            De plus, l'activation de ce joueur ne prend pas obligatoirement fin une fois l'Agression commise. Si vous le souhaitez, et s'il n'a pas utilisé tout son Mouvement, il peut continuer de se déplacer après avoir commis l'Agression."
+        description: "Quand ce joueur effectue une action d'Agression, il n'est pas Expulsé pour Agression s'il obtient un double naturel sur le jet d'Armure."
     sprint:
         type: 'Compétence'
         category: 'Agilité'

@@ -2,5 +2,15 @@ App\Entity\User:
     admin:
         username: admin
         email: admin@bb-manager.local
-        password: test
-        roles: ['ROLE_ADMIN']
+        password: <hashPassword('admin')>
+        roles: ['ROLE_ADMIN','ROLE_EDITOR','ROLE_USER']
+    editor:
+        username: editor
+        email: editor@bb-manager.local
+        password: <hashPassword('editor')>
+        roles: ['ROLE_EDITOR','ROLE_USER']
+    user:
+        username: user
+        email: user@bb-manager.local
+        password: <hashPassword('user')>
+        roles: ['ROLE_USER']

@@ -1,12 +1,14 @@
-import {BooleanField, DatagridConfigurable, EditButton, InfiniteList, ShowButton, TextField, WrapperField} from "react-admin";
+import {BooleanField, DatagridConfigurable, EditButton, InfiniteList, ShowButton, TextField, usePermissions, WrapperField} from "react-admin";
 import {SkillFilterSidebar} from "./SkillFilterSidebar";
 
-export const SkillList = props => (
-    <InfiniteList {...props} exporter={false} aside={<SkillFilterSidebar/>}>
+export const SkillList = (props) => {
+    const { permissions } = usePermissions();
+
+    return <InfiniteList {...props} exporter={false} aside={<SkillFilterSidebar/>}>
         <DatagridConfigurable
             bulkActionButtons={false}
             rowClick="expand"
-            expand={<SkillPanel />}
+            expand={<SkillPanel/>}
             expandSingle
             omit={['description']}
         >
@@ -16,12 +18,12 @@ export const SkillList = props => (
             <BooleanField source={"mandatory"}/>
             <TextField source={"description"} aria-multiline={true}/>
             <WrapperField label="Actions">
-                <ShowButton label="" />
-                <EditButton label="" />
+                <ShowButton label=""/>
+                {permissions?.indexOf('ROLE_TOTO') !== -1 && <EditButton label=""/>}
             </WrapperField>
         </DatagridConfigurable>
     </InfiniteList>
-);
+};
 
 
 const SkillPanel = () => {
