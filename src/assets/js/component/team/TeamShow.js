@@ -1,7 +1,16 @@
-import {Datagrid, ReferenceArrayField, ReferenceField, Show, SimpleShowLayout, TextField, usePermissions} from "react-admin";
+import {
+    ArrayField, ChipField,
+    Datagrid, NumberField,
+    ReferenceField,
+    Show,
+    SimpleShowLayout, SingleFieldList,
+    TextField,
+    usePermissions
+} from "react-admin";
 
 export const TeamShow = props => {
     const {permissions} = usePermissions();
+
     return <Show {...props}>
         <SimpleShowLayout>
             {permissions?.indexOf('ROLE_ADMIN') !== -1 &&
@@ -15,13 +24,24 @@ export const TeamShow = props => {
             <TextField source={"name"}/>
             <TextField source={"playType"}/>
             <TextField source={"playCategory"}/>
-            <ReferenceArrayField label="Players" reference="players" source="players">
+            <ArrayField source="players">
                 <Datagrid bulkActionButtons={false}>
-                    <TextField source="number" />
-                    <TextField source="name" />
-                    <TextField source="position.cost" />
+                    <TextField source="number"/>
+                    <TextField source="name"/>
+                    <TextField source="positionInfos.name"/>
+                    <TextField source="positionInfos.m"/>
+                    <TextField source="positionInfos.f"/>
+                    <TextField source="positionInfos.ag"/>
+                    <TextField source="positionInfos.cp"/>
+                    <TextField source="positionInfos.ar"/>
+                    <NumberField source="positionInfos.cost"/>
+                    <ArrayField source="positionInfos.skills">
+                        <SingleFieldList linkType={false}>
+                            <ChipField source="name" size="small" />
+                        </SingleFieldList>
+                    </ArrayField>
                 </Datagrid>
-            </ReferenceArrayField>
+            </ArrayField>
         </SimpleShowLayout>
     </Show>
 };

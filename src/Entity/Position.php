@@ -140,9 +140,9 @@ class Position
         $this->ag = $ag;
     }
 
-    public function getCp(): ?int
+    public function getCp(): int|string
     {
-        return $this->cp;
+        return $this->cp ?? '-';
     }
 
     public function setCp(?int $cp): void

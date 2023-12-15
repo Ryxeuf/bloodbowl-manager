@@ -2,18 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
-#[ApiResource(normalizationContext: ['groups'=> ['player:read', 'team:read']])]
+#[ApiResource(normalizationContext: ['groups' => ['player:read', 'team:read']])]
 class Player
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['team:update', 'player:read', 'team:read'])]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
@@ -30,6 +32,22 @@ class Player
     #[ORM\ManyToOne(targetEntity: Position::class, inversedBy: 'players')]
     #[Groups(['team:update', 'player:read', 'team:read'])]
     private Position $position;
+
+    #[ApiProperty]
+    #[Groups(['team:update', 'player:read', 'team:read'])]
+    public function getPositionInfos(): array
+    {
+        return [
+            'name' => $this->position->getName(),
+            'm'    => $this->position->getM(),
+            'f'    => $this->position->getF(),
+            'ag'   => $this->position->getAg(),
+            'cp'   => $this->position->getCp(),
+            'ar'   => $this->position->getAr(),
+            'cost' => $this->position->getCost(),
+            'skills' => $this->position->getSkills(),
+        ];
+    }
 
     public function getId(): ?int
     {

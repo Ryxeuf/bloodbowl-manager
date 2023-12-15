@@ -31,6 +31,33 @@ class Faction
     private int $rerollCost = 0;
 
     #[ORM\Column]
+    private int $assistantCoachesMin = 0;
+
+    #[ORM\Column]
+    private int $assistantCoachesMax = 6;
+
+    #[ORM\Column]
+    private int $assistantCoachesCost = 10_000;
+
+    #[ORM\Column]
+    private int $cheerleadersMin  = 0;
+
+    #[ORM\Column]
+    private int $cheerleadersMax = 12;
+
+    #[ORM\Column]
+    private int $cheerleadersCost  = 10_000;
+
+    #[ORM\Column]
+    private int $dedicatedFansMin = 0;
+
+    #[ORM\Column]
+    private int $dedicatedFansMax  = 5;
+
+    #[ORM\Column]
+    private int $dedicatedFansCost = 10_000;
+
+    #[ORM\Column]
     private int $tier = 0;
 
     #[ORM\Column]
@@ -45,7 +72,14 @@ class Faction
     #[ORM\ManyToMany(targetEntity: TeamSpecialRule::class, inversedBy: "factions")]
     private Collection|array $specialRules;
 
-    public function __construct() {
+    #[ApiProperty]
+    public function getQuantityRerolls(): string
+    {
+        return $this->rerollMin . '-' . $this->rerollMax;
+    }
+
+    public function __construct()
+    {
         $this->positions = new ArrayCollection();
     }
 
@@ -134,12 +168,6 @@ class Faction
         $this->specialRules = $specialRules;
     }
 
-    #[ApiProperty]
-    public function getQuantityRerolls(): string
-    {
-        return $this->rerollMin . '-' . $this->rerollMax;
-    }
-
     public function getTeams(): Collection
     {
         return $this->teams;
@@ -148,5 +176,95 @@ class Faction
     public function setTeams(Collection $teams): void
     {
         $this->teams = $teams;
+    }
+
+    public function getAssistantCoachesMin(): int
+    {
+        return $this->assistantCoachesMin;
+    }
+
+    public function setAssistantCoachesMin(int $assistantCoachesMin): void
+    {
+        $this->assistantCoachesMin = $assistantCoachesMin;
+    }
+
+    public function getAssistantCoachesMax(): int
+    {
+        return $this->assistantCoachesMax;
+    }
+
+    public function setAssistantCoachesMax(int $assistantCoachesMax): void
+    {
+        $this->assistantCoachesMax = $assistantCoachesMax;
+    }
+
+    public function getAssistantCoachesCost(): int
+    {
+        return $this->assistantCoachesCost;
+    }
+
+    public function setAssistantCoachesCost(int $assistantCoachesCost): void
+    {
+        $this->assistantCoachesCost = $assistantCoachesCost;
+    }
+
+    public function getCheerleadersMin(): int
+    {
+        return $this->cheerleadersMin;
+    }
+
+    public function setCheerleadersMin(int $cheerleadersMin): void
+    {
+        $this->cheerleadersMin = $cheerleadersMin;
+    }
+
+    public function getDedicatedFansMin(): int
+    {
+        return $this->dedicatedFansMin;
+    }
+
+    public function setDedicatedFansMin(int $dedicatedFansMin): void
+    {
+        $this->dedicatedFansMin = $dedicatedFansMin;
+    }
+
+    public function getCheerleadersMax(): int
+    {
+        return $this->cheerleadersMax;
+    }
+
+    public function setCheerleadersMax(int $cheerleadersMax): void
+    {
+        $this->cheerleadersMax = $cheerleadersMax;
+    }
+
+    public function getDedicatedFansMax(): int
+    {
+        return $this->dedicatedFansMax;
+    }
+
+    public function setDedicatedFansMax(int $dedicatedFansMax): void
+    {
+        $this->dedicatedFansMax = $dedicatedFansMax;
+    }
+
+    public function getCheerleadersCost(): int
+    {
+        return $this->cheerleadersCost;
+    }
+
+    public function setCheerleadersCost(int $cheerleadersCost): void
+    {
+        $this->cheerleadersCost = $cheerleadersCost;
+    }
+
+    public function getDedicatedFansCost(): int
+    {
+        return $this->dedicatedFansCost;
+    }
+
+    public function setDedicatedFansCost(int $dedicatedFansCost): void
+    {
+        $this->dedicatedFansCost = $dedicatedFansCost;
     }
 }
