@@ -93,9 +93,14 @@
                                     <div class="text-xs text-gray-500 mb-1">Compétences</div>
                                     <div class="flex flex-wrap gap-1">
                                         {% for skill in position.skills %}
-                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <button 
+                                                class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                                                data-skill-name="{{ skill.name }}"
+                                                data-skill-description="{{ skill.description }}"
+                                                onclick="showSkillDescription(this)"
+                                            >
                                                 {{ skill.name }}
-                                            </span>
+                                            </button>
                                         {% else %}
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                                 Aucune compétence
@@ -134,4 +139,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Panneau latéral pour la description des compétences -->
+    <div id="skillDescriptionPanel" class="fixed right-0 top-0 w-96 h-screen bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="skillName" class="text-xl font-semibold text-gray-900"></h3>
+                <button onclick="hideSkillDescription()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="skillDescription" class="text-gray-600 whitespace-pre-line"></div>
+        </div>
+    </div>
+
+    <script>
+        function showSkillDescription(button) {
+            const panel = document.getElementById('skillDescriptionPanel');
+            const skillName = document.getElementById('skillName');
+            const skillDescription = document.getElementById('skillDescription');
+            
+            skillName.textContent = button.dataset.skillName;
+            skillDescription.textContent = button.dataset.skillDescription;
+            
+            panel.classList.remove('translate-x-full');
+        }
+
+        function hideSkillDescription() {
+            const panel = document.getElementById('skillDescriptionPanel');
+            panel.classList.add('translate-x-full');
+        }
+    </script>
 {% endblock %} 
