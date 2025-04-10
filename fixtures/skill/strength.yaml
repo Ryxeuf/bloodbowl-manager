@@ -3,7 +3,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Clé de bras'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), si la cible est repoussée, ce joueur peut choisir de la repousser dans n'importe quelle case inoccupée adjacente à la cible. S'il n'y a pas de cases inoccupées adjacentes à la cible, cette compétence ne peut pas être utilisée."
     brawler:
         type: 'Compétence'
         category: 'Force'
@@ -25,7 +25,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Garde'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à la caractéristique de Force d'un coéquipier qui fait une action de Blocage contre un joueur adverse que ce joueur Marque. Ce modificateur est appliqué avant de compter les soutiens offensifs ou défensifs, et avant d'appliquer les autres modificateurs de Force."
     juggernaut:
         type: 'Compétence'
         category: 'Force'
@@ -40,12 +40,12 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Force'
         name: 'Blocage Multiple'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), il peut choisir de faire un Blocage Multiple contre deux joueurs adverses Debout qui sont adjacents l'un à l'autre et à ce joueur. Les deux joueurs adverses sont traités comme une seule cible pour l'action de Blocage, et les résultats de Blocage sont appliqués à chacun d'eux."
     pileDriver:
         type: 'Compétence'
         category: 'Force'
         name: 'Marteau-pilon'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), si la cible est repoussée, ce joueur peut choisir de la repousser dans n'importe quelle case inoccupée adjacente à la cible. S'il n'y a pas de cases inoccupées adjacentes à la cible, cette compétence ne peut pas être utilisée."
     standFirm:
         type: 'Compétence'
         category: 'Force'

@@ -3,7 +3,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Main Démesurée'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité quand il tente de ramasser le ballon."
     claws:
         type: 'Compétence'
         category: 'Mutation'
@@ -13,18 +13,18 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Présence Perturbante'
-        description: ""
+        description: "Quand un joueur adverse actif tente d'effectuer une action de Passe, il doit faire un test d'Agilité avant d'effectuer l'action. Si le test est raté, l'action de Passe est annulée et le joueur actif perd son action. Si le test est réussi, l'action de Passe peut être effectuée normalement."
         mandatory: true
     extraArms:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Bras Supplémentaires'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité quand il tente de ramasser le ballon."
     foulAppearance:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Répulsion'
-        description: ""
+        description: "Quand un joueur adverse actif tente d'effectuer une action de Blocage contre ce joueur, il doit faire un test d'Agilité avant d'effectuer l'action. Si le test est raté, l'action de Blocage est annulée et le joueur actif perd son action. Si le test est réussi, l'action de Blocage peut être effectuée normalement."
         mandatory: true
     horns:
         type: 'Compétence'
@@ -35,12 +35,12 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Peau de Fer'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à sa caractéristique d'Armure."
     monstrousMouth:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Grande Gueule'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité quand il tente de ramasser le ballon."
     prehensileTail:
         type: 'Compétence'
         category: 'Mutation'
@@ -50,14 +50,14 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Tentacules'
-        description: ""
+        description: "Quand un joueur adverse actif tente d'effectuer une action de Blocage contre ce joueur, il doit faire un test d'Agilité avant d'effectuer l'action. Si le test est raté, l'action de Blocage est annulée et le joueur actif perd son action. Si le test est réussi, l'action de Blocage peut être effectuée normalement."
     twoHeads:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Deux Têtes'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité quand il tente d'Esquiver."
     veryLongLegs:
         type: 'Compétence'
         category: 'Mutation'
         name: 'Très Longues Jambes'
-        description: ""
+        description: "Ce joueur peut appliquer un modificateur de +1 à ses tests d'Agilité quand il tente d'Enjamber."

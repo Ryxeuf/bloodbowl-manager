@@ -33,22 +33,22 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Général'
         name: 'Frappe précise'
-        description: ""
+        description: "D6 du Coup d'envoi/2 arrondi à l'inférieur (1=0 case, 2–3=1, 4–5=2, 6=3) si ce joueur effectue le Coup d'Envoi."
     pro:
         type: 'Compétence'
         category: 'Général'
         name: 'Pro'
-        description: ""
+        description: "1 seule fois durant son tour, si 3+ sur 1D6 peut relancer 1 dé (unique ou dans 1 groupement de dés) sauf AR ou Blessure. Après le jet de Pro, ne peut pas utiliser une relance provenant d'une autre source."
     shadowing:
         type: 'Compétence'
         category: 'Général'
         name: 'Poursuite'
-        description: ""
+        description: "Permet de suivre un adversaire que le joueur « Marque » et qui se déplace volontairement hors de sa Zone de Tacle. Jetez (1D6+M) - M adverse : si 6+ ou si 6 naturel, le joueur se déplace dans la case laissée vacante ; si 5 ou moins, ou 1 naturel, rien ne se passe. Utilisable plusieurs fois par tour (d'équipe ou adverse). Si plusieurs joueurs avec Poursuite marquent le joueur adverse, un seul d'entre eux peut utiliser la compétence."
     stripBall:
         type: 'Compétence'
         category: 'Général'
         name: 'Arracher le ballon'
-        description: ""
+        description: "Le défenseur repoussé lors d'un Blocage (même lors d'un blitz) lâche la balle s'il la possédait. Elle rebondit à partir de la case où il est repoussé. Fonctionne même si l'adversaire a la compétence stabilité."
     sureHands:
         type: 'Compétence'
         category: 'Général'
@@ -64,4 +64,4 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Général'
         name: 'Lutte'
-        description: ""
+        description: "En cas de « Les Deux Plaqués », (s'il fait ou subit un Blocage), peut décider que les deux joueurs sont « Mis à Terre » (pas de jet d'AR)."

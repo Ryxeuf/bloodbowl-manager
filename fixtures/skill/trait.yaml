@@ -15,7 +15,11 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Animosité'
-        description: ""
+        description: "Quand un joueur ayant ce trait est activé, même s'il est À Terre ou a perdu sa Zone de Tacle, jetez un D6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action, en appliquant un modificateur de +2 au jet si vous avez annoncé une action de Blocage ou de Blitz (ou une action Spéciale accordée par un trait ou une compétence s'effectuant à la place d'une action de Blocage) et que la cible est un coéquipier ayant ce trait :
+            - Sur 1-3, ce joueur se déchaîne sur ses coéquipiers ayant ce trait :
+                - 1 coéquipier Debout ayant ce trait de votre choix qui est actuellement adjacent à ce joueur est immédiatement Plaqué par ce joueur. Cela ne provoque pas de Turnover, sauf si le joueur Plaqué était en possession du ballon. Après avoir fait un jet d'Armure (pouvant donner lieu à un jet de Blessure) contre le joueur Plaqué, ce joueur peut continuer son activation et effectuer l'action annoncée s'il le peut.
+                - Si ce joueur n'est pas actuellement adjacent à des coéquipiers Debout ayant ce trait, son activation se termine immédiatement. De plus, ce joueur perd sa Zone de Tacle jusqu'à sa prochaine activation.
+            - Sur 4+, ce joueur continue normalement son activation et effectue l'action annoncée."
         mandatory: true
     alwaysHungry:
         type: 'Trait'
@@ -29,7 +33,7 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Chaîne et Boulet'
-        description: ""
+        description: "Ce joueur ne peut pas faire d'actions de Passe, de Blocage ou de Blitz. De plus, quand ce joueur se déplace, il doit se déplacer d'un nombre de cases égal à sa caractéristique de Mouvement, en suivant un chemin en ligne droite. Il ne peut pas changer de direction pendant son déplacement, sauf s'il est repoussé à cause d'un Blocage. Si ce joueur est repoussé à cause d'un Blocage, il doit être repoussé dans la direction dans laquelle il se déplaçait, sauf si cela est impossible, auquel cas il est repoussé dans la direction opposée."
         mandatory: true
     bombardier:
         type: 'Trait'
@@ -42,7 +46,7 @@ App\Entity\Skill:
                 - Si un lancer de Bombe donne une maladresse, la Bombe explose immédiatement sur la case occupée par le joueur qui tente de la lancer.
                 - Si une Bombe s'immobilise sur une case inoccupée ou est réceptionnée par un joueur adverse, cela ne provoque pas un Trunover.
                 - Un joueur qui est en possession du ballon peut quand même réceptionner une Bombe.
-                - Les compétences pouvent être utilisées en effectuant une action de Passe peuvent aussi être utilisées en effectuant une action Spéciale de Lancer de Bombe, à l'exception de Sur Le Ballon.
+                - Les compétences pouvant être utilisées en effectuant une action de Passe peuvent aussi être utilisées en effectuant une action Spéciale de Lancer de Bombe, à l'exception de Sur Le Ballon.
             Si une Bombe est réceptionnée par un joueur de l'une ou l'autre équipe, jetez un D6 :
                 - Sur 4+, la Bombe explose immédiatement, comme décrit ci-dessous.
                 - Sur 1-3, le joueur doit immédiatement relancer la Bombe. Ce lancer se déroule en dehors de la séquence de jeu normale.
@@ -59,19 +63,21 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Cerveau Lent'
-        description: ""
+        description: "Quand ce joueur est activé, même s'il est À Terre ou a perdu sa Zone de Tacle, jetez un D6 juste après avoir annoncé l'action qu'il va faire mais avant d'effectuer l'action, en appliquant un modificateur de +2 au jet si ce joueur est actuellement adjacent à un ou plusieurs coéquipiers Debout et n'ayant pas ce trait :
+            - Sur 1-3, ce joueur oublie ce qu'il était censé faire et son activation se termine immédiatement. De plus, il perd sa Zone de Tacle jusqu'à sa prochaine activation.
+            - Sur 4+, il continue normalement son activation et effectue l'action annoncée."
         mandatory: true
     chainsaw:
         type: 'Trait'
         category: ''
         name: 'Tronçonneuse'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), il peut choisir d'utiliser sa Tronçonneuse. Si c'est le cas, faites un jet d'Armure contre la cible. Ce jet d'Armure ne peut être modifié d'aucune manière. Si l'Armure de la cible est pénétrée, elle est Mis À Terre et on effectue un jet de Blessure contre elle. Ce jet de Blessure ne peut être modifié d'aucune manière. Si l'Armure de la cible n'est pas pénétrée, ce trait n'a aucun effet. Un joueur peut utiliser sa Tronçonneuse une seule fois par tour (Tronçonneuse ne peut donc pas être utilisé avec Frénésie ni Blocage Multiple)."
         mandatory: true
     decay:
         type: 'Trait'
         category: ''
         name: 'Décomposition'
-        description: ""
+        description: "Quand un jet de Blessure est effectué contre ce joueur, il est traité comme ayant le trait Minus. De plus, quand ce joueur est Mis À Terre, il perd sa Zone de Tacle jusqu'à sa prochaine activation."
         mandatory: true
     hypnoticGaze:
         type: 'Trait'
@@ -84,7 +90,14 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Botter de Coéquipier'
-        description: ""
+        description: "Si ce joueur a une caractéristique de Force de 5 ou plus, il peut faire une action de Botter de Coéquipier, ce qui lui permet de botter un coéquipier ayant le trait Poids Plume. Une action de Botter de Coéquipier est traitée comme une action de Passe, avec les exceptions suivantes :
+            - La portée est traitée comme une Passe Courte, quelle que soit la distance.
+            - Si le lancer est réussi, le coéquipier botte atterrit sur la case cible.
+            - Si le lancer est raté, le coéquipier botte atterrit sur une case aléatoire adjacente à la case cible.
+            - Si le lancer est une maladresse, le coéquipier botte atterrit sur une case aléatoire adjacente à ce joueur.
+            - Si le coéquipier botte atterrit sur une case occupée par un joueur, il est Plaqué par ce joueur.
+            - Si le coéquipier botte atterrit sur une case inoccupée, il est Mis À Terre."
+        mandatory: true
     lonerX:
         type: 'Trait'
         category: ''
@@ -107,7 +120,8 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Contagieux'
-        description: ""
+        description: "Quand un joueur adverse est Plaqué par ce joueur, jetez un D6. Sur 4+, le joueur adverse est infecté par la peste. Un joueur infecté par la peste ne peut pas utiliser de relances d'équipe jusqu'à la fin de la partie. Un joueur ne peut être infecté qu'une seule fois par partie."
+        mandatory: true
     pogoStick:
         type: 'Trait'
         category: ''
@@ -154,7 +168,8 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Poignard'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), il peut choisir d'utiliser son Poignard. Si c'est le cas, faites un jet d'Armure contre la cible. Ce jet d'Armure ne peut être modifié d'aucune manière. Si l'Armure de la cible est pénétrée, elle est Mis À Terre et on effectue un jet de Blessure contre elle. Ce jet de Blessure ne peut être modifié d'aucune manière. Si l'Armure de la cible n'est pas pénétrée, ce trait n'a aucun effet. Un joueur peut utiliser son Poignard une seule fois par tour (Poignard ne peut donc pas être utilisé avec Frénésie ni Blocage Multiple)."
+        mandatory: true
     stunty:
         type: 'Trait'
         category: ''
@@ -173,7 +188,8 @@ App\Entity\Skill:
         type: 'Trait'
         category: ''
         name: 'Piqué'
-        description: ""
+        description: "Quand ce joueur fait une action de Blocage (y compris pendant une action de Blitz), il peut choisir d'utiliser son Piqué. Si c'est le cas, faites un jet d'Armure contre la cible. Ce jet d'Armure ne peut être modifié d'aucune manière. Si l'Armure de la cible est pénétrée, elle est Mis À Terre et on effectue un jet de Blessure contre elle. Ce jet de Blessure ne peut être modifié d'aucune manière. Si l'Armure de la cible n'est pas pénétrée, ce trait n'a aucun effet. Un joueur peut utiliser son Piqué une seule fois par tour (Piqué ne peut donc pas être utilisé avec Frénésie ni Blocage Multiple)."
+        mandatory: true
     takeRoot:
         type: 'Trait'
         category: ''

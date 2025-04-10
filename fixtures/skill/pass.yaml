@@ -3,42 +3,42 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Passe'
         name: 'Précision'
-        description: ""
+        description: "+1 en Compétence de Passe sur les Passes Rapides ou Courtes."
     cannoneer:
         type: 'Compétence'
         category: 'Passe'
         name: 'Canonnier'
-        description: ""
+        description: "+1 à la CP lors des Passes Longues et Longues Bombes."
     cloudBurster:
         type: 'Compétence'
         category: 'Passe'
         name: 'Perce-nuages'
-        description: ""
+        description: "Si un adversaire réussit à Interférer avec une Passe Longue ou Longue Bombe, le joueur peut lui faire relancer le jet."
     dumpOff:
         type: 'Compétence'
         category: 'Passe'
         name: 'Délestage'
-        description: ""
+        description: "Permet de faire une Passe Rapide avant d'être bloqué (ou victime d'une Action Spéciale). Une fois la Passe résolue, on résout le Blocage (ou l'Action Spéciale). Sur Blitz, dès qu'il est désigné (à l'activation)."
     fumblerooskie:
         type: 'Compétence'
         category: 'Passe'
         name: 'Fumblerooskie'
-        description: ""
+        description: "Lors des Mouvements ou Blitz, si le joueur porte le ballon, il peut choisir de le « lâcher » (sans aucun rebond) dans une case qu'il traverse. Ne provoque pas de Turnover."
     hailMaryPass:
         type: 'Compétence'
         category: 'Passe'
         name: 'Passe Désespérée'
-        description: ""
+        description: "Permet d'envoyer la balle (ou une bombe) sur n'importe qu'elle case du terrain. A minima la Passe est Imprécise, test de CP pour voir si Maladresse ou Méchamment Imprécise. Inutilisable en cas de Blizzard."
     leader:
         type: 'Compétence'
         category: 'Passe'
         name: 'Chef'
-        description: ""
+        description: "1 Relance de Chef (1 seule par équipe et par mi-temps) tant qu'un Chef est sur le terrain. Ne peut pas être annulée par un Cuistot."
     nervesOfSteel:
         type: 'Compétence'
         category: 'Passe'
         name: "Nerfs d'Acier"
-        description: ""
+        description: "Ignore les modificateurs de « Marquage » lors de Passes, pour Attraper ou Interférer avec une Passe."
     onTheBall:
         type: 'Compétence'
         category: 'Passe'
@@ -54,7 +54,7 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Passe'
         name: 'Passe dans la Course'
-        description: ""
+        description: "Permet de continuer à se déplacer après avoir réussi une Passe Rapide."
     safePass:
         type: 'Compétence'
         category: 'Passe'

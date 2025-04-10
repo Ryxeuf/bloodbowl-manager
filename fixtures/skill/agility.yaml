@@ -8,12 +8,12 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Réception Plongeante'
-        description: ""
+        description: "Possible d'Attraper une Passe, un Renvoi ou un Coup d'envoi (pas les Rebonds) lorsque le ballon atterrit dans une case de sa Zone de Tacle. +1 pour Attraper une Passe Précise ciblant la case où il se trouve."
     divingTackle:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Tacle plongeant'
-        description: ""
+        description: "Si un joueur adverse tente d'Esquiver, Enjamber ou Sauter, pour quitter une case où il est « Marqué » par ce joueur et qu'il réussit son jet de dé ; le Tacleur est « Mis à Terre » dans la case laissée libre par le joueur actif qui soustrait alors 2 au résultat du jet de dé précédent. Si plusieurs joueurs avec Tacle Plongeant marquent le joueur adverse, un seul d'entre eux peut utiliser la compétence."
     dodge:
         type: 'Compétence'
         category: 'Agilité'
@@ -36,12 +36,12 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Saut'
-        description: ""
+        description: "Incompatible avec Échasses à Ressort. Réduit de 1 (mini = -1) les modificateurs négatifs des tests d'AG des actions pour « Enjamber ». Peut également « Enjamber » toute case adjacente vide ou occupée, même par un joueur Debout."
     safePairOfHands:
         type: 'Compétence'
         category: 'Agilité'
         name: 'Libération Contrôlée'
-        description: ""
+        description: "Si « Plaqué » ou « Mis à Terre » (pas sur « Chute ») et en possession du ballon, le ballon ne rebondit pas. Il est placé, au choix du joueur, sur une case inoccupée et adjacente à la case qu'il occupait."
     sideStep:
         type: 'Compétence'
         category: 'Agilité'
