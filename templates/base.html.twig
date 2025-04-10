@@ -2,15 +2,69 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Blood Bowl Manager{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <script src="https://cdn.tailwindcss.com"></script>
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-gray-100 min-h-screen">
+        <nav class="bg-gray-800 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="{{ path('app_home') }}" class="text-xl font-bold">Blood Bowl Manager</a>
+                        <div class="hidden md:block">
+                            <div class="ml-10 flex items-baseline space-x-4">
+                                <a href="{{ path('app_home') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Accueil</a>
+                                <a href="{{ path('app_factions') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Factions</a>
+                                <a href="{{ path('app_skills') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Compétences</a>
+                                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Équipes</a>
+                                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Matchs</a>
+                                <a href="#" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">Ligues</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        {% if app.user %}
+                            <div class="relative ml-3" x-data="{ open: false }">
+                                <div>
+                                    <button @click="open = !open" class="flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button">
+                                        <span class="sr-only">Ouvrir le menu utilisateur</span>
+                                        <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
+                                            {{ app.user.username|first|upper }}
+                                        </div>
+                                        <span class="ml-2">{{ app.user.username }}</span>
+                                    </button>
+                                </div>
+                                <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Mon profil</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Paramètres</a>
+                                    <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Déconnexion</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="px-3 py-2 rounded-md text-sm font-medium bg-blue-600 hover:bg-blue-700">Connexion</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="bg-gray-800 text-white mt-auto">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <p class="text-center text-sm">© 2024 Blood Bowl Manager. Tous droits réservés.</p>
+            </div>
+        </footer>
+
+        <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </body>
 </html>
