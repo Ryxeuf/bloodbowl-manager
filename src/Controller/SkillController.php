@@ -21,13 +21,18 @@ class SkillController extends AbstractController
             'Passe' => ['name' => 'Passe', 'skills' => []],
             'Force' => ['name' => 'Force', 'skills' => []],
             'Mutation' => ['name' => 'Mutation', 'skills' => []],
+            'Trait' => ['name' => 'Trait', 'skills' => []],
         ];
         
         // Grouper les compétences par catégorie
         foreach ($skills as $skill) {
-            $category = $skill->getCategory();
-            if (isset($categories[$category])) {
-                $categories[$category]['skills'][] = $skill;
+            if ($skill->getType() === 'Compétence') {
+                $category = $skill->getCategory();
+                if (isset($categories[$category])) {
+                    $categories[$category]['skills'][] = $skill;
+                }
+            } else {
+                $categories['Trait']['skills'][] = $skill;
             }
         }
         

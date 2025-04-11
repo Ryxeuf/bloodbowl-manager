@@ -110,6 +110,26 @@ App\Entity\Skill:
         name: 'Solitaire 4+'
         description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
         mandatory: true
+    loner2:
+        type: 'Trait'
+        category: 'Trait'
+        name: 'Solitaire 2+'
+        description: "Quand ce joueur tente d'utiliser une compétence de relance, il doit d'abord faire un test sur 2+ pour voir s'il peut utiliser la compétence. Si le test est réussi, il peut utiliser la compétence normalement. Si le test est raté, il ne peut pas utiliser la compétence et son activation se termine."
+    loner3:
+        type: 'Trait'
+        category: 'Trait'
+        name: 'Solitaire 3+'
+        description: "Quand ce joueur tente d'utiliser une compétence de relance, il doit d'abord faire un test sur 3+ pour voir s'il peut utiliser la compétence. Si le test est réussi, il peut utiliser la compétence normalement. Si le test est raté, il ne peut pas utiliser la compétence et son activation se termine."
+    loner5:
+        type: 'Trait'
+        category: 'Trait'
+        name: 'Solitaire 5+'
+        description: "Quand ce joueur tente d'utiliser une compétence de relance, il doit d'abord faire un test sur 5+ pour voir s'il peut utiliser la compétence. Si le test est réussi, il peut utiliser la compétence normalement. Si le test est raté, il ne peut pas utiliser la compétence et son activation se termine."
+    loner6:
+        type: 'Trait'
+        category: 'Trait'
+        name: 'Solitaire 6+'
+        description: "Quand ce joueur tente d'utiliser une compétence de relance, il doit d'abord faire un test sur 6+ pour voir s'il peut utiliser la compétence. Si le test est réussi, il peut utiliser la compétence normalement. Si le test est raté, il ne peut pas utiliser la compétence et son activation se termine."
     noHands:
         type: 'Trait'
         category: ''

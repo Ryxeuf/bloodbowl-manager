@@ -36,6 +36,16 @@ App\Entity\Skill:
         category: 'Force'
         name: 'Châtaigne +1'
         description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    mightyBlow2:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Châtaigne +2'
+        description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    mightyBlow3:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Châtaigne +3'
+        description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
     multipleBlock:
         type: 'Compétence'
         category: 'Force'

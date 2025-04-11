@@ -1,0 +1,45 @@
+App\Entity\Skill:
+    mightyBlow2:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Châtaigne +2'
+        description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    mightyBlow3:
+        type: 'Compétence'
+        category: 'Force'
+        name: 'Châtaigne +3'
+        description: "Quand un joueur adverse est Plaqué à cause d'une action de Blocage effectuée par ce joueur (y compris pendant une action de Blitz), vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    dirtyPlayer2:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Joueur Déloyal (+2)'
+        description: "Quand ce joueur fait une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, effectué contre la victime, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir fait le jet."
+    dirtyPlayer3:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Joueur Déloyal (+3)'
+        description: "Quand ce joueur fait une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, effectué contre la victime, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir fait le jet."
+    loner2:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire 2+'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+        mandatory: true
+    loner3:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire 3+'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+        mandatory: true
+    loner5:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire 5+'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+        mandatory: true
+    loner6:
+        type: 'Trait'
+        category: ''
+        name: 'Solitaire 6+'
+        description: "Si ce joueur veut utiliser une relance d'équipe, jetez d'abord un D6. Si ce jet est supérieur ou égal au chiffre indiqué entre parenthèses, ce joueur peut utiliser la relance d'équipe normalement. Sinon, le résultat originel est maintenu sans pouvoir être relancé, mais la relance d'équipe est perdue comme si elle avait été utilisée."
+        mandatory: true 

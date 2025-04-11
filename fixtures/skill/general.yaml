@@ -14,7 +14,17 @@ App\Entity\Skill:
         type: 'Compétence'
         category: 'Général'
         name: 'Joueur Déloyal (+1)'
-        description: "Quand ce joueur fait une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, effectué contre la victime, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir fait le jet."
+        description: "Quand ce joueur effectue une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    dirtyPlayer2:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Joueur Déloyal (+2)'
+        description: "Quand ce joueur effectue une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
+    dirtyPlayer3:
+        type: 'Compétence'
+        category: 'Général'
+        name: 'Joueur Déloyal (+3)'
+        description: "Quand ce joueur effectue une action d'Agression, vous pouvez modifier soit le jet d'Armure, soit le jet de Blessure, du montant indiqué entre parenthèses. Ce modificateur peut être appliqué après avoir effectué le jet. Cette compétence ne peut pas être utilisée avec les traits Poignard ou Tronçonneuse."
     fend:
         type: 'Compétence'
         category: 'Général'
