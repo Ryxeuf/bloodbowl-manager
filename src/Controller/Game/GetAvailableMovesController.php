@@ -18,6 +18,38 @@ class GetAvailableMovesController extends AbstractController
     ) {
     }
 
+    private function getNeighbors(int $x, int $y, array $occupied): array
+    {
+        $neighbors = [];
+        $directions = [
+            [-1, -1], [0, -1], [1, -1],
+            [-1, 0],           [1, 0],
+            [-1, 1],  [0, 1],  [1, 1]
+        ];
+
+        foreach ($directions as [$dx, $dy]) {
+            $newX = $x + $dx;
+            $newY = $y + $dy;
+
+            // Vérifier les limites du terrain
+            if ($newX >= 1 && $newX <= 26 && $newY >= 1 && $newY <= 15) {
+                // Vérifier si la case est occupée
+                $isOccupied = false;
+                foreach ($occupied as $pos) {
+                    if ($pos['x'] === $newX && $pos['y'] === $newY) {
+                        $isOccupied = true;
+                        break;
+                    }
+                }
+                if (!$isOccupied) {
+                    $neighbors[] = ['x' => $newX, 'y' => $newY];
+                }
+            }
+        }
+
+        return $neighbors;
+    }
+
     public function __invoke(Game $game, Player $player): Response
     {
         // Récupérer l'état actuel du joueur
@@ -30,8 +62,14 @@ class GetAvailableMovesController extends AbstractController
             return new JsonResponse(['error' => 'Player state not found'], Response::HTTP_NOT_FOUND);
         }
 
+        // Si le joueur a déjà joué, on ne peut plus bouger
+        if ($playerState->hasPlayed()) {
+            return new JsonResponse(['availableMoves' => []]);
+        }
+
         $currentX = $playerState->getX();
         $currentY = $playerState->getY();
+        $maxMovement = $player->getM();
 
         // Récupérer toutes les positions occupées
         $occupiedPositions = $this->playerGameStateRepository->findBy(['game' => $game]);
@@ -42,27 +80,45 @@ class GetAvailableMovesController extends AbstractController
             }
         }
 
-        // Calculer les cases disponibles (dans un rayon de 6 cases)
+        // Initialiser les structures pour l'algorithme
+        $visited = [];
+        $queue = new \SplPriorityQueue();
+        $distances = [];
         $availableMoves = [];
-        for ($x = max(1, $currentX - 6); $x <= min(26, $currentX + 6); $x++) {
-            for ($y = max(1, $currentY - 6); $y <= min(15, $currentY + 6); $y++) {
-                // Vérifier si la case est dans le rayon de mouvement
-                $dx = abs($x - $currentX);
-                $dy = abs($y - $currentY);
-                $distance = max($dx, $dy); // Chaque déplacement coûte 1 case
-                
-                if ($distance <= 6) {
-                    // Vérifier si la case est occupée
-                    $isOccupied = false;
-                    foreach ($occupied as $pos) {
-                        if ($pos['x'] === $x && $pos['y'] === $y) {
-                            $isOccupied = true;
-                            break;
-                        }
-                    }
-                    if (!$isOccupied) {
-                        $availableMoves[] = ['x' => $x, 'y' => $y];
-                    }
+
+        // Position initiale
+        $queue->insert(
+            ['x' => $currentX, 'y' => $currentY],
+            0
+        );
+        $distances["$currentX,$currentY"] = 0;
+
+        // Tant qu'il y a des cases à explorer et qu'on n'a pas dépassé le mouvement maximum
+        while (!$queue->isEmpty()) {
+            $current = $queue->extract();
+            $currentDistance = $distances[$current['x'].','.$current['y']];
+
+            // Si on a déjà visité cette case ou si on a dépassé le mouvement maximum
+            if (isset($visited[$current['x'].','.$current['y']]) || $currentDistance > $maxMovement) {
+                continue;
+            }
+
+            // Marquer comme visitée
+            $visited[$current['x'].','.$current['y']] = true;
+
+            // Si ce n'est pas la position de départ, c'est une case accessible
+            if ($current['x'] !== $currentX || $current['y'] !== $currentY) {
+                $availableMoves[] = ['x' => $current['x'], 'y' => $current['y']];
+            }
+
+            // Explorer les voisins
+            foreach ($this->getNeighbors($current['x'], $current['y'], $occupied) as $neighbor) {
+                $newDistance = $currentDistance + 1;
+                $key = $neighbor['x'].','.$neighbor['y'];
+
+                if (!isset($distances[$key]) || $newDistance < $distances[$key]) {
+                    $distances[$key] = $newDistance;
+                    $queue->insert($neighbor, -$newDistance); // Priorité négative car SplPriorityQueue trie par plus grande valeur
                 }
             }
         }

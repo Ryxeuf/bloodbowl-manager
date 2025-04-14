@@ -82,3 +82,8 @@ phpstan.neon
 /vendor/
 /node_modules/
 ###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
