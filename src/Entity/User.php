@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
@@ -32,6 +33,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Team::class)]
     private Collection $teams;
+
+    public function __construct()
+    {
+        $this->teams = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -108,5 +114,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTeams(Collection $teams): void
     {
         $this->teams = $teams;
+    }
+
+    public function getGames(): Collection
+    {
+        $games = new ArrayCollection();
+        foreach ($this->teams as $team) {
+            foreach ($team->getHomeGames() as $game) {
+                $games->add($game);
+            }
+            foreach ($team->getAwayGames() as $game) {
+                $games->add($game);
+            }
+        }
+        return $games;
     }
 }

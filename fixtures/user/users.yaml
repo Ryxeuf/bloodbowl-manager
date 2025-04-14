@@ -16,6 +16,6 @@ App\Entity\User:
         roles: ['ROLE_USER']
     user2:
         username: user2
-        email: user@bb-manager.local
+        email: user2@bb-manager.local
         password: <hashPassword('user')>
         roles: ['ROLE_USER']

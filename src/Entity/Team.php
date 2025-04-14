@@ -8,6 +8,7 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 #[ApiResource(normalizationContext: ['groups' => ['team:read']], denormalizationContext: ['groups' => ['team:update']])]
@@ -69,6 +70,19 @@ class Team
     #[ORM\OrderBy(['number' => 'ASC'])]
     #[Groups(['team:update', 'team:read'])]
     private Collection|array $players;
+
+    #[ORM\OneToMany(mappedBy: 'homeTeam', targetEntity: Game::class)]
+    private Collection $homeGames;
+
+    #[ORM\OneToMany(mappedBy: 'awayTeam', targetEntity: Game::class)]
+    private Collection $awayGames;
+
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+        $this->homeGames = new ArrayCollection();
+        $this->awayGames = new ArrayCollection();
+    }
 
     #[ApiProperty]
     #[Groups(['team:read'])]
@@ -307,5 +321,65 @@ class Team
     public function setApothecary(int $apothecary): void
     {
         $this->apothecary = $apothecary;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getHomeGames(): Collection
+    {
+        return $this->homeGames;
+    }
+
+    public function addHomeGame(Game $homeGame): static
+    {
+        if (!$this->homeGames->contains($homeGame)) {
+            $this->homeGames->add($homeGame);
+            $homeGame->setHomeTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHomeGame(Game $homeGame): static
+    {
+        if ($this->homeGames->removeElement($homeGame)) {
+            // set the owning side to null (unless already changed)
+            if ($homeGame->getHomeTeam() === $this) {
+                $homeGame->setHomeTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getAwayGames(): Collection
+    {
+        return $this->awayGames;
+    }
+
+    public function addAwayGame(Game $awayGame): static
+    {
+        if (!$this->awayGames->contains($awayGame)) {
+            $this->awayGames->add($awayGame);
+            $awayGame->setAwayTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAwayGame(Game $awayGame): static
+    {
+        if ($this->awayGames->removeElement($awayGame)) {
+            // set the owning side to null (unless already changed)
+            if ($awayGame->getAwayTeam() === $this) {
+                $awayGame->setAwayTeam(null);
+            }
+        }
+
+        return $this;
     }
 }

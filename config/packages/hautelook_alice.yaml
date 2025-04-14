@@ -8,5 +8,6 @@ when@dev: &dev
             - fixtures/position
             - fixtures/special_rules
             - fixtures/team
+            - fixtures/game
 
 when@test: *dev

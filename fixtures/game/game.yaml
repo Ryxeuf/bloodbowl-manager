@@ -1,0 +1,7 @@
+App\Entity\Game:
+    game_skaven_vs_nobles:
+        homeTeam: '@userSkaven11s'
+        awayTeam: '@user2Nobles11s'
+        currentTurn: 1
+        homeScore: 0
+        awayScore: 0 
