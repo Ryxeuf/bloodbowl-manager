@@ -3,90 +3,148 @@
 {% block title %}Match {{ game.homeTeam.name }} vs {{ game.awayTeam.name }} - Blood Bowl Manager{% endblock %}
 
 {% block body %}
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <div class="flex items-center justify-between mb-4">
-                <div class="text-2xl font-bold text-gray-900">
-                    {{ game.homeTeam.name }}
-                </div>
-                <div class="text-4xl font-bold text-gray-900">
-                    {{ game.homeScore }} - {{ game.awayScore }}
-                </div>
-                <div class="text-2xl font-bold text-gray-900">
-                    {{ game.awayTeam.name }}
-                </div>
-            </div>
-            <div class="text-center text-lg text-gray-500">
-                Tour {{ game.currentTurn }}
-            </div>
-        </div>
-        <div class="border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6">
-                <!-- Terrain de Blood Bowl -->
-                <div class="w-[480px] mx-auto mb-8">
-                    <div class="border-4 border-gray-800">
-                        {% for i in 1..26 %}
-                            <div class="flex {% if i == 1 %}border-b-2 border-white{% elseif i == 26 %}border-t-2 border-white{% elseif i == 12 %}border-b-2 border-white{% endif %}">
-                                {% for j in 1..15 %}
-                                    {% set player = game.playerStates|filter(p => p.x == i and p.y == j)|first %}
-                                    <div class="w-8 h-8 {% if i == 1 or i == 26 %}bg-green-500 hover:bg-green-400{% else %}bg-green-700 hover:bg-green-600{% endif %} cursor-pointer relative {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %}">
-                                        {# <span class="text-white text-[8px]">{{ i }}.{{ j }}</span> #}
-                                        {% if player %}
-                                            <div class="absolute inset-0 flex items-center justify-center text-white text-[8px] font-bold">
-                                                {{ player.player.number }}
+                <div class="flex items-center justify-between mb-4">
+                    <div class="text-2xl font-bold text-gray-900">
+                        {{ game.homeTeam.name }}
+                    </div>
+                    <div class="text-4xl font-bold text-gray-900">
+                        {{ game.homeScore }} - {{ game.awayScore }}
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900">
+                        {{ game.awayTeam.name }}
+                    </div>
+                </div>
+                <div class="text-center text-lg text-gray-500">
+                    Tour {{ game.currentTurn }}
+                </div>
+            </div>
+            <div class="border-t border-gray-200">
+                <div class="px-4 py-5 sm:px-6">
+                    <div class="flex gap-8">
+                        <!-- Terrain de Blood Bowl -->
+                        <div class="w-[480px]">
+                            <div class="border-4 border-gray-800">
+                                {% for i in 1..26 %}
+                                    <div class="flex {% if i == 1 %}border-b-2 border-white{% elseif i == 26 %}border-t-2 border-white{% elseif i == 12 %}border-b-2 border-white{% endif %}">
+                                        {% for j in 1..15 %}
+                                            {% set player = game.playerStates|filter(p => p.x == i and p.y == j)|first %}
+                                            <div class="w-8 h-8 {% if i == 1 or i == 26 %}bg-green-500 hover:bg-green-400{% else %}bg-green-700 hover:bg-green-600{% endif %} cursor-pointer relative {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %} player-cell" 
+                                                 data-player-id="{{ player ? player.player.id : '' }}"
+                                                 data-x="{{ i }}"
+                                                 data-y="{{ j }}">
+                                                {% if player %}
+                                                    <div class="absolute inset-0 flex items-center justify-center text-white text-[8px] font-bold">
+                                                        {{ player.player.number }}
+                                                    </div>
+                                                    {% if player.state == 'prone' %}
+                                                        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                                                    {% elseif player.state == 'stunned' %}
+                                                        <div class="absolute inset-0 bg-yellow-500 bg-opacity-50"></div>
+                                                    {% elseif player.state == 'ko' %}
+                                                        <div class="absolute inset-0 bg-orange-500 bg-opacity-50"></div>
+                                                    {% elseif player.state == 'injured' %}
+                                                        <div class="absolute inset-0 bg-red-500 bg-opacity-50"></div>
+                                                    {% elseif player.state == 'dead' %}
+                                                        <div class="absolute inset-0 bg-gray-900 bg-opacity-50"></div>
+                                                    {% endif %}
+                                                {% endif %}
                                             </div>
-                                            {% if player.state == 'prone' %}
-                                                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-                                            {% elseif player.state == 'stunned' %}
-                                                <div class="absolute inset-0 bg-yellow-500 bg-opacity-50"></div>
-                                            {% elseif player.state == 'ko' %}
-                                                <div class="absolute inset-0 bg-orange-500 bg-opacity-50"></div>
-                                            {% elseif player.state == 'injured' %}
-                                                <div class="absolute inset-0 bg-red-500 bg-opacity-50"></div>
-                                            {% elseif player.state == 'dead' %}
-                                                <div class="absolute inset-0 bg-gray-900 bg-opacity-50"></div>
-                                            {% endif %}
-                                        {% endif %}
+                                        {% endfor %}
                                     </div>
                                 {% endfor %}
                             </div>
-                        {% endfor %}
-                    </div>
-                </div>
 
-                <!-- Légende des états -->
-                <div class="mt-4 flex justify-center space-x-4">
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-black bg-opacity-50 mr-2"></div>
-                        <span class="text-sm">Prone</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-yellow-500 bg-opacity-50 mr-2"></div>
-                        <span class="text-sm">Stunned</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-orange-500 bg-opacity-50 mr-2"></div>
-                        <span class="text-sm">KO</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-red-500 bg-opacity-50 mr-2"></div>
-                        <span class="text-sm">Injured</span>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-4 h-4 bg-gray-900 bg-opacity-50 mr-2"></div>
-                        <span class="text-sm">Dead</span>
-                    </div>
-                </div>
+                            <!-- Légende des états -->
+                            <div class="mt-4 flex justify-center space-x-4">
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-black bg-opacity-50 mr-2"></div>
+                                    <span class="text-sm">Prone</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-yellow-500 bg-opacity-50 mr-2"></div>
+                                    <span class="text-sm">Stunned</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-orange-500 bg-opacity-50 mr-2"></div>
+                                    <span class="text-sm">KO</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-red-500 bg-opacity-50 mr-2"></div>
+                                    <span class="text-sm">Injured</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-gray-900 bg-opacity-50 mr-2"></div>
+                                    <span class="text-sm">Dead</span>
+                                </div>
+                            </div>
 
-                <div class="mt-8 text-center">
-                    <form method="post">
-                        <input type="hidden" name="action" value="next_turn">
-                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            Tour suivant
-                        </button>
-                    </form>
+                            <div class="mt-8 text-center">
+                                <form method="post">
+                                    <input type="hidden" name="action" value="next_turn">
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        Tour suivant
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Panneau des informations du joueur -->
+                        <div id="playerPanel" class="flex-1 max-w-md hidden">
+                            <div class="sticky top-4 bg-white shadow-lg rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-bold">Informations du joueur</h3>
+                                    <button id="closePanel" class="text-gray-500 hover:text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="playerInfo" class="space-y-4">
+                                    <!-- Les informations du joueur seront injectées ici via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playerPanel = document.getElementById('playerPanel');
+            const playerInfo = document.getElementById('playerInfo');
+            const closePanel = document.getElementById('closePanel');
+            const playerCells = document.querySelectorAll('.player-cell');
+
+            playerCells.forEach(cell => {
+                cell.addEventListener('click', function() {
+                    const playerId = this.dataset.playerId;
+                    if (playerId) {
+                        // Afficher le panneau
+                        playerPanel.classList.remove('hidden');
+
+                        // Récupérer les informations du joueur
+                        fetch(`/player/${playerId}/info`)
+                            .then(response => response.text())
+                            .then(html => {
+                                playerInfo.innerHTML = html;
+                            })
+                            .catch(error => {
+                                console.error('Erreur lors de la récupération des informations du joueur:', error);
+                            });
+                    }
+                });
+            });
+
+            closePanel.addEventListener('click', function() {
+                playerPanel.classList.add('hidden');
+            });
+        });
+    </script>
 {% endblock %} 
