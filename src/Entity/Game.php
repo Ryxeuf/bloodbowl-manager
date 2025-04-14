@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -29,6 +31,14 @@ class Game
 
     #[ORM\Column]
     private ?int $awayScore = 0;
+
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: PlayerGameState::class, cascade: ['persist', 'remove'])]
+    private Collection $playerStates;
+
+    public function __construct()
+    {
+        $this->playerStates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,6 +102,26 @@ class Game
     {
         $this->awayScore = $awayScore;
 
+        return $this;
+    }
+
+    public function getPlayerStates(): Collection
+    {
+        return $this->playerStates;
+    }
+
+    public function addPlayerState(PlayerGameState $playerState): self
+    {
+        if (!$this->playerStates->contains($playerState)) {
+            $this->playerStates[] = $playerState;
+            $playerState->setGame($this);
+        }
+        return $this;
+    }
+
+    public function removePlayerState(PlayerGameState $playerState): self
+    {
+        $this->playerStates->removeElement($playerState);
         return $this;
     }
 }

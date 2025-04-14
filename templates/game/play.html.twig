@@ -5,12 +5,20 @@
 {% block body %}
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-                {{ game.homeTeam.name }} vs {{ game.awayTeam.name }}
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-2xl font-bold text-gray-900">
+                    {{ game.homeTeam.name }}
+                </div>
+                <div class="text-4xl font-bold text-gray-900">
+                    {{ game.homeScore }} - {{ game.awayScore }}
+                </div>
+                <div class="text-2xl font-bold text-gray-900">
+                    {{ game.awayTeam.name }}
+                </div>
+            </div>
+            <div class="text-center text-lg text-gray-500">
                 Tour {{ game.currentTurn }}
-            </p>
+            </div>
         </div>
         <div class="border-t border-gray-200">
             <div class="px-4 py-5 sm:px-6">
@@ -18,62 +26,45 @@
                 <div class="w-[480px] mx-auto mb-8">
                     <div class="border-4 border-gray-800">
                         <!-- End zone équipe domicile -->
-                        <div class="flex">
+                        <div class="flex border-b-2 border-white">
+                        {% set i = 1 %}
                             {% for j in 1..15 %}
-                                <div class="w-8 h-8 bg-green-500 border border-white relative">
-                                    {% if j == 8 %}
+                                <div class="w-8 h-8 bg-green-500 hover:bg-green-400 cursor-pointer relative">
+                                    <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
+                                    {# {% if j == 8 %}
                                         <div class="absolute inset-0 flex items-center justify-center text-white text-[8px]">
                                             End Zone {{ game.homeTeam.name }}
                                         </div>
-                                    {% endif %}
+                                    {% endif %} #}
                                 </div>
                             {% endfor %}
                         </div>
 
                         <!-- Cases normales -->
-                        {% for i in 1..24 %}
-                            <div class="flex">
+                        {% for i in 2..25 %}
+                            <div class="flex {% if i == 12 %}border-b-2 border-white{% endif %}">
                                 {% for j in 1..15 %}
-                                    <div class="w-8 h-8 bg-green-700 border border-white"></div>
+                                    <div class="w-8 h-8 bg-green-700 hover:bg-green-600 cursor-pointer {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %}">
+                                        <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
+                                    </div>
                                 {% endfor %}
                             </div>
                         {% endfor %}
 
                         <!-- End zone équipe extérieure -->
-                        <div class="flex">
+                        <div class="flex border-t-2 border-white">
+                            {% set i = 26 %}
                             {% for j in 1..15 %}
-                                <div class="w-8 h-8 bg-green-500 border border-white relative">
-                                    {% if j == 8 %}
+                                <div class="w-8 h-8 bg-green-500 hover:bg-green-400 cursor-pointer relative">
+                                    <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
+                                    {# {% if j == 8 %}
                                         <div class="absolute inset-0 flex items-center justify-center text-white text-[8px]">
                                             End Zone {{ game.awayTeam.name }}
                                         </div>
-                                    {% endif %}
+                                    {% endif %} #}
                                 </div>
                             {% endfor %}
                         </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="text-center">
-                        <h4 class="text-lg font-medium text-gray-900">{{ game.homeTeam.name }}</h4>
-                        <p class="text-4xl font-bold text-gray-900">{{ game.homeScore }}</p>
-                        <form method="post" class="mt-4">
-                            <input type="hidden" name="action" value="score_home">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                Marquer un TD
-                            </button>
-                        </form>
-                    </div>
-                    <div class="text-center">
-                        <h4 class="text-lg font-medium text-gray-900">{{ game.awayTeam.name }}</h4>
-                        <p class="text-4xl font-bold text-gray-900">{{ game.awayScore }}</p>
-                        <form method="post" class="mt-4">
-                            <input type="hidden" name="action" value="score_away">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                Marquer un TD
-                            </button>
-                        </form>
                     </div>
                 </div>
 

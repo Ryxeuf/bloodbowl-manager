@@ -1,0 +1,186 @@
+App\Entity\PlayerGameState:
+    # États des joueurs de l'équipe Skaven
+    player_state_skaven_ratOgre:
+        player: '@skaven11s_ratOgre'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 4
+
+    player_state_skaven_blitzer1:
+        player: '@skaven11s_blitzer1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 5
+
+    player_state_skaven_blitzer2:
+        player: '@skaven11s_blitzer2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 6
+
+    player_state_skaven_gutter1:
+        player: '@skaven11s_gutter1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 7
+
+    player_state_skaven_gutter2:
+        player: '@skaven11s_gutter2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 8
+
+    player_state_skaven_gutter3:
+        player: '@skaven11s_gutter3'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 9
+
+    player_state_skaven_thrower:
+        player: '@skaven11s_thrower'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 10
+
+    player_state_skaven_linemen1:
+        player: '@skaven11s_linemen1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 11
+
+    player_state_skaven_linemen2:
+        player: '@skaven11s_linemen2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 12
+
+    player_state_skaven_linemen3:
+        player: '@skaven11s_linemen3'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 13
+
+    player_state_skaven_linemen4:
+        player: '@skaven11s_linemen4'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 14
+
+    player_state_skaven_linemen5:
+        player: '@skaven11s_linemen5'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 13
+        y: 15
+
+    # États des joueurs de l'équipe Nobles
+    player_state_nobles_ogre:
+        player: '@nobles11s_ogre'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 4
+
+    player_state_nobles_thrower:
+        player: '@nobles11s_thrower'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 5
+
+    player_state_nobles_blitzer1:
+        player: '@nobles11s_blitzer1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 6
+
+    player_state_nobles_blitzer2:
+        player: '@nobles11s_blitzer2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 7
+
+    player_state_nobles_bodyguard1:
+        player: '@nobles11s_bodyguard1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 8
+
+    player_state_nobles_bodyguard2:
+        player: '@nobles11s_bodyguard2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 9
+
+    player_state_nobles_retainer1:
+        player: '@nobles11s_retainer1'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 10
+
+    player_state_nobles_retainer2:
+        player: '@nobles11s_retainer2'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 11
+
+    player_state_nobles_retainer3:
+        player: '@nobles11s_retainer3'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 12
+
+    player_state_nobles_retainer4:
+        player: '@nobles11s_retainer4'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 13
+
+    player_state_nobles_retainer5:
+        player: '@nobles11s_retainer5'
+        game: '@game_skaven_vs_nobles'
+        state: 'available'
+        hasPlayed: false
+        x: 12
+        y: 14 

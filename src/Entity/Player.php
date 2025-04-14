@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
 #[ApiResource(normalizationContext: ['groups' => ['player:read', 'team:read']])]
@@ -32,6 +34,14 @@ class Player
     #[ORM\ManyToOne(targetEntity: Position::class, inversedBy: 'players')]
     #[Groups(['team:update', 'player:read', 'team:read'])]
     private Position $position;
+
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerGameState::class)]
+    private Collection $gameStates;
+
+    public function __construct()
+    {
+        $this->gameStates = new ArrayCollection();
+    }
 
     #[ApiProperty]
     #[Groups(['team:update', 'player:read', 'team:read'])]
@@ -144,5 +154,25 @@ class Player
     public function getPositionSecondarySkills(): array
     {
         return $this->position->getSecondarySkills();
+    }
+
+    public function getGameStates(): Collection
+    {
+        return $this->gameStates;
+    }
+
+    public function addGameState(PlayerGameState $gameState): self
+    {
+        if (!$this->gameStates->contains($gameState)) {
+            $this->gameStates[] = $gameState;
+            $gameState->setPlayer($this);
+        }
+        return $this;
+    }
+
+    public function removeGameState(PlayerGameState $gameState): self
+    {
+        $this->gameStates->removeElement($gameState);
+        return $this;
     }
 }
