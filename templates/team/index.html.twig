@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes équipes - Blood Bowl Manager{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Mes équipes
+            </h3>
+            <a href="{{ path('app_team_new') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Créer une équipe
+            </a>
+        </div>
+        <div class="border-t border-gray-200">
+            {% if teams|length > 0 %}
+                <ul class="divide-y divide-gray-200">
+                    {% for team in teams %}
+                        <li class="px-4 py-4 sm:px-6 hover:bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        {# <img class="h-10 w-10 rounded-full" src="{{ asset('images/factions/' ~ team.faction.image) }}" alt="{{ team.faction.name }}"> #}
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ team.name }}
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ team.faction.name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="text-sm text-gray-500">
+                                        {{ team.treasury }}k
+                                    </span>
+                                    <a href="{{ path('app_team_show', {'id': team.id}) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        Voir
+                                    </a>
+                                    <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                                        Modifier
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="px-4 py-5 sm:px-6">
+                    <p class="text-gray-500 text-center">Vous n'avez pas encore créé d'équipe.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %} 

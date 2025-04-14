@@ -1,0 +1,419 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ team.name }} - Blood Bowl Manager{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Modifier {{ team.name }}
+            </h3>
+            <a href="{{ path('app_teams') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Retour à la liste
+            </a>
+        </div>
+        <div class="border-t border-gray-200">
+            {{ form_start(form) }}
+            <div class="px-4 py-5 sm:p-6">
+                <div class="space-y-8">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="text-lg font-medium text-gray-900 mb-6">Informations générales</h4>
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div>
+                                {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                {{ form_widget(form.name, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                {{ form_errors(form.name) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.faction, 'Faction', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                {{ form_widget(form.faction, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm', 'data-team-faction': ''}}) }}
+                                {{ form_errors(form.faction) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.playType, 'Type de jeu', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                {{ form_widget(form.playType, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                {{ form_errors(form.playType) }}
+                            </div>
+
+                            <div>
+                                {{ form_label(form.playCategory, 'Catégorie', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                {{ form_widget(form.playCategory, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                {{ form_errors(form.playCategory) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h4 class="text-lg font-medium text-gray-900 mb-6">Personnel</h4>
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div>
+                                {{ form_label(form.rerolls, 'Relances', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    {{ form_widget(form.rerolls, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                </div>
+                                {{ form_errors(form.rerolls) }}
+                                <p class="mt-2 text-sm text-gray-500">Max: {{ team.rerollMax }}</p>
+                            </div>
+
+                            <div>
+                                {{ form_label(form.assistantCoaches, 'Entraîneurs adjoints', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    {{ form_widget(form.assistantCoaches, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                </div>
+                                {{ form_errors(form.assistantCoaches) }}
+                                <p class="mt-2 text-sm text-gray-500">Max: {{ team.assistantCoachesMax }}</p>
+                            </div>
+
+                            <div>
+                                {{ form_label(form.cheerleaders, 'Pom-pom girls', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    {{ form_widget(form.cheerleaders, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                </div>
+                                {{ form_errors(form.cheerleaders) }}
+                                <p class="mt-2 text-sm text-gray-500">Max: {{ team.cheerleadersMax }}</p>
+                            </div>
+
+                            <div>
+                                {{ form_label(form.dedicatedFans, 'Fans dévoués', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    {{ form_widget(form.dedicatedFans, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                </div>
+                                {{ form_errors(form.dedicatedFans) }}
+                                <p class="mt-2 text-sm text-gray-500">Max: {{ team.dedicatedFansMax }}</p>
+                            </div>
+
+                            <div>
+                                {{ form_label(form.apothecary, 'Apothicaire', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 mb-1'}}) }}
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    {{ form_widget(form.apothecary, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'}}) }}
+                                </div>
+                                {{ form_errors(form.apothecary) }}
+                                <p class="mt-2 text-sm text-gray-500">Max: {{ team.apothecaryMax }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-900">Liste des joueurs</h2>
+                    <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-collection-target="add">
+                        Ajouter un joueur
+                    </button>
+                </div>
+                <div class="divide-y divide-gray-200" data-collection-target="container" data-prototype="{{ form_widget(form.players.vars.prototype)|e('html_attr') }}">
+                    {% for player in form.players %}
+                        <div class="p-6" data-player-id="{{ player.vars.value.id }}">
+                            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                                <div class="w-full lg:w-[200px]">
+                                    <div class="flex items-center space-x-2">
+                                        {{ form_widget(player.number, {
+                                            'attr': {
+                                                'class': 'w-16 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500',
+                                                'data-edit-field': 'number'
+                                            }
+                                        }) }}
+                                        {{ form_widget(player.name, {
+                                            'attr': {
+                                                'class': 'flex-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500',
+                                                'data-edit-field': 'name'
+                                            }
+                                        }) }}
+                                    </div>
+                                    <div class="mt-1">
+                                        {{ form_widget(player.position, {
+                                            'attr': {
+                                                'class': 'w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500',
+                                                'data-player-position': ''
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-center w-full lg:w-[250px] space-x-4">
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs text-gray-500">MA</span>
+                                        <span class="text-sm font-semibold text-gray-900" data-stat="movement">-</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs text-gray-500">ST</span>
+                                        <span class="text-sm font-semibold text-gray-900" data-stat="strength">-</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs text-gray-500">AG</span>
+                                        <span class="text-sm font-semibold text-gray-900" data-stat="agility">-</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs text-gray-500">PA</span>
+                                        <span class="text-sm font-semibold text-gray-900" data-stat="passing">-</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-xs text-gray-500">AR</span>
+                                        <span class="text-sm font-semibold text-gray-900" data-stat="armor">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-3 w-full lg:w-[600px] gap-4">
+                                    <div class="w-full">
+                                        <div class="text-xs text-gray-500 mb-1">Compétences</div>
+                                        <div class="flex flex-wrap gap-1" data-skills-container>
+                                            <!-- Les compétences seront ajoutées dynamiquement -->
+                                        </div>
+                                    </div>
+                                    <div class="w-full">
+                                        <div class="text-xs text-gray-500 mb-1">Primaires</div>
+                                        <div class="flex flex-wrap gap-1" data-primary-skills>
+                                            <!-- Les compétences primaires seront ajoutées dynamiquement -->
+                                        </div>
+                                    </div>
+                                    <div class="w-full">
+                                        <div class="text-xs text-gray-500 mb-1">Secondaires</div>
+                                        <div class="flex flex-wrap gap-1" data-secondary-skills>
+                                            <!-- Les compétences secondaires seront ajoutées dynamiquement -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full lg:w-[80px] text-right">
+                                    <span class="text-lg font-semibold text-gray-900" data-cost>0K</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-right">
+                                <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" data-collection-target="remove">
+                                    Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <a href="{{ path('app_team_show', {'id': team.id}) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Annuler
+                </a>
+                <button type="submit" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Enregistrer
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('[data-collection-target="container"]');
+            const addButton = document.querySelector('[data-collection-target="add"]');
+            const prototype = container.dataset.prototype;
+            const factionSelect = document.querySelector('[data-team-faction]');
+
+            // Fonction pour mettre à jour les positions disponibles
+            function updatePositions(factionId) {
+                const positionSelects = document.querySelectorAll('[data-player-position]');
+                positionSelects.forEach(select => {
+                    const options = select.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (option.value) {
+                            const optionFactionId = option.getAttribute('data-faction-id');
+                            if (optionFactionId !== factionId) {
+                                option.style.display = 'none';
+                            } else {
+                                option.style.display = '';
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Fonction pour mettre à jour les statistiques et les compétences
+            function updatePlayerStats(select) {
+                const playerContainer = select.closest('[data-player-id]');
+                const positionId = select.value;
+                const skillsContainer = playerContainer.querySelector('[data-skills-container]');
+                const primarySkillsContainer = playerContainer.querySelector('[data-primary-skills]');
+                const secondarySkillsContainer = playerContainer.querySelector('[data-secondary-skills]');
+                const costElement = playerContainer.querySelector('[data-cost]');
+
+                if (positionId) {
+                    fetch(`/api/positions/${positionId}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        },
+                        credentials: 'same-origin'
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erreur réseau');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Position data:', data); // Pour le debug
+                            // Mettre à jour les statistiques
+                            playerContainer.querySelector('[data-stat="movement"]').textContent = data.movement;
+                            playerContainer.querySelector('[data-stat="strength"]').textContent = data.strength;
+                            playerContainer.querySelector('[data-stat="agility"]').textContent = data.agility + '+';
+                            playerContainer.querySelector('[data-stat="passing"]').textContent = data.passing ? data.passing + '+' : '-';
+                            playerContainer.querySelector('[data-stat="armor"]').textContent = data.armor + '+';
+
+                            // Mettre à jour le coût
+                            costElement.textContent = (data.cost/1000) + 'K';
+
+                            // Mettre à jour les compétences
+                            const skillsHtml = (data.skills || []).map(skill => `
+                                <button 
+                                    class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                                    data-skill-name="${skill.name}"
+                                    data-skill-description="${skill.description}"
+                                    onclick="showSkillDescription(this)"
+                                >
+                                    ${skill.name}
+                                </button>
+                            `).join('');
+                            skillsContainer.innerHTML = skillsHtml || '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Aucune compétence</span>';
+
+                            // Mettre à jour les compétences primaires
+                            const primarySkillsHtml = (data.primarySkills || []).map(skill => `
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    ${skill}
+                                </span>
+                            `).join('');
+                            primarySkillsContainer.innerHTML = primarySkillsHtml;
+
+                            // Mettre à jour les compétences secondaires
+                            const secondarySkillsHtml = (data.secondarySkills || []).map(skill => `
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    ${skill}
+                                </span>
+                            `).join('');
+                            secondarySkillsContainer.innerHTML = secondarySkillsHtml;
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la récupération des données de position:', error);
+                            // Réinitialiser les statistiques en cas d'erreur
+                            playerContainer.querySelectorAll('[data-stat]').forEach(stat => {
+                                stat.textContent = '-';
+                            });
+                            skillsContainer.innerHTML = '';
+                            primarySkillsContainer.innerHTML = '';
+                            secondarySkillsContainer.innerHTML = '';
+                            costElement.textContent = '0K';
+                        });
+                } else {
+                    // Réinitialiser les statistiques et les compétences
+                    playerContainer.querySelectorAll('[data-stat]').forEach(stat => {
+                        stat.textContent = '-';
+                    });
+                    skillsContainer.innerHTML = '';
+                    primarySkillsContainer.innerHTML = '';
+                    secondarySkillsContainer.innerHTML = '';
+                    costElement.textContent = '0K';
+                }
+            }
+
+            // Fonction pour afficher la description des compétences
+            window.showSkillDescription = function(button) {
+                const name = button.getAttribute('data-skill-name');
+                const description = button.getAttribute('data-skill-description');
+                
+                // Créer le panneau si il n'existe pas
+                let panel = document.getElementById('skill-panel');
+                if (!panel) {
+                    panel = document.createElement('div');
+                    panel.id = 'skill-panel';
+                    panel.className = 'fixed right-0 top-0 h-full w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50';
+                    panel.innerHTML = `
+                        <div class="h-full flex flex-col">
+                            <div class="p-6 border-b border-gray-200">
+                                <div class="flex justify-between items-start">
+                                    <h3 id="skill-name" class="text-lg font-medium text-gray-900"></h3>
+                                    <button id="close-panel" class="text-gray-400 hover:text-gray-500">
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex-1 p-6 overflow-y-auto">
+                                <p id="skill-description" class="text-sm text-gray-500"></p>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(panel);
+                    
+                    // Gérer la fermeture du panneau
+                    const closeButton = panel.querySelector('#close-panel');
+                    closeButton.addEventListener('click', () => {
+                        panel.classList.add('translate-x-full');
+                    });
+                }
+                
+                // Afficher le panneau avec les informations
+                const skillName = panel.querySelector('#skill-name');
+                const skillDescription = panel.querySelector('#skill-description');
+                
+                skillName.textContent = name;
+                skillDescription.textContent = description;
+                panel.classList.remove('translate-x-full');
+            };
+
+            // Écouter les changements de faction
+            if (factionSelect) {
+                factionSelect.addEventListener('change', function() {
+                    updatePositions(this.value);
+                });
+                // Initialiser avec la faction actuelle
+                updatePositions(factionSelect.value);
+            }
+
+            // Écouter les changements de position
+            container.addEventListener('change', function(e) {
+                if (e.target.matches('[data-player-position]')) {
+                    updatePlayerStats(e.target);
+                }
+            });
+
+            // Initialiser les statistiques pour chaque joueur existant
+            document.querySelectorAll('[data-player-position]').forEach(select => {
+                if (select.value) {
+                    updatePlayerStats(select);
+                }
+            });
+
+            // Gérer l'ajout d'un nouveau joueur
+            addButton.addEventListener('click', function() {
+                const index = container.children.length;
+                const newForm = prototype.replace(/__name__/g, index);
+                const div = document.createElement('div');
+                div.innerHTML = newForm;
+                const newElement = div.firstElementChild;
+                newElement.classList.add('p-6');
+                newElement.setAttribute('data-player-id', 'new-' + index);
+                
+                // Ajouter les classes aux champs de formulaire
+                const inputs = newElement.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.classList.add('text-sm', 'border-gray-300', 'rounded-md', 'shadow-sm', 'focus:ring-blue-500', 'focus:border-blue-500');
+                });
+                
+                container.appendChild(newElement);
+                
+                // Mettre à jour les positions pour le nouveau joueur
+                if (factionSelect) {
+                    updatePositions(factionSelect.value);
+                }
+            });
+
+            // Gérer la suppression d'un joueur
+            container.addEventListener('click', function(e) {
+                if (e.target.matches('[data-collection-target="remove"]')) {
+                    e.target.closest('[data-player-id]').remove();
+                }
+            });
+        });
+    </script>
+{% endblock %} 

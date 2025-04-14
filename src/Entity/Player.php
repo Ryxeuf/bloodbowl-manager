@@ -46,6 +46,8 @@ class Player
             'ar'   => $this->position->getAr(),
             'cost' => $this->position->getCost(),
             'skills' => $this->position->getSkills(),
+            'primarySkills' => $this->position->getPrimarySkills(),
+            'secondarySkills' => $this->position->getSecondarySkills(),
         ];
     }
 

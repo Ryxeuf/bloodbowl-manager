@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ team.name }} - Blood Bowl Manager{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                {{ team.name }}
+            </h3>
+            <div class="flex space-x-3">
+                <a href="{{ path('app_teams') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Retour à la liste
+                </a>
+                <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    Modifier
+                </a>
+            </div>
+        </div>
+        <div class="border-t border-gray-200">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Type de jeu
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ team.playType == 'league' ? 'Ligue' : 'Exhibition' }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Catégorie
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ team.playCategory == 'elevens' ? '11s' : '7s' }}
+                    </dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Trésorerie
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ team.treasury }}k
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Valeur de l'équipe
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ team.teamValue }}k
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">Liste des joueurs</h2>
+        </div>
+        <div class="divide-y divide-gray-200">
+            {% for player in team.players %}
+                <div class="p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div class="w-full lg:w-[200px]">
+                            <h3 class="text-lg font-medium text-gray-900">#{{ player.number }} - {{ player.name }}</h3>
+                            <div class="mt-1">
+                                <span class="text-sm text-gray-500">{{ player.positionInfos.name }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-center w-full lg:w-[250px] space-x-4">
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs text-gray-500">MA</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ player.positionInfos.m }}</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs text-gray-500">ST</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ player.positionInfos.f }}</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs text-gray-500">AG</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ player.positionInfos.ag }}+</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs text-gray-500">PA</span>
+                                <span class="text-sm font-semibold text-gray-900">{% if player.positionInfos.cp is not null %}{{ player.positionInfos.cp }}+{% endif %}</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs text-gray-500">AR</span>
+                                <span class="text-sm font-semibold text-gray-900">{{ player.positionInfos.ar }}+</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 w-full lg:w-[600px] gap-4">
+                            <div class="w-full">
+                                <div class="text-xs text-gray-500 mb-1">Compétences</div>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for skill in player.positionInfos.skills %}
+                                        <button 
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+                                            data-skill-name="{{ skill.name }}"
+                                            data-skill-description="{{ skill.description }}"
+                                            onclick="showSkillDescription(this)"
+                                        >
+                                            {{ skill.name }}
+                                        </button>
+                                    {% else %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            Aucune compétence
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <div class="text-xs text-gray-500 mb-1">Primaires</div>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for skill in player.positionInfos.primarySkills %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            {{ skill }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="w-full">
+                                <div class="text-xs text-gray-500 mb-1">Secondaires</div>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for skill in player.positionInfos.secondarySkills %}
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                            {{ skill }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full lg:w-[80px] text-right">
+                            <span class="text-lg font-semibold text-gray-900">{{ player.positionInfos.cost/1000 }}K</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function showSkillDescription(button) {
+            const name = button.getAttribute('data-skill-name');
+            const description = button.getAttribute('data-skill-description');
+            
+            // Créer le panneau si il n'existe pas
+            let panel = document.getElementById('skill-panel');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'skill-panel';
+                panel.className = 'fixed right-0 top-0 h-full w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50';
+                panel.innerHTML = `
+                    <div class="h-full flex flex-col">
+                        <div class="p-6 border-b border-gray-200">
+                            <div class="flex justify-between items-start">
+                                <h3 id="skill-name" class="text-lg font-medium text-gray-900"></h3>
+                                <button id="close-panel" class="text-gray-400 hover:text-gray-500">
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1 p-6 overflow-y-auto">
+                            <p id="skill-description" class="text-sm text-gray-500"></p>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(panel);
+                
+                // Gérer la fermeture du panneau
+                const closeButton = panel.querySelector('#close-panel');
+                closeButton.addEventListener('click', () => {
+                    panel.classList.add('translate-x-full');
+                });
+            }
+            
+            // Afficher le panneau avec les informations
+            const skillName = panel.querySelector('#skill-name');
+            const skillDescription = panel.querySelector('#skill-description');
+            
+            skillName.textContent = name;
+            skillDescription.textContent = description;
+            panel.classList.remove('translate-x-full');
+        }
+    </script>
+{% endblock %} 

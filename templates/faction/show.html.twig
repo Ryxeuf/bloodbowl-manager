@@ -26,19 +26,19 @@
                 <ul class="space-y-3">
                     <li class="flex items-center justify-between">
                         <span class="text-gray-600">Rerolls</span>
-                        <span class="font-medium">{{ faction.quantityRerolls }} ({{ faction.rerollCost }}k)</span>
+                        <span class="font-medium">{{ faction.quantityRerolls }} ({{ faction.rerollCost/1000 }}k)</span>
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="text-gray-600">Assistant Coaches</span>
-                        <span class="font-medium">{{ faction.assistantCoachesMin }}-{{ faction.assistantCoachesMax }} ({{ faction.assistantCoachesCost }}k)</span>
+                        <span class="font-medium">{{ faction.assistantCoachesMin }}-{{ faction.assistantCoachesMax }} ({{ faction.assistantCoachesCost/1000 }}k)</span>
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="text-gray-600">Cheerleaders</span>
-                        <span class="font-medium">{{ faction.cheerleadersMin }}-{{ faction.cheerleadersMax }} ({{ faction.cheerleadersCost }}k)</span>
+                        <span class="font-medium">{{ faction.cheerleadersMin }}-{{ faction.cheerleadersMax }} ({{ faction.cheerleadersCost/1000 }}k)</span>
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="text-gray-600">Fans dédiés</span>
-                        <span class="font-medium">{{ faction.dedicatedFansMin }}-{{ faction.dedicatedFansMax }} ({{ faction.dedicatedFansCost }}k)</span>
+                        <span class="font-medium">{{ faction.dedicatedFansMin }}-{{ faction.dedicatedFansMax }} ({{ faction.dedicatedFansCost/1000 }}k)</span>
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="text-gray-600">Apothicaire</span>
@@ -131,7 +131,7 @@
                             </div>
 
                             <div class="w-full lg:w-[80px] text-right">
-                                <span class="text-lg font-semibold {% if position.cost >= 90 %}text-purple-600{% else %}text-gray-900{% endif %}">{{ position.cost }}K</span>
+                                <span class="text-lg font-semibold text-gray-900">{{ position.cost/1000 }}K</span>
                             </div>
                         </div>
                     </div>
