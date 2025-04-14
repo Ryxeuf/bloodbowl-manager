@@ -31,7 +31,7 @@
                                     <div class="flex {% if i == 1 %}border-b-2 border-white{% elseif i == 26 %}border-t-2 border-white{% elseif i == 12 %}border-b-2 border-white{% endif %}">
                                         {% for j in 1..15 %}
                                             {% set player = game.playerStates|filter(p => p.x == i and p.y == j)|first %}
-                                            <div class="w-8 h-8 {% if i == 1 or i == 26 %}bg-green-500 hover:bg-green-400{% else %}bg-green-700 hover:bg-green-600{% endif %} cursor-pointer relative {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %} player-cell" 
+                                            <div class="w-8 h-8 {% if i == 1 or i == 26 %}bg-green-500 hover:bg-green-400{% else %}bg-green-700 hover:bg-green-600{% endif %} cursor-pointer relative {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %} player-cell {% if player %}player-cell-{{ player.player.id }}{% endif %}" 
                                                  data-player-id="{{ player ? player.player.id : '' }}"
                                                  data-x="{{ i }}"
                                                  data-y="{{ j }}">
@@ -121,11 +121,25 @@
             const playerInfo = document.getElementById('playerInfo');
             const closePanel = document.getElementById('closePanel');
             const playerCells = document.querySelectorAll('.player-cell');
+            let selectedPlayerId = null;
 
             playerCells.forEach(cell => {
                 cell.addEventListener('click', function() {
                     const playerId = this.dataset.playerId;
                     if (playerId) {
+                        // Retirer la sélection précédente
+                        if (selectedPlayerId) {
+                            document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
+                                cell.classList.remove('selected-player');
+                            });
+                        }
+
+                        // Ajouter la sélection au nouveau joueur
+                        document.querySelectorAll(`.player-cell-${playerId}`).forEach(cell => {
+                            cell.classList.add('selected-player');
+                        });
+                        selectedPlayerId = playerId;
+
                         // Afficher le panneau
                         playerPanel.classList.remove('hidden');
 
@@ -144,7 +158,46 @@
 
             closePanel.addEventListener('click', function() {
                 playerPanel.classList.add('hidden');
+                // Retirer la sélection
+                if (selectedPlayerId) {
+                    document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
+                        cell.classList.remove('selected-player');
+                    });
+                    selectedPlayerId = null;
+                }
             });
         });
     </script>
+
+    <style>
+        .selected-player {
+            position: relative;
+        }
+        .selected-player::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid #3B82F6;
+            border-radius: 50%;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
 {% endblock %} 
