@@ -1,9 +1,171 @@
-#App\Entity\Player:
-#    player1:
-#        team: '@userSkaven7s'
-#        position: '@skavenThrower'
-#        name: 'Lanceur skav'
-#    player2:
-#        team: '@userSkaven7s'
-#        position: '@skavenLinemen'
-#        name: 'Trois-quart skav'
+App\Entity\Player:
+    skaven11s_ratOgre:
+        team: '@userSkaven11s'
+        position: '@ratOgre'
+        name: 'Rat Ogre'
+        number: 1
+    skaven11s_blitzer1:
+        team: '@userSkaven11s'
+        position: '@skavenBlitzer'
+        name: 'Blitzer 1'
+        number: 2
+    skaven11s_blitzer2:
+        team: '@userSkaven11s'
+        position: '@skavenBlitzer'
+        name: 'Blitzer 2'
+        number: 3
+    skaven11s_gutter1:
+        team: '@userSkaven11s'
+        position: '@gutterRunner'
+        name: 'Coureur 1'
+        number: 4
+    skaven11s_gutter2:
+        team: '@userSkaven11s'
+        position: '@gutterRunner'
+        name: 'Coureur 2'
+        number: 5
+    skaven11s_gutter3:
+        team: '@userSkaven11s'
+        position: '@gutterRunner'
+        name: 'Coureur 3'
+        number: 6
+    skaven11s_thrower:
+        team: '@userSkaven11s'
+        position: '@skavenThrower'
+        name: 'Lanceur'
+        number: 7
+    skaven11s_linemen1:
+        team: '@userSkaven11s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart 1'
+        number: 8
+    skaven11s_linemen2:
+        team: '@userSkaven11s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart 2'
+        number: 9
+    skaven11s_linemen3:
+        team: '@userSkaven11s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart 3'
+        number: 10
+    skaven11s_linemen4:
+        team: '@userSkaven11s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart 4'
+        number: 11
+    skaven11s_linemen5:
+        team: '@userSkaven11s'
+        position: '@skavenLinemen'
+        name: 'Trois-quart 5'
+        number: 12
+    nobles11s_ogre:
+        team: '@user2Nobles11s'
+        position: '@nobleOgre'
+        name: 'Ogre'
+        number: 1
+    nobles11s_thrower:
+        team: '@user2Nobles11s'
+        position: '@nobleThrowers'
+        name: 'Lanceur Impérial'
+        number: 2
+    nobles11s_blitzer1:
+        team: '@user2Nobles11s'
+        position: '@nobleBlitzers'
+        name: 'Blitzer Noble 1'
+        number: 3
+    nobles11s_blitzer2:
+        team: '@user2Nobles11s'
+        position: '@nobleBlitzers'
+        name: 'Blitzer Noble 2'
+        number: 4
+    nobles11s_bodyguard1:
+        team: '@user2Nobles11s'
+        position: '@bodyguards'
+        name: 'Garde du corps 1'
+        number: 5
+    nobles11s_bodyguard2:
+        team: '@user2Nobles11s'
+        position: '@bodyguards'
+        name: 'Garde du corps 2'
+        number: 6
+    nobles11s_retainer1:
+        team: '@user2Nobles11s'
+        position: '@retainerLinemen'
+        name: 'Retenue 1'
+        number: 7
+    nobles11s_retainer2:
+        team: '@user2Nobles11s'
+        position: '@retainerLinemen'
+        name: 'Retenue 2'
+        number: 8
+    nobles11s_retainer3:
+        team: '@user2Nobles11s'
+        position: '@retainerLinemen'
+        name: 'Retenue 3'
+        number: 9
+    nobles11s_retainer4:
+        team: '@user2Nobles11s'
+        position: '@retainerLinemen'
+        name: 'Retenue 4'
+        number: 10
+    nobles11s_retainer5:
+        team: '@user2Nobles11s'
+        position: '@retainerLinemen'
+        name: 'Retenue 5'
+        number: 11
+    lizardmen11s_kroxigor:
+        team: '@userLizardmen11s'
+        position: '@kroxigor'
+        name: 'Kroxigor'
+        number: 1
+    lizardmen11s_chameleon:
+        team: '@userLizardmen11s'
+        position: '@chameleonSkink'
+        name: 'Skink Caméléon'
+        number: 2
+    lizardmen11s_saurus1:
+        team: '@userLizardmen11s'
+        position: '@saurusBlocker'
+        name: 'Bloqueur Saurus 1'
+        number: 3
+    lizardmen11s_saurus2:
+        team: '@userLizardmen11s'
+        position: '@saurusBlocker'
+        name: 'Bloqueur Saurus 2'
+        number: 4
+    lizardmen11s_saurus3:
+        team: '@userLizardmen11s'
+        position: '@saurusBlocker'
+        name: 'Bloqueur Saurus 3'
+        number: 5
+    lizardmen11s_saurus4:
+        team: '@userLizardmen11s'
+        position: '@saurusBlocker'
+        name: 'Bloqueur Saurus 4'
+        number: 6
+    lizardmen11s_skink1:
+        team: '@userLizardmen11s'
+        position: '@lizardmenLinemen'
+        name: 'Coureur Skink 1'
+        number: 7
+    lizardmen11s_skink2:
+        team: '@userLizardmen11s'
+        position: '@lizardmenLinemen'
+        name: 'Coureur Skink 2'
+        number: 8
+    lizardmen11s_skink3:
+        team: '@userLizardmen11s'
+        position: '@lizardmenLinemen'
+        name: 'Coureur Skink 3'
+        number: 9
+    lizardmen11s_skink4:
+        team: '@userLizardmen11s'
+        position: '@lizardmenLinemen'
+        name: 'Coureur Skink 4'
+        number: 10
+    lizardmen11s_skink5:
+        team: '@userLizardmen11s'
+        position: '@lizardmenLinemen'
+        name: 'Coureur Skink 5'
+        number: 11
