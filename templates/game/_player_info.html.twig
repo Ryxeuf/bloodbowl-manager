@@ -16,4 +16,32 @@
             {% endfor %}
         </div>
     </div>
-</div> 
+    {% if isPlayerFromUserTeam %}
+        <div class="border-t border-gray-200 pt-4">
+            <h4 class="font-bold mb-2">Actions</h4>
+            <div class="flex flex-wrap gap-2">
+                <button class="action-btn" data-action="move" title="Se déplacer">
+                    {{ ux_icon('heroicons:arrow-top-right-on-square', { class: 'w-8 h-8 text-blue-500' }) }}
+                </button>
+                <button class="action-btn" data-action="block" title="Bloquer" disabled>
+                    {{ ux_icon('heroicons:shield-check', { class: 'w-8 h-8 text-grey-500' }) }}
+                </button>
+                <button class="action-btn" data-action="blitz" title="Blitz" disabled>
+                    {{ ux_icon('heroicons:bolt', { class: 'w-8 h-8 text-grey-500' }) }}
+                </button>
+                <button class="action-btn" data-action="pass" title="Passe" disabled>
+                    {{ ux_icon('heroicons:arrow-right', { class: 'w-8 h-8 text-grey-500' }) }}
+                </button>
+                <button class="action-btn" data-action="foul" title="Agression" disabled>
+                    {{ ux_icon('heroicons:exclamation-triangle', { class: 'w-8 h-8 text-grey-500' }) }}
+                </button>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.action-btn {
+    @apply w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors flex items-center justify-center;
+}
+</style> 

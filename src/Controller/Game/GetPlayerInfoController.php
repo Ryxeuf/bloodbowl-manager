@@ -18,8 +18,18 @@ class GetPlayerInfoController extends AbstractController
 
     public function __invoke(Player $player): Response
     {
+        $isPlayerFromUserTeam = false;
+        $user = $this->getUser();
+        
+        if ($user) {
+            $userTeams = $user->getTeams();
+            $playerTeam = $player->getTeam();
+            $isPlayerFromUserTeam = $userTeams->contains($playerTeam);
+        }
+
         return $this->render('game/_player_info.html.twig', [
             'player' => $player,
+            'isPlayerFromUserTeam' => $isPlayerFromUserTeam,
         ]);
     }
 } 
