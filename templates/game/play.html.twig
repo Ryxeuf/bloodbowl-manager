@@ -25,46 +25,56 @@
                 <!-- Terrain de Blood Bowl -->
                 <div class="w-[480px] mx-auto mb-8">
                     <div class="border-4 border-gray-800">
-                        <!-- End zone équipe domicile -->
-                        <div class="flex border-b-2 border-white">
-                        {% set i = 1 %}
-                            {% for j in 1..15 %}
-                                <div class="w-8 h-8 bg-green-500 hover:bg-green-400 cursor-pointer relative">
-                                    <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
-                                    {# {% if j == 8 %}
-                                        <div class="absolute inset-0 flex items-center justify-center text-white text-[8px]">
-                                            End Zone {{ game.homeTeam.name }}
-                                        </div>
-                                    {% endif %} #}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Cases normales -->
-                        {% for i in 2..25 %}
-                            <div class="flex {% if i == 12 %}border-b-2 border-white{% endif %}">
+                        {% for i in 1..26 %}
+                            <div class="flex {% if i == 1 %}border-b-2 border-white{% elseif i == 26 %}border-t-2 border-white{% elseif i == 12 %}border-b-2 border-white{% endif %}">
                                 {% for j in 1..15 %}
-                                    <div class="w-8 h-8 bg-green-700 hover:bg-green-600 cursor-pointer {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %}">
-                                        <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
+                                    {% set player = game.playerStates|filter(p => p.x == i and p.y == j)|first %}
+                                    <div class="w-8 h-8 {% if i == 1 or i == 26 %}bg-green-500 hover:bg-green-400{% else %}bg-green-700 hover:bg-green-600{% endif %} cursor-pointer relative {% if j == 4 or j == 11 %}border-r-2 border-white{% endif %}">
+                                        {# <span class="text-white text-[8px]">{{ i }}.{{ j }}</span> #}
+                                        {% if player %}
+                                            <div class="absolute inset-0 flex items-center justify-center text-white text-[8px] font-bold">
+                                                {{ player.player.number }}
+                                            </div>
+                                            {% if player.state == 'prone' %}
+                                                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                                            {% elseif player.state == 'stunned' %}
+                                                <div class="absolute inset-0 bg-yellow-500 bg-opacity-50"></div>
+                                            {% elseif player.state == 'ko' %}
+                                                <div class="absolute inset-0 bg-orange-500 bg-opacity-50"></div>
+                                            {% elseif player.state == 'injured' %}
+                                                <div class="absolute inset-0 bg-red-500 bg-opacity-50"></div>
+                                            {% elseif player.state == 'dead' %}
+                                                <div class="absolute inset-0 bg-gray-900 bg-opacity-50"></div>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </div>
                         {% endfor %}
+                    </div>
+                </div>
 
-                        <!-- End zone équipe extérieure -->
-                        <div class="flex border-t-2 border-white">
-                            {% set i = 26 %}
-                            {% for j in 1..15 %}
-                                <div class="w-8 h-8 bg-green-500 hover:bg-green-400 cursor-pointer relative">
-                                    <span class="text-white text-[8px]">{{ i }}.{{ j }}</span>
-                                    {# {% if j == 8 %}
-                                        <div class="absolute inset-0 flex items-center justify-center text-white text-[8px]">
-                                            End Zone {{ game.awayTeam.name }}
-                                        </div>
-                                    {% endif %} #}
-                                </div>
-                            {% endfor %}
-                        </div>
+                <!-- Légende des états -->
+                <div class="mt-4 flex justify-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-black bg-opacity-50 mr-2"></div>
+                        <span class="text-sm">Prone</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 bg-opacity-50 mr-2"></div>
+                        <span class="text-sm">Stunned</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-orange-500 bg-opacity-50 mr-2"></div>
+                        <span class="text-sm">KO</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-red-500 bg-opacity-50 mr-2"></div>
+                        <span class="text-sm">Injured</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-gray-900 bg-opacity-50 mr-2"></div>
+                        <span class="text-sm">Dead</span>
                     </div>
                 </div>
 
