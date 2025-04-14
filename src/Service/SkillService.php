@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Controller;
+namespace App\Service;
 
+use App\Entity\Skill;
 use App\Repository\SkillRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-class SkillController extends AbstractController
+class SkillService implements SkillServiceInterface
 {
-    #[Route('/competences', name: 'app_skills')]
-    public function index(SkillRepository $skillRepository): Response
+    public function __construct(
+        private SkillRepository $skillRepository
+    ) {
+    }
+
+    public function getSkillsByCategory(): array
     {
-        $skills = $skillRepository->findAll();
+        $skills = $this->skillRepository->findAll();
         
         // Définir l'ordre et les noms des catégories
         $categories = [
@@ -43,8 +45,6 @@ class SkillController extends AbstractController
             });
         }
         
-        return $this->render('skill/index.html.twig', [
-            'categories' => $categories,
-        ]);
+        return $categories;
     }
 } 

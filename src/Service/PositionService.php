@@ -1,19 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Service;
 
 use App\Entity\Position;
-use App\Repository\PositionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/position')]
-class PositionController extends AbstractController
+class PositionService implements PositionServiceInterface
 {
-    #[Route('/{id}/stats', name: 'app_position_stats', methods: ['GET'])]
-    public function getStats(Position $position): JsonResponse
+    public function getPositionStats(Position $position): array
     {
         $skills = [];
         foreach ($position->getSkills() as $skill) {
@@ -24,7 +17,7 @@ class PositionController extends AbstractController
             ];
         }
 
-        return $this->json([
+        return [
             'movement' => $position->getM(),
             'strength' => $position->getF(),
             'agility' => $position->getAg(),
@@ -32,6 +25,6 @@ class PositionController extends AbstractController
             'armor' => $position->getAr(),
             'cost' => $position->getCost(),
             'skills' => $skills,
-        ]);
+        ];
     }
 } 

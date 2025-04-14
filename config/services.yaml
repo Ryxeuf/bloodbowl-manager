@@ -24,3 +24,19 @@ services:
         tags: [ { name: nelmio_alice.faker.provider } ]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # explicitly configure the services
+    App\Service\GameServiceInterface:
+        class: App\Service\GameService
+
+    App\Service\TeamServiceInterface:
+        class: App\Service\TeamService
+
+    App\Service\PositionServiceInterface:
+        class: App\Service\PositionService
+
+    App\Service\SkillServiceInterface:
+        class: App\Service\SkillService
+
+    App\Service\FactionServiceInterface:
+        class: App\Service\FactionService
