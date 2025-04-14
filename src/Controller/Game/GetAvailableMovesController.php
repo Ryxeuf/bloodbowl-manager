@@ -18,7 +18,7 @@ class GetAvailableMovesController extends AbstractController
     ) {
     }
 
-    private function getNeighbors(int $x, int $y, array $occupied): array
+    private function getNeighbors(int $x, int $y, array $occupied, array $traversable): array
     {
         $neighbors = [];
         $directions = [
@@ -34,15 +34,28 @@ class GetAvailableMovesController extends AbstractController
             // Vérifier les limites du terrain
             if ($newX >= 1 && $newX <= 26 && $newY >= 1 && $newY <= 15) {
                 // Vérifier si la case est occupée
-                $isOccupied = false;
+                $isBlocked = false;
+                $isTraversable = false;
                 foreach ($occupied as $pos) {
                     if ($pos['x'] === $newX && $pos['y'] === $newY) {
-                        $isOccupied = true;
+                        foreach ($traversable as $tPos) {
+                            if ($tPos['x'] === $newX && $tPos['y'] === $newY) {
+                                $isTraversable = true;
+                                break;
+                            }
+                        }
+                        if (!$isTraversable) {
+                            $isBlocked = true;
+                        }
                         break;
                     }
                 }
-                if (!$isOccupied) {
-                    $neighbors[] = ['x' => $newX, 'y' => $newY];
+                if (!$isBlocked) {
+                    $neighbors[] = [
+                        'x' => $newX, 
+                        'y' => $newY,
+                        'traversableOnly' => $isTraversable
+                    ];
                 }
             }
         }
@@ -74,9 +87,19 @@ class GetAvailableMovesController extends AbstractController
         // Récupérer toutes les positions occupées
         $occupiedPositions = $this->playerGameStateRepository->findBy(['game' => $game]);
         $occupied = [];
+        $traversable = [];
         foreach ($occupiedPositions as $state) {
             if ($state->getX() && $state->getY()) {
-                $occupied[] = ['x' => $state->getX(), 'y' => $state->getY()];
+                $occupied[] = [
+                    'x' => $state->getX(), 
+                    'y' => $state->getY()
+                ];
+                if ($state->getState() === 'prone' || $state->getState() === 'stunned') {
+                    $traversable[] = [
+                        'x' => $state->getX(), 
+                        'y' => $state->getY()
+                    ];
+                }
             }
         }
 
@@ -88,7 +111,7 @@ class GetAvailableMovesController extends AbstractController
 
         // Position initiale
         $queue->insert(
-            ['x' => $currentX, 'y' => $currentY],
+            ['x' => $currentX, 'y' => $currentY, 'traversableOnly' => false],
             0
         );
         $distances["$currentX,$currentY"] = 0;
@@ -106,13 +129,13 @@ class GetAvailableMovesController extends AbstractController
             // Marquer comme visitée
             $visited[$current['x'].','.$current['y']] = true;
 
-            // Si ce n'est pas la position de départ, c'est une case accessible
-            if ($current['x'] !== $currentX || $current['y'] !== $currentY) {
+            // Si ce n'est pas la position de départ et que ce n'est pas une case traversable uniquement
+            if (($current['x'] !== $currentX || $current['y'] !== $currentY) && !$current['traversableOnly']) {
                 $availableMoves[] = ['x' => $current['x'], 'y' => $current['y']];
             }
 
             // Explorer les voisins
-            foreach ($this->getNeighbors($current['x'], $current['y'], $occupied) as $neighbor) {
+            foreach ($this->getNeighbors($current['x'], $current['y'], $occupied, $traversable) as $neighbor) {
                 $newDistance = $currentDistance + 1;
                 $key = $neighbor['x'].','.$neighbor['y'];
 
