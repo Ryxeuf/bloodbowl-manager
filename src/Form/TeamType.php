@@ -74,17 +74,6 @@ class TeamType extends AbstractType
                     'max' => 1,
                 ],
             ])
-            ->add('players', CollectionType::class, [
-                'entry_type' => PlayerType::class,
-                'entry_options' => [
-                    'label' => false,
-                    'faction_id' => $options['faction_id'],
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'label' => false,
-            ])
         ;
     }
 

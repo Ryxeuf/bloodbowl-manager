@@ -1,0 +1,54 @@
+<div class="p-6" data-player-id="{{ player.id }}">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="w-full lg:w-[200px]">
+            <div class="flex items-center space-x-2">
+                <input 
+                    type="number" 
+                    name="number" 
+                    value="{{ player.number }}"
+                    data-model="player.number"
+                    class="w-16 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    {# data-action="live#action"
+                    data-action-name="updateNumber"
+                    data-live-action-param-number-value="this.value" #}
+                >
+                <input 
+                    type="text" 
+                    name="name" 
+                    value="{{ player.name }}"
+                    data-model="player.name"
+                    class="flex-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    {# data-action="live#action"
+                    data-action-name="updateName"
+                    data-live-action-param-name-value="this.value" #}
+                >
+            </div>
+            <span class="text-sm text-gray-500">{{ player.position ? player.position.name : 'Aucune position' }}</span>
+        </div>
+        
+        {% include 'components/player_row/_stats.html.twig' %}
+        {% include 'components/player_row/_skills.html.twig' %}
+
+        <div class="w-full lg:w-[80px] text-right">
+            <span class="text-lg font-semibold text-gray-900">{{ player.position ? (player.position.cost/1000) ~ 'K' : '0K' }}</span>
+        </div>
+    </div>
+    {# <div class="mt-4 text-right">
+        <button 
+            type="button" 
+            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            data-action="live#action"
+            data-action-name="remove"
+        >
+            Supprimer
+        </button>
+        <button 
+            type="button" 
+            class="ml-3 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            data-action="live#action"
+            data-action-name="toggleEdit"
+        >
+            Enregistrer
+        </button>
+    </div> #}
+</div> 

@@ -1,0 +1,22 @@
+<div class="flex items-center justify-center w-full lg:w-[250px] space-x-4">
+    <div class="flex flex-col items-center">
+        <span class="text-xs text-gray-500">M</span>
+        <span class="text-sm font-semibold text-gray-900">{{ player.position ? player.position.m : '-' }}</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <span class="text-xs text-gray-500">F</span>
+        <span class="text-sm font-semibold text-gray-900">{{ player.position ? player.position.f : '-' }}</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <span class="text-xs text-gray-500">AG</span>
+        <span class="text-sm font-semibold text-gray-900">{{ player.position ? player.position.ag ~ '+' : '-' }}</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <span class="text-xs text-gray-500">CP</span>
+        <span class="text-sm font-semibold text-gray-900">{{ player.position and player.position.cp ? player.position.cp ~ '+' : '-' }}</span>
+    </div>
+    <div class="flex flex-col items-center">
+        <span class="text-xs text-gray-500">AR</span>
+        <span class="text-sm font-semibold text-gray-900">{{ player.position ? player.position.ar ~ '+' : '-' }}</span>
+    </div>
+</div> 

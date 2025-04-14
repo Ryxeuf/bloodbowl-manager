@@ -95,4 +95,54 @@ class Player
     {
         $this->name = $name;
     }
+
+    public function getFaction(): Faction
+    {
+        return $this->team->getFaction();
+    }
+
+    public function getF(): ?int
+    {
+        return $this->position->getF();
+    }
+
+    public function getM(): ?int
+    {
+        return $this->position->getM();
+    }
+
+    public function getAg(): ?int
+    {
+        return $this->position->getAg();
+    }
+
+    public function getCp(): int|string
+    {
+        return $this->position->getCp();
+    }
+
+    public function getAr(): ?int
+    {
+        return $this->position->getAr();
+    }
+
+    public function getCost(): ?int
+    {
+        return $this->position->getCost();
+    }
+
+    public function getPositionSkills(): array
+    {
+        return $this->position->getSkills();
+    }
+
+    public function getPositionPrimarySkills(): array
+    {
+        return $this->position->getPrimarySkills();
+    }
+
+    public function getPositionSecondarySkills(): array
+    {
+        return $this->position->getSecondarySkills();
+    }
 }

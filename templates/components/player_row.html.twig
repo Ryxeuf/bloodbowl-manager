@@ -1,0 +1,11 @@
+<div {{ attributes }}>
+    {% if isEditing %}
+        {% include 'components/player_row/_edit.html.twig' with {
+            player: player,
+        } %}
+    {% else %}
+        {% include 'components/player_row/_show.html.twig' with {
+            player: player
+        } %}
+    {% endif %}
+</div>

@@ -1,0 +1,17 @@
+<div class="p-6">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="w-full lg:w-[200px]">
+            <h3 class="text-lg font-medium text-gray-900">#{{ player.number }} - {{ player.name }}</h3>
+            <div class="mt-1">
+                <span class="text-sm text-gray-500">{{ player.position ? player.position.name : 'Aucune position' }}</span>
+            </div>
+        </div>
+        
+        {% include 'components/player_row/_stats.html.twig' %}
+        {% include 'components/player_row/_skills.html.twig' %}
+
+        <div class="w-full lg:w-[80px] text-right">
+            <span class="text-lg font-semibold text-gray-900">{{ player.position ? (player.position.cost/1000) ~ 'K' : '0K' }}</span>
+        </div>
+    </div>
+</div> 

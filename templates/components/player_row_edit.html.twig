@@ -1,0 +1,95 @@
+<div class="p-6" data-player-id="{{ player.id }}">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="w-full lg:w-[200px]">
+            <div class="flex items-center space-x-2">
+                <input 
+                    type="number" 
+                    name="number" 
+                    value="{{ player.number }}"
+                    class="w-16 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    data-model="number"
+                >
+                <input 
+                    type="text" 
+                    name="name" 
+                    value="{{ player.name }}"
+                    class="flex-1 text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    data-model="name"
+                >
+            </div>
+            <div class="mt-1">
+                <select 
+                    name="position" 
+                    class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    data-model="position"
+                    data-player-position
+                >
+                    <option value="">Sélectionner une position</option>
+                    {% for position in player.availablePositions %}
+                        <option value="{{ position.id }}" data-faction-id="{{ position.faction.id }}" {% if player.position and player.position.id == position.id %}selected{% endif %}>
+                            {{ position.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="flex items-center justify-center w-full lg:w-[250px] space-x-4">
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-gray-500">MA</span>
+                <span class="text-sm font-semibold text-gray-900" data-stat="movement">-</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-gray-500">ST</span>
+                <span class="text-sm font-semibold text-gray-900" data-stat="strength">-</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-gray-500">AG</span>
+                <span class="text-sm font-semibold text-gray-900" data-stat="agility">-</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-gray-500">PA</span>
+                <span class="text-sm font-semibold text-gray-900" data-stat="passing">-</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-xs text-gray-500">AR</span>
+                <span class="text-sm font-semibold text-gray-900" data-stat="armor">-</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 w-full lg:w-[600px] gap-4">
+            <div class="w-full">
+                <div class="text-xs text-gray-500 mb-1">Compétences</div>
+                <div class="flex flex-wrap gap-1" data-skills-container>
+                    <!-- Les compétences seront ajoutées dynamiquement -->
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-xs text-gray-500 mb-1">Primaires</div>
+                <div class="flex flex-wrap gap-1" data-primary-skills>
+                    <!-- Les compétences primaires seront ajoutées dynamiquement -->
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="text-xs text-gray-500 mb-1">Secondaires</div>
+                <div class="flex flex-wrap gap-1" data-secondary-skills>
+                    <!-- Les compétences secondaires seront ajoutées dynamiquement -->
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-[80px] text-right">
+            <span class="text-lg font-semibold text-gray-900" data-cost>0K</span>
+        </div>
+    </div>
+    <div class="mt-4 text-right">
+        <button 
+            type="button" 
+            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            data-action="live#action"
+            data-action-name="remove"
+        >
+            Supprimer
+        </button>
+    </div>
+</div> 
