@@ -122,6 +122,7 @@
             const closePanel = document.getElementById('closePanel');
             const playerCells = document.querySelectorAll('.player-cell');
             let selectedPlayerId = null;
+            let availableMoves = [];
 
             playerCells.forEach(cell => {
                 cell.addEventListener('click', function() {
@@ -133,6 +134,11 @@
                                 cell.classList.remove('selected-player');
                             });
                         }
+
+                        // Retirer les cases disponibles
+                        document.querySelectorAll('.available-move').forEach(cell => {
+                            cell.classList.remove('available-move');
+                        });
 
                         // Ajouter la sélection au nouveau joueur
                         document.querySelectorAll(`.player-cell-${playerId}`).forEach(cell => {
@@ -148,6 +154,8 @@
                             .then(response => response.text())
                             .then(html => {
                                 playerInfo.innerHTML = html;
+                                // Ajouter les écouteurs d'événements aux boutons d'action
+                                addActionButtonListeners();
                             })
                             .catch(error => {
                                 console.error('Erreur lors de la récupération des informations du joueur:', error);
@@ -155,6 +163,45 @@
                     }
                 });
             });
+
+            function addActionButtonListeners() {
+                const actionButtons = playerInfo.querySelectorAll('.action-btn');
+                console.log('Action buttons found:', actionButtons.length);
+                
+                actionButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        console.log('Button clicked:', this.dataset.action);
+                        const action = this.dataset.action;
+                        if (action === 'move' && selectedPlayerId) {
+                            console.log('Fetching available moves for player:', selectedPlayerId);
+                            // Récupérer les cases disponibles
+                            fetch(`/game/{{ game.id }}/player/${selectedPlayerId}/available-moves`)
+                                .then(response => {
+                                    console.log('Response status:', response.status);
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    console.log('Available moves:', data.availableMoves);
+                                    // Retirer les anciennes cases disponibles
+                                    document.querySelectorAll('.available-move').forEach(cell => {
+                                        cell.classList.remove('available-move');
+                                    });
+
+                                    // Ajouter les nouvelles cases disponibles
+                                    data.availableMoves.forEach(move => {
+                                        const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
+                                        if (cell) {
+                                            cell.classList.add('available-move');
+                                        }
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Erreur lors de la récupération des cases disponibles:', error);
+                                });
+                        }
+                    });
+                });
+            }
 
             closePanel.addEventListener('click', function() {
                 playerPanel.classList.add('hidden');
@@ -165,6 +212,10 @@
                     });
                     selectedPlayerId = null;
                 }
+                // Retirer les cases disponibles
+                document.querySelectorAll('.available-move').forEach(cell => {
+                    cell.classList.remove('available-move');
+                });
             });
         });
     </script>
@@ -183,6 +234,20 @@
             border: 2px solid #3B82F6;
             border-radius: 50%;
             z-index: 10;
+            animation: pulse 2s infinite;
+        }
+        .available-move {
+            position: relative;
+        }
+        .available-move::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid #10B981;
+            z-index: 5;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
