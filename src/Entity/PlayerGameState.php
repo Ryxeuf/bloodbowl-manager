@@ -205,14 +205,21 @@ class PlayerGameState
     {
         $this->actionStatus = self::ACTION_STATUS_COMPLETED;
         $this->remainingMovement = 0;
+        $this->hasPlayed = true;
+
         return $this;
     }
 
     public function resetAction(): self
     {
+        if ($this->hasPlayed || $this->actionStatus === self::ACTION_STATUS_IN_PROGRESS) {
+            return $this;
+        }
+        
         $this->currentAction = self::ACTION_NONE;
         $this->actionStatus = self::ACTION_STATUS_NOT_STARTED;
         $this->remainingMovement = 0;
+
         return $this;
     }
 

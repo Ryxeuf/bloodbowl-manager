@@ -165,25 +165,19 @@
                 if (!playerId) return;
                 
                 console.log('Joueur sélectionné:', playerId);
-                console.log('Type de playerId:', typeof playerId);
-                console.log('ID du jeu:', {{ game.id }});
                 
-                // Retirer la sélection précédente
-                if (selectedPlayerId) {
-                    document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
-                        cell.classList.remove('selected-player');
-                    });
-                }
+                // Retirer la sélection précédente de toutes les cellules
+                document.querySelectorAll('.selected-player').forEach(selectedCell => {
+                    selectedCell.classList.remove('selected-player');
+                });
 
                 // Retirer les cases disponibles
                 document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
                     cell.classList.remove('available-move', 'dice-roll-required');
                 });
 
-                // Ajouter la sélection au nouveau joueur
-                document.querySelectorAll(`.player-cell-${playerId}`).forEach(cell => {
-                    cell.classList.add('selected-player');
-                });
+                // Ajouter la sélection seulement à la cellule actuelle
+                cell.classList.add('selected-player');
                 selectedPlayerId = playerId;
 
                 // Afficher le panneau
@@ -552,9 +546,12 @@
                     return;
                 }
                 
-                // Retirer les anciennes cases disponibles
+                // Retirer les anciennes cases disponibles et leurs écouteurs d'événements
                 document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
                     cell.classList.remove('available-move', 'dice-roll-required');
+                    // Cloner et remplacer pour supprimer les écouteurs d'événements
+                    const newCell = cell.cloneNode(true);
+                    cell.parentNode.replaceChild(newCell, cell);
                 });
                 
                 const url = `/game/${gameId}/player/${playerId}/available-moves`;
@@ -568,27 +565,29 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Available moves:', data.availableMoves);
+                        console.log('Available moves received:', data.availableMoves);
                         
-                        // Retirer les anciennes cases disponibles
-                        document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
-                            cell.classList.remove('available-move', 'dice-roll-required');
-                        });
-                        
-                        // Ajouter les nouvelles cases disponibles
-                        data.availableMoves.forEach(move => {
-                            const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
-                            if (cell) {
-                                cell.classList.add(move.requiresDiceRoll ? 'dice-roll-required' : 'available-move');
-                                
-                                // Ajouter un gestionnaire d'événements pour déplacer le joueur
-                                cell.addEventListener('click', function() {
-                                    if (!selectedPlayerId) return;
+                        if (data.availableMoves && data.availableMoves.length > 0) {
+                            // Ajouter les nouvelles cases disponibles
+                            data.availableMoves.forEach(move => {
+                                const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
+                                if (cell) {
+                                    console.log(`Ajout de case disponible en (${move.x},${move.y}), requiresDiceRoll:`, move.requiresDiceRoll);
+                                    cell.classList.add(move.requiresDiceRoll ? 'dice-roll-required' : 'available-move');
                                     
-                                    movePlayer(gameId, selectedPlayerId, move.x, move.y);
-                                });
-                            }
-                        });
+                                    // Ajouter un gestionnaire d'événements pour déplacer le joueur
+                                    cell.addEventListener('click', function() {
+                                        if (!selectedPlayerId) return;
+                                        
+                                        movePlayer(gameId, selectedPlayerId, move.x, move.y);
+                                    });
+                                } else {
+                                    console.error(`Case non trouvée pour les coordonnées (${move.x}, ${move.y})`);
+                                }
+                            });
+                        } else {
+                            console.log('Aucun mouvement disponible ou liste vide');
+                        }
                     })
                     .catch(error => {
                         console.error('Erreur lors de la récupération des mouvements disponibles:', error);
@@ -633,6 +632,28 @@
                         return;
                     }
                     
+                    console.log('Réponse du déplacement:', data);
+                    
+                    // Retirer les cases disponibles existantes
+                    document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                        cell.classList.remove('available-move', 'dice-roll-required');
+                        // Supprimer tous les écouteurs d'événements de clic existants
+                        const newCell = cell.cloneNode(true);
+                        cell.parentNode.replaceChild(newCell, cell);
+                    });
+                    
+                    // Si le joueur est tombé, on peut terminer l'action ici
+                    if (data.success === false && data.newState === 'prone') {
+                        refreshGameBoard();
+                        refreshGameLogs();
+                        return;
+                    }
+                    
+                    // Retirer la classe selected-player de toutes les cellules
+                    document.querySelectorAll('.selected-player').forEach(selectedCell => {
+                        selectedCell.classList.remove('selected-player');
+                    });
+                    
                     // Mettre à jour la position visuelle du joueur
                     const playerCell = document.querySelector(`.player-cell-${playerId}`);
                     if (playerCell) {
@@ -656,8 +677,16 @@
                             // Ajouter les classes, attributs et contenu à la nouvelle case
                             newCell.classList.add(`player-cell-${playerId}`);
                             newCell.dataset.playerId = playerId;
+                            // Ajouter la classe selected-player uniquement à la nouvelle case
                             newCell.classList.add('selected-player');
                             newCell.innerHTML = playerContent;
+                            
+                            // Ajouter un écouteur d'événements à la nouvelle case
+                            newCell.addEventListener('click', function() {
+                                if (this.dataset.playerId) {
+                                    handlePlayerCellClick(this);
+                                }
+                            });
                         }
                     }
                     
@@ -667,19 +696,18 @@
                         remainingMovementEl.textContent = data.remainingMovement;
                     }
                     
-                    // Récupérer les nouveaux mouvements disponibles
-                    fetchAvailableMoves(gameId, playerId);
+                    // Si le joueur a encore du mouvement restant, récupérer les nouveaux mouvements disponibles
+                    if (data.remainingMovement > 0) {
+                        setTimeout(() => {
+                            fetchAvailableMoves(gameId, playerId);
+                        }, 100);
+                    }
                     
                     // Rafraîchir l'état du joueur depuis la base de données
                     refreshPlayerState(gameId, playerId);
                     
                     // Rafraîchir les logs immédiatement pour montrer le nouveau mouvement
                     refreshGameLogs();
-                    
-                    // Rafraîchir complètement le plateau de jeu pour s'assurer que tous les joueurs sont correctement positionnés
-                    setTimeout(() => {
-                        refreshGameBoard();
-                    }, 300);
                 })
                 .catch(error => {
                     console.error('Erreur lors du déplacement du joueur:', error);
@@ -764,6 +792,9 @@
                         const currentBoard = document.querySelector('.border-4.border-gray-800');
                         
                         if (newBoard && currentBoard) {
+                            // Sauvegarder le joueur sélectionné avant de remplacer le plateau
+                            const selectedPlayerId = document.querySelector('.selected-player')?.closest('[data-player-id]')?.dataset.playerId;
+                            
                             currentBoard.innerHTML = newBoard.innerHTML;
                             
                             // Réattacher les écouteurs d'événements aux cellules
@@ -778,9 +809,16 @@
                             
                             // Si un joueur était sélectionné, le resélectionner
                             if (selectedPlayerId) {
-                                document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
-                                    cell.classList.add('selected-player');
+                                // Retirer d'abord toutes les sélections actuelles
+                                document.querySelectorAll('.selected-player').forEach(cell => {
+                                    cell.classList.remove('selected-player');
                                 });
+                                
+                                // Ajouter la classe à la cellule du joueur sélectionné
+                                const playerCell = document.querySelector(`.player-cell-${selectedPlayerId}`);
+                                if (playerCell) {
+                                    playerCell.classList.add('selected-player');
+                                }
                             }
                         }
                     });
