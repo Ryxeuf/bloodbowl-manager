@@ -30,6 +30,14 @@ class PlayerInfoController extends AbstractController
         $isPlayerTeamActive = false;
         $isPlayerAvailable = false;
         
+        // Actions possibles du joueur (par défaut toutes à false)
+        $canMove = false;
+        $canBlock = false;
+        $canPass = false;
+        $canHandoff = false;
+        $canFoul = false;
+        $canBlitz = false;
+        
         if ($gameId) {
             // Récupérer l'état du joueur dans ce jeu
             $playerState = $this->playerGameStateRepository->findOneBy([
@@ -47,13 +55,37 @@ class PlayerInfoController extends AbstractController
                 
                 // Vérifier si le joueur est disponible
                 $isPlayerAvailable = ($playerState->getState() === PlayerGameState::STATE_AVAILABLE);
+                
+                // Déterminer les actions possibles
+                if ($isPlayerTeamActive && $isPlayerAvailable) {
+                    // Version très simplifiée pour la démonstration
+                    // Dans un cas réel, cette logique serait plus complexe et basée
+                    // sur l'état du jeu, l'état du joueur, sa position, etc.
+                    
+                    // Pour la démonstration, on active toutes les actions de base
+                    // quand le joueur est dans l'équipe active et disponible
+                    $canMove = true;
+                    $canBlock = true;
+                    $canPass = true;
+                    $canHandoff = true;
+                    $canFoul = true;
+                    $canBlitz = true;
+                }
             }
         }
         
         return $this->render('game/player_info.html.twig', [
             'player' => $player,
             'isPlayerTeamActive' => $isPlayerTeamActive,
-            'isPlayerAvailable' => $isPlayerAvailable
+            'isPlayerAvailable' => $isPlayerAvailable,
+            'actions' => [
+                'canMove' => $canMove,
+                'canBlock' => $canBlock,
+                'canPass' => $canPass,
+                'canHandoff' => $canHandoff,
+                'canFoul' => $canFoul,
+                'canBlitz' => $canBlitz
+            ]
         ]);
     }
 } 

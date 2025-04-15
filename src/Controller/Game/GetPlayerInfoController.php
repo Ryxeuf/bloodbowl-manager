@@ -18,6 +18,7 @@ class GetPlayerInfoController extends AbstractController
 
     public function __invoke(Player $player): Response
     {
+        throw new \Exception('test');
         $isPlayerFromUserTeam = false;
         $user = $this->getUser();
         

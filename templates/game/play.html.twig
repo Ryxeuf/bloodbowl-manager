@@ -130,6 +130,12 @@
                 cell.addEventListener('click', function() {
                     const playerId = this.dataset.playerId;
                     if (playerId) {
+                        // Débogage: Afficher l'ID du joueur sélectionné
+                        console.log('Joueur sélectionné:', playerId);
+                        console.log('Type de playerId:', typeof playerId);
+                        console.log('ID du jeu:', {{ game.id }});
+                        console.log('Type de gameId:', typeof {{ game.id }});
+                        
                         // Retirer la sélection précédente
                         if (selectedPlayerId) {
                             document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
@@ -178,13 +184,15 @@
                                                 stateData.currentAction === 'pass' || 
                                                 stateData.currentAction === 'handoff') && 
                                                 stateData.actionStatus === 'in_progress') {
-                                                    fetchAvailableMoves({{ game.id }}, playerId);
+                                                    fetchAvailableMoves({{ game.id }}, selectedPlayerId);
                                             }
                                         }
                                     });
                                 
                                 // Récupérer les actions autorisées pour ce joueur
-                                fetchAuthorizedActions({{ game.id }}, playerId);
+                                const gameId = {{ game.id }};
+                                console.log('Appel à fetchAuthorizedActions avec gameId=', gameId, 'et playerId=', playerId);
+                                fetchAuthorizedActions(gameId, playerId);
                                 
                                 // Ajouter les écouteurs d'événements pour les boutons d'action
                                 addActionEventListeners();
@@ -197,8 +205,30 @@
             });
 
             function fetchAuthorizedActions(gameId, playerId) {
-                fetch(`/game/${gameId}/player/${playerId}/authorized-actions`)
-                    .then(response => response.json())
+                console.log('fetchAuthorizedActions appelé avec gameId=', gameId, 'et playerId=', playerId);
+                
+                // S'assurer que gameId et playerId sont des nombres valides
+                gameId = parseInt(gameId, 10) || {{ game.id }}; // Fallback sur game.id si gameId n'est pas un nombre
+                playerId = parseInt(playerId, 10);
+                
+                if (isNaN(gameId) || isNaN(playerId)) {
+                    console.error('gameId ou playerId invalide dans fetchAuthorizedActions');
+                    return;
+                }
+                
+                // Construction explicite de l'URL pour éviter les problèmes de formatage
+                const url = `/game/${gameId}/player/${playerId}/authorized-actions`;
+                
+                // Afficher l'URL dans la console pour débogage
+                console.log('Calling authorized actions URL:', url);
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.error) {
                             console.error('Erreur:', data.error);
@@ -253,7 +283,18 @@
                 const action = button.dataset.action;
                 button.disabled = true;
                 button.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
-                button.classList.remove('hover:bg-gray-400', getActionButtonColorClass(action));
+                
+                // Supprimer 'hover:bg-gray-400'
+                button.classList.remove('hover:bg-gray-400');
+                
+                // Récupérer les classes CSS à supprimer
+                const cssClasses = getActionButtonColorClass(action);
+                
+                // Supprimer chaque classe individuellement
+                cssClasses.split(' ').forEach(cssClass => {
+                    button.classList.remove(cssClass);
+                });
+                
                 button.title = 'Action non autorisée pour ce joueur';
                 
                 // Ajouter l'indicateur visuel d'action non autorisée
@@ -264,7 +305,15 @@
                 const action = button.dataset.action;
                 button.disabled = false;
                 button.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
-                button.classList.add(getActionButtonColorClass(action));
+                
+                // Récupérer les classes CSS à ajouter
+                const cssClasses = getActionButtonColorClass(action);
+                
+                // Ajouter chaque classe individuellement (en les séparant par les espaces)
+                cssClasses.split(' ').forEach(cssClass => {
+                    button.classList.add(cssClass);
+                });
+                
                 button.title = getActionDescription(action);
                 
                 // Supprimer l'indicateur d'action non autorisée
@@ -485,13 +534,32 @@
             
             // Récupérer les mouvements disponibles
             function fetchAvailableMoves(gameId, playerId) {
+                console.log('fetchAvailableMoves appelé avec gameId=', gameId, 'et playerId=', playerId);
+                
+                // S'assurer que gameId et playerId sont des nombres valides
+                gameId = parseInt(gameId, 10) || {{ game.id }}; // Fallback sur game.id si gameId n'est pas un nombre
+                playerId = parseInt(playerId, 10);
+                
+                if (isNaN(gameId) || isNaN(playerId)) {
+                    console.error('gameId ou playerId invalide dans fetchAvailableMoves');
+                    return;
+                }
+                
                 // Retirer les anciennes cases disponibles
                 document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
                     cell.classList.remove('available-move', 'dice-roll-required');
                 });
                 
-                fetch(`/game/${gameId}/player/${playerId}/available-moves`)
-                    .then(response => response.json())
+                const url = `/game/${gameId}/player/${playerId}/available-moves`;
+                console.log('URL available-moves:', url);
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         console.log('Available moves:', data.availableMoves);
                         
@@ -514,12 +582,29 @@
                                 });
                             }
                         });
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des mouvements disponibles:', error);
                     });
             }
             
             // Déplacer un joueur
             function movePlayer(gameId, playerId, x, y) {
-                fetch(`/game/${gameId}/player/${playerId}/move`, {
+                console.log('movePlayer appelé avec gameId=', gameId, 'et playerId=', playerId);
+                
+                // S'assurer que gameId et playerId sont des nombres valides
+                gameId = parseInt(gameId, 10) || {{ game.id }}; // Fallback sur game.id si gameId n'est pas un nombre
+                playerId = parseInt(playerId, 10);
+                
+                if (isNaN(gameId) || isNaN(playerId)) {
+                    console.error('gameId ou playerId invalide dans movePlayer');
+                    return;
+                }
+                
+                const url = `/game/${gameId}/player/${playerId}/move`;
+                console.log('URL move:', url);
+                
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -529,7 +614,12 @@
                         y: y
                     })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.error) {
                         alert(data.error);
@@ -570,13 +660,35 @@
                     
                     // Rafraîchir l'état du joueur depuis la base de données
                     refreshPlayerState(gameId, playerId);
+                })
+                .catch(error => {
+                    console.error('Erreur lors du déplacement du joueur:', error);
                 });
             }
             
             // Rafraîchir l'état du joueur depuis la base de données
             function refreshPlayerState(gameId, playerId) {
-                fetch(`/game/${gameId}/player/${playerId}/state`)
-                    .then(response => response.json())
+                console.log('refreshPlayerState appelé avec gameId=', gameId, 'et playerId=', playerId);
+                
+                // S'assurer que gameId et playerId sont des nombres valides
+                gameId = parseInt(gameId, 10) || {{ game.id }}; // Fallback sur game.id si gameId n'est pas un nombre
+                playerId = parseInt(playerId, 10);
+                
+                if (isNaN(gameId) || isNaN(playerId)) {
+                    console.error('gameId ou playerId invalide dans refreshPlayerState');
+                    return;
+                }
+                
+                const url = `/game/${gameId}/player/${playerId}/state`;
+                console.log('URL state:', url);
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
                     .then(stateData => {
                         currentAction = stateData.currentAction;
                         actionStatus = stateData.actionStatus;
@@ -588,6 +700,7 @@
                         });
                         
                         // Récupérer aussi les actions autorisées
+                        console.log('Appel à fetchAuthorizedActions depuis refreshPlayerState avec gameId=', gameId, 'et playerId=', playerId);
                         fetchAuthorizedActions(gameId, playerId);
                     })
                     .catch(error => {

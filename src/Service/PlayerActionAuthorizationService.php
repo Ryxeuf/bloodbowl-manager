@@ -67,9 +67,45 @@ class PlayerActionAuthorizationService
      */
     private function canBlock(PlayerGameState $playerState): bool
     {
+        // Le joueur doit être disponible
         $state = $playerState->getState() === PlayerGameState::STATE_AVAILABLE;
+        
+        // Le joueur doit avoir au moins un adversaire adjacent
+        $hasAdjacentOpponents = $this->hasAdjacentOpponents($playerState);
+        
+        return $state && $hasAdjacentOpponents;
+    }
 
-        return $state;
+    /**
+     * Vérifie si un joueur a des adversaires adjacents
+     */
+    private function hasAdjacentOpponents(PlayerGameState $playerState): bool
+    {
+        $currentX = $playerState->getX();
+        $currentY = $playerState->getY();
+        $playerTeam = $playerState->getPlayer()->getTeam();
+        $game = $playerState->getGame();
+        
+        // Parcourir tous les états de joueurs dans la même partie
+        foreach ($game->getPlayerStates() as $opponentState) {
+            // Vérifier que c'est un joueur adverse et qu'il est disponible
+            if ($opponentState->getPlayer()->getTeam() !== $playerTeam && 
+                $opponentState->getState() === PlayerGameState::STATE_AVAILABLE) {
+                
+                $opponentX = $opponentState->getX();
+                $opponentY = $opponentState->getY();
+                
+                // Vérifier si l'adversaire est adjacent (distance de 1 case)
+                $dx = abs($currentX - $opponentX);
+                $dy = abs($currentY - $opponentY);
+                
+                if ($dx <= 1 && $dy <= 1 && !($dx === 0 && $dy === 0)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     /**
