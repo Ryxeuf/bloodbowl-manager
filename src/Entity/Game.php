@@ -35,9 +35,13 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: PlayerGameState::class, cascade: ['persist', 'remove'])]
     private Collection $playerStates;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: GameLog::class, cascade: ['persist', 'remove'])]
+    private Collection $gameLogs;
+
     public function __construct()
     {
         $this->playerStates = new ArrayCollection();
+        $this->gameLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,6 +126,29 @@ class Game
     public function removePlayerState(PlayerGameState $playerState): self
     {
         $this->playerStates->removeElement($playerState);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GameLog>
+     */
+    public function getGameLogs(): Collection
+    {
+        return $this->gameLogs;
+    }
+
+    public function addGameLog(GameLog $gameLog): self
+    {
+        if (!$this->gameLogs->contains($gameLog)) {
+            $this->gameLogs[] = $gameLog;
+            $gameLog->setGame($this);
+        }
+        return $this;
+    }
+
+    public function removeGameLog(GameLog $gameLog): self
+    {
+        $this->gameLogs->removeElement($gameLog);
         return $this;
     }
 }

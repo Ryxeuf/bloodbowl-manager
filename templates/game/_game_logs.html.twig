@@ -1,0 +1,27 @@
+<div class="bg-gray-100 p-4 rounded-lg shadow-inner overflow-y-auto max-h-[300px]">
+    <h3 class="text-lg font-bold text-gray-900 mb-4">Journal de match</h3>
+    
+    {% if logs is empty %}
+        <p class="text-gray-500 text-sm italic">Aucun événement à afficher</p>
+    {% else %}
+        <div class="space-y-2">
+            {% for log in logs %}
+                <div class="bg-white p-2 rounded shadow-sm text-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold">
+                            {% if log.player %}
+                                <span class="text-{{ log.player.team == game.homeTeam ? 'blue' : 'red' }}-600">
+                                    {{ log.player.name ?: log.player.position.name }} #{{ log.player.number }}
+                                </span>
+                            {% endif %}
+                        </span>
+                        <span class="text-xs text-gray-500">
+                            {{ log.createdAt|date('H:i:s') }}
+                        </span>
+                    </div>
+                    <p class="mt-1">{{ log.message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div> 

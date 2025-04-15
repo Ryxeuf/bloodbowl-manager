@@ -6,6 +6,7 @@ use App\Entity\Player;
 use App\Entity\Game;
 use App\Entity\PlayerGameState;
 use App\Repository\PlayerGameStateRepository;
+use App\Service\GameLogService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,8 @@ class MovePlayerController extends AbstractController
 {
     public function __construct(
         private PlayerGameStateRepository $playerGameStateRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private GameLogService $gameLogService
     ) {
     }
 
@@ -128,6 +130,19 @@ class MovePlayerController extends AbstractController
         
         // Réduire le mouvement restant
         $playerState->moveBy($distance);
+        
+        // Ajouter un log pour ce mouvement
+        $this->gameLogService->addLog(
+            $game,
+            sprintf('%s (#%d) se déplace en (%d,%d)', 
+                $player->getName() ?: $player->getPosition()->getName(), 
+                $player->getNumber(),
+                $targetX, 
+                $targetY
+            ),
+            $player,
+            'movement'
+        );
         
         $this->entityManager->flush();
 
