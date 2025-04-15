@@ -24,6 +24,33 @@ class MovePlayerController extends AbstractController
     ) {
     }
 
+    private function isAdjacentToOpponent(int $x, int $y, Game $game, Player $player): bool
+    {
+        // Récupérer tous les états des joueurs dans le jeu
+        $playerStates = $this->playerGameStateRepository->findBy(['game' => $game]);
+        $playerTeam = $player->getTeam();
+        
+        foreach ($playerStates as $state) {
+            // Vérifier si c'est un joueur adverse et qu'il est disponible
+            if ($state->getPlayer()->getTeam() !== $playerTeam && 
+                $state->getState() === PlayerGameState::STATE_AVAILABLE) {
+                
+                $opponentX = $state->getX();
+                $opponentY = $state->getY();
+                
+                // Vérifier si l'adversaire est adjacent (distance de 1 case)
+                $dx = abs($x - $opponentX);
+                $dy = abs($y - $opponentY);
+                
+                if ($dx <= 1 && $dy <= 1 && !($dx === 0 && $dy === 0)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
     public function __invoke(Request $request, Game $game, Player $player): Response
     {
         // Récupérer l'état actuel du joueur
@@ -124,6 +151,70 @@ class MovePlayerController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        // Vérifier si le joueur quitte une case adjacente à un adversaire
+        $leavingTackleZone = $this->isAdjacentToOpponent($currentX, $currentY, $game, $player);
+        
+        if ($leavingTackleZone) {
+            // Obtenir la compétence d'agilité du joueur
+            $agility = $player->getAg();
+            
+            // Lancer un D6
+            $diceRoll = random_int(1, 6);
+            
+            // Le jet doit être supérieur ou égal à l'agilité du joueur
+            $success = $diceRoll >= $agility;
+            
+            if (!$success) {
+                // Échec de l'esquive, le joueur tombe dans la case de destination
+                $playerState->setX($targetX);
+                $playerState->setY($targetY);
+                $playerState->setState(PlayerGameState::STATE_PRONE);
+                $playerState->completeAction();
+                
+                // Ajouter un log pour ce mouvement raté
+                $this->gameLogService->addLog(
+                    $game,
+                    sprintf('%s (#%d) tente de quitter une zone de tacle mais tombe en (%d,%d)! (Jet: %d, AG: %d)', 
+                        $player->getName() ?: $player->getPosition()->getName(), 
+                        $player->getNumber(),
+                        $targetX,
+                        $targetY,
+                        $diceRoll,
+                        $agility
+                    ),
+                    $player,
+                    'movement-failed'
+                );
+                
+                $this->entityManager->flush();
+                
+                return new JsonResponse([
+                    'success' => false,
+                    'position' => [
+                        'x' => $targetX,
+                        'y' => $targetY
+                    ],
+                    'diceRoll' => $diceRoll,
+                    'agility' => $agility,
+                    'reason' => 'Player failed dodge roll',
+                    'newState' => PlayerGameState::STATE_PRONE
+                ], Response::HTTP_OK);
+            }
+            
+            // Log pour l'esquive réussie
+            $this->gameLogService->addLog(
+                $game,
+                sprintf('%s (#%d) esquive avec succès! (Jet: %d, AG: %d)', 
+                    $player->getName() ?: $player->getPosition()->getName(), 
+                    $player->getNumber(),
+                    $diceRoll,
+                    $agility
+                ),
+                $player,
+                'movement-dodge'
+            );
+        }
+
         // Mettre à jour la position du joueur
         $playerState->setX($targetX);
         $playerState->setY($targetY);
@@ -152,7 +243,9 @@ class MovePlayerController extends AbstractController
                 'x' => $targetX,
                 'y' => $targetY
             ],
-            'remainingMovement' => $playerState->getRemainingMovement()
+            'remainingMovement' => $playerState->getRemainingMovement(),
+            'dodgeRoll' => $leavingTackleZone ? $diceRoll : null,
+            'agility' => $leavingTackleZone ? $agility : null
         ]);
     }
 } 
