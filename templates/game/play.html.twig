@@ -92,11 +92,6 @@
                         </div>
 
                         <div class="flex-1 flex flex-col gap-1">
-                            <!-- Journal du match -->
-                            <div id="gameLogsPanel" class="flex-1">
-                                {{ render(controller('App\\Controller\\Game\\GameLogController', {'game': game})) }}
-                            </div>
-
                             <!-- Panneau des informations du joueur -->
                             <div id="playerPanel" class="hidden">
                                 <div class="bg-white shadow-lg rounded-lg p-4 mt-4">
@@ -112,6 +107,11 @@
                                         <!-- Les informations du joueur seront injectées ici via JavaScript -->
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- Journal du match -->
+                            <div id="gameLogsPanel" class="flex-1">
+                                {{ render(controller('App\\Controller\\Game\\GameLogController', {'game': game})) }}
                             </div>
                         </div>
                     </div>
@@ -133,83 +133,98 @@
             let actionStatus = null;
             let authorizedActions = {};
 
+            // Initialiser les écouteurs d'événements pour les cellules de joueur
             playerCells.forEach(cell => {
                 cell.addEventListener('click', function() {
-                    const playerId = this.dataset.playerId;
-                    if (playerId) {
-                        // Débogage: Afficher l'ID du joueur sélectionné
-                        console.log('Joueur sélectionné:', playerId);
-                        console.log('Type de playerId:', typeof playerId);
-                        console.log('ID du jeu:', {{ game.id }});
-                        console.log('Type de gameId:', typeof {{ game.id }});
-                        
-                        // Retirer la sélection précédente
-                        if (selectedPlayerId) {
-                            document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
-                                cell.classList.remove('selected-player');
-                            });
-                        }
-
-                        // Retirer les cases disponibles
-                        document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
-                            cell.classList.remove('available-move', 'dice-roll-required');
-                        });
-
-                        // Ajouter la sélection au nouveau joueur
-                        document.querySelectorAll(`.player-cell-${playerId}`).forEach(cell => {
-                            cell.classList.add('selected-player');
-                        });
-                        selectedPlayerId = playerId;
-
-                        // Afficher le panneau
-                        playerPanel.classList.remove('hidden');
-
-                        // Récupérer les informations du joueur
-                        fetch(`/player/${playerId}/info?gameId={{ game.id }}`)
-                            .then(response => response.text())
-                            .then(html => {
-                                playerInfo.innerHTML = html;
-                                
-                                // Récupérer l'état actuel du joueur
-                                fetch(`/game/{{ game.id }}/player/${playerId}/state`)
-                                    .then(response => response.json())
-                                    .then(stateData => {
-                                        currentAction = stateData.currentAction;
-                                        actionStatus = stateData.actionStatus;
-                                        
-                                        // Mise à jour de l'UI selon l'état
-                                        if (stateData.currentAction && stateData.currentAction !== 'none') {
-                                            updateActionUI({
-                                                currentAction: stateData.currentAction,
-                                                actionStatus: stateData.actionStatus,
-                                                remainingMovement: stateData.remainingMovement
-                                            });
-                                            
-                                            // Si une action de mouvement est en cours, afficher les mouvements disponibles
-                                            if ((stateData.currentAction === 'move' || 
-                                                stateData.currentAction === 'blitz' || 
-                                                stateData.currentAction === 'pass' || 
-                                                stateData.currentAction === 'handoff') && 
-                                                stateData.actionStatus === 'in_progress') {
-                                                    fetchAvailableMoves({{ game.id }}, selectedPlayerId);
-                                            }
-                                        }
-                                    });
-                                
-                                // Récupérer les actions autorisées pour ce joueur
-                                const gameId = {{ game.id }};
-                                console.log('Appel à fetchAuthorizedActions avec gameId=', gameId, 'et playerId=', playerId);
-                                fetchAuthorizedActions(gameId, playerId);
-                                
-                                // Ajouter les écouteurs d'événements pour les boutons d'action
-                                addActionEventListeners();
-                            })
-                            .catch(error => {
-                                console.error('Erreur lors de la récupération des informations du joueur:', error);
-                            });
+                    if (this.dataset.playerId) {
+                        handlePlayerCellClick(this);
                     }
                 });
             });
+            
+            closePanel.addEventListener('click', function() {
+                playerPanel.classList.add('hidden');
+                
+                // Retirer la sélection du joueur
+                if (selectedPlayerId) {
+                    document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
+                        cell.classList.remove('selected-player');
+                    });
+                    selectedPlayerId = null;
+                }
+                
+                // Retirer les cases disponibles
+                document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                    cell.classList.remove('available-move', 'dice-roll-required');
+                });
+            });
+
+            // Fonction pour gérer le clic sur une cellule de joueur
+            function handlePlayerCellClick(cell) {
+                const playerId = cell.dataset.playerId;
+                if (!playerId) return;
+                
+                console.log('Joueur sélectionné:', playerId);
+                console.log('Type de playerId:', typeof playerId);
+                console.log('ID du jeu:', {{ game.id }});
+                
+                // Retirer la sélection précédente
+                if (selectedPlayerId) {
+                    document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
+                        cell.classList.remove('selected-player');
+                    });
+                }
+
+                // Retirer les cases disponibles
+                document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                    cell.classList.remove('available-move', 'dice-roll-required');
+                });
+
+                // Ajouter la sélection au nouveau joueur
+                document.querySelectorAll(`.player-cell-${playerId}`).forEach(cell => {
+                    cell.classList.add('selected-player');
+                });
+                selectedPlayerId = playerId;
+
+                // Afficher le panneau
+                playerPanel.classList.remove('hidden');
+
+                // Récupérer les informations du joueur
+                fetch(`/player/${playerId}/info?gameId={{ game.id }}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        playerInfo.innerHTML = html;
+                        
+                        // Récupérer l'état actuel du joueur
+                        fetch(`/game/{{ game.id }}/player/${playerId}/state`)
+                            .then(response => response.json())
+                            .then(stateData => {
+                                currentAction = stateData.currentAction;
+                                actionStatus = stateData.actionStatus;
+                                
+                                updateActionUI({
+                                    currentAction: stateData.currentAction,
+                                    actionStatus: stateData.actionStatus,
+                                    remainingMovement: stateData.remainingMovement
+                                });
+                                
+                                // Récupérer les actions autorisées pour ce joueur
+                                fetchAuthorizedActions({{ game.id }}, playerId);
+                                
+                                // Ajouter les écouteurs d'événements pour les boutons d'action
+                                addActionEventListeners();
+                                
+                                // Si une action de mouvement est en cours, afficher les mouvements disponibles
+                                if ((stateData.currentAction === 'move' || 
+                                    stateData.currentAction === 'blitz' || 
+                                    stateData.currentAction === 'pass' || 
+                                    stateData.currentAction === 'handoff') && 
+                                    stateData.actionStatus === 'in_progress') {
+                                    fetchAvailableMoves({{ game.id }}, playerId);
+                                }
+                            });
+                    });
+            }
 
             function fetchAuthorizedActions(gameId, playerId) {
                 console.log('fetchAuthorizedActions appelé avec gameId=', gameId, 'et playerId=', playerId);
@@ -495,21 +510,6 @@
                 }
             }
 
-            closePanel.addEventListener('click', function() {
-                playerPanel.classList.add('hidden');
-                // Retirer la sélection
-                if (selectedPlayerId) {
-                    document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
-                        cell.classList.remove('selected-player');
-                    });
-                    selectedPlayerId = null;
-                }
-                // Retirer les cases disponibles
-                document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
-                    cell.classList.remove('available-move', 'dice-roll-required');
-                });
-            });
-
             // Mise à jour de l'interface des actions
             function updateActionUI(data) {
                 const actionStatusDiv = document.querySelector('.action-status');
@@ -645,14 +645,19 @@
                         const newCell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
                         
                         if (oldCell && newCell) {
+                            // Sauvegarder le contenu HTML du joueur (numéro, état, etc.)
+                            const playerContent = oldCell.innerHTML;
+                            
                             // Retirer les classes et attributs de l'ancienne case
                             oldCell.classList.remove(`player-cell-${playerId}`);
                             oldCell.dataset.playerId = '';
+                            oldCell.innerHTML = '';
                             
-                            // Ajouter les classes et attributs à la nouvelle case
+                            // Ajouter les classes, attributs et contenu à la nouvelle case
                             newCell.classList.add(`player-cell-${playerId}`);
                             newCell.dataset.playerId = playerId;
                             newCell.classList.add('selected-player');
+                            newCell.innerHTML = playerContent;
                         }
                     }
                     
@@ -667,6 +672,14 @@
                     
                     // Rafraîchir l'état du joueur depuis la base de données
                     refreshPlayerState(gameId, playerId);
+                    
+                    // Rafraîchir les logs immédiatement pour montrer le nouveau mouvement
+                    refreshGameLogs();
+                    
+                    // Rafraîchir complètement le plateau de jeu pour s'assurer que tous les joueurs sont correctement positionnés
+                    setTimeout(() => {
+                        refreshGameBoard();
+                    }, 300);
                 })
                 .catch(error => {
                     console.error('Erreur lors du déplacement du joueur:', error);
@@ -728,14 +741,50 @@
                 return labels[action] || action;
             }
 
-            // Rafraîchir les logs toutes les 5 secondes
-            setInterval(function() {
+            // Rafraîchir les logs du jeu
+            function refreshGameLogs() {
                 fetch(`/game/{{ game.id }}/logs`)
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('gameLogsPanel').innerHTML = html;
                     });
-            }, 5000);
+            }
+            
+            // Rafraîchir les logs toutes les 5 secondes
+            setInterval(refreshGameLogs, 5000);
+
+            // Rafraîchir le plateau de jeu
+            function refreshGameBoard() {
+                fetch(window.location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newBoard = doc.querySelector('.border-4.border-gray-800');
+                        const currentBoard = document.querySelector('.border-4.border-gray-800');
+                        
+                        if (newBoard && currentBoard) {
+                            currentBoard.innerHTML = newBoard.innerHTML;
+                            
+                            // Réattacher les écouteurs d'événements aux cellules
+                            document.querySelectorAll('.player-cell').forEach(cell => {
+                                cell.addEventListener('click', function() {
+                                    const playerId = this.dataset.playerId;
+                                    if (playerId) {
+                                        handlePlayerCellClick(this);
+                                    }
+                                });
+                            });
+                            
+                            // Si un joueur était sélectionné, le resélectionner
+                            if (selectedPlayerId) {
+                                document.querySelectorAll(`.player-cell-${selectedPlayerId}`).forEach(cell => {
+                                    cell.classList.add('selected-player');
+                                });
+                            }
+                        }
+                    });
+            }
         });
     </script>
 
