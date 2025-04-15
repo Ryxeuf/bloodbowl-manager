@@ -26,29 +26,32 @@ class MovePlayerController extends AbstractController
 
     private function isAdjacentToOpponent(int $x, int $y, Game $game, Player $player): bool
     {
-        // Récupérer tous les états des joueurs dans le jeu
+        return $this->countAdjacentOpponents($x, $y, $game, $player) > 0;
+    }
+
+    private function countAdjacentOpponents(int $x, int $y, Game $game, Player $player): int
+    {
         $playerStates = $this->playerGameStateRepository->findBy(['game' => $game]);
         $playerTeam = $player->getTeam();
+        $count = 0;
         
         foreach ($playerStates as $state) {
-            // Vérifier si c'est un joueur adverse et qu'il est disponible
             if ($state->getPlayer()->getTeam() !== $playerTeam && 
                 $state->getState() === PlayerGameState::STATE_AVAILABLE) {
                 
                 $opponentX = $state->getX();
                 $opponentY = $state->getY();
                 
-                // Vérifier si l'adversaire est adjacent (distance de 1 case)
                 $dx = abs($x - $opponentX);
                 $dy = abs($y - $opponentY);
                 
                 if ($dx <= 1 && $dy <= 1 && !($dx === 0 && $dy === 0)) {
-                    return true;
+                    $count++;
                 }
             }
         }
         
-        return false;
+        return $count;
     }
 
     public function __invoke(Request $request, Game $game, Player $player): Response
@@ -158,11 +161,17 @@ class MovePlayerController extends AbstractController
             // Obtenir la compétence d'agilité du joueur
             $agility = $player->getAg();
             
+            // Compter le nombre d'adversaires adjacents à la case d'arrivée
+            $adjacentOpponents = $this->countAdjacentOpponents($targetX, $targetY, $game, $player);
+            
+            // Ajuster la difficulté en fonction du nombre d'adversaires adjacents
+            $requiredRoll = $agility + $adjacentOpponents;
+            
             // Lancer un D6
             $diceRoll = random_int(1, 6);
             
-            // Le jet doit être supérieur ou égal à l'agilité du joueur
-            $success = $diceRoll >= $agility;
+            // Le jet doit être supérieur ou égal à l'agilité du joueur + le nombre d'adversaires adjacents
+            $success = $diceRoll >= $requiredRoll;
             
             if (!$success) {
                 // Échec de l'esquive, le joueur tombe dans la case de destination
@@ -185,13 +194,14 @@ class MovePlayerController extends AbstractController
                 // Log pour l'échec d'esquive
                 $this->gameLogService->addLog(
                     $game,
-                    sprintf('%s (#%d) tente de quitter une zone de tacle mais tombe en (%d,%d)! (Jet: %d, AG: %d)', 
+                    sprintf('%s (#%d) tente de quitter une zone de tacle mais tombe en (%d,%d)! (Jet: %d, AG: %d, Adversaires adjacents: %d)', 
                         $player->getName() ?: $player->getPosition()->getName(), 
                         $player->getNumber(),
                         $targetX,
                         $targetY,
                         $diceRoll,
-                        $agility
+                        $agility,
+                        $adjacentOpponents
                     ),
                     $player,
                     'movement-failed'
@@ -260,6 +270,8 @@ class MovePlayerController extends AbstractController
                     ],
                     'diceRoll' => $diceRoll,
                     'agility' => $agility,
+                    'adjacentOpponents' => $adjacentOpponents,
+                    'requiredRoll' => $requiredRoll,
                     'armorRoll' => [
                         'dice1' => $armorRoll1,
                         'dice2' => $armorRoll2,
