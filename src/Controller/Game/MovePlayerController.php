@@ -97,10 +97,26 @@ class MovePlayerController extends AbstractController
         $currentY = $playerState->getY();
         $dx = abs($targetX - $currentX);
         $dy = abs($targetY - $currentY);
-        $distance = max($dx, $dy); // Diagonale = 1 case
+        
+        // Vérifier que le déplacement est bien d'une seule case (adjacente)
+        if ($dx > 1 || $dy > 1) {
+            return new JsonResponse([
+                'error' => 'Player can only move to adjacent squares'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        
+        // Vérifier qu'on ne reste pas sur place
+        if ($dx === 0 && $dy === 0) {
+            return new JsonResponse([
+                'error' => 'Player must move to a different position'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        
+        // Une case = 1 point de mouvement, peu importe la direction
+        $distance = 1;
 
         // Vérifier que le joueur a assez de mouvement restant
-        if ($distance > $playerState->getRemainingMovement()) {
+        if ($playerState->getRemainingMovement() <= 0) {
             return new JsonResponse([
                 'error' => 'Not enough remaining movement'
             ], Response::HTTP_BAD_REQUEST);

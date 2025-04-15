@@ -6,12 +6,14 @@ use App\Entity\Player;
 use App\Entity\Game;
 use App\Entity\PlayerGameState;
 use App\Repository\PlayerGameStateRepository;
+use App\Security\Voter\PlayerActionVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/game/{game}/player/{player}/action', name: 'app_game_player_action', methods: ['POST'])]
 class PlayerActionController extends AbstractController
@@ -86,6 +88,14 @@ class PlayerActionController extends AbstractController
                 ], Response::HTTP_BAD_REQUEST);
             }
 
+            // Vérifier les permissions pour l'action demandée avec le Voter
+            $voterAttribute = $this->mapActionToVoterAttribute($action);
+            if (!$this->isGranted($voterAttribute, $playerState)) {
+                return new JsonResponse([
+                    'error' => 'Vous n\'êtes pas autorisé à effectuer cette action'
+                ], Response::HTTP_FORBIDDEN);
+            }
+
             // Commencer l'action
             $playerState->startAction($action);
             $this->entityManager->flush();
@@ -141,5 +151,21 @@ class PlayerActionController extends AbstractController
                 'error' => 'Invalid status'
             ], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    /**
+     * Convertit une action du joueur en attribut pour le Voter
+     */
+    private function mapActionToVoterAttribute(string $action): string
+    {
+        return match ($action) {
+            PlayerGameState::ACTION_MOVE => PlayerActionVoter::ACTION_MOVE,
+            PlayerGameState::ACTION_BLOCK => PlayerActionVoter::ACTION_BLOCK,
+            PlayerGameState::ACTION_BLITZ => PlayerActionVoter::ACTION_BLITZ,
+            PlayerGameState::ACTION_PASS => PlayerActionVoter::ACTION_PASS,
+            PlayerGameState::ACTION_HANDOFF => PlayerActionVoter::ACTION_HANDOFF,
+            PlayerGameState::ACTION_FOUL => PlayerActionVoter::ACTION_FOUL,
+            default => throw new \InvalidArgumentException('Action non supportée: ' . $action),
+        };
     }
 } 

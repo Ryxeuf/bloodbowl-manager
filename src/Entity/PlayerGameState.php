@@ -67,6 +67,9 @@ class PlayerGameState
     #[ORM\Column]
     private int $remainingMovement = 0;
 
+    #[ORM\Column]
+    private bool $hasBall = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +174,17 @@ class PlayerGameState
         return $this;
     }
 
+    public function hasBall(): bool
+    {
+        return $this->hasBall;
+    }
+
+    public function setHasBall(bool $hasBall): self
+    {
+        $this->hasBall = $hasBall;
+        return $this;
+    }
+
     public function startAction(string $action): self
     {
         $this->currentAction = $action;
@@ -179,6 +193,9 @@ class PlayerGameState
         // Si c'est une action de mouvement, on initialise le mouvement restant
         if ($action === self::ACTION_MOVE || $action === self::ACTION_BLITZ) {
             $this->remainingMovement = $this->player->getM();
+        } else if ($action === self::ACTION_PASS || $action === self::ACTION_HANDOFF) {
+            // Pour les actions de passe ou transmission, on donne un mouvement limité
+            $this->remainingMovement = min(6, $this->player->getM());
         }
         
         return $this;

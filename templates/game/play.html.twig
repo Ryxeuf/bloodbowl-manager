@@ -124,6 +124,7 @@
             let selectedPlayerId = null;
             let currentAction = null;
             let actionStatus = null;
+            let authorizedActions = {};
 
             playerCells.forEach(cell => {
                 cell.addEventListener('click', function() {
@@ -182,6 +183,9 @@
                                         }
                                     });
                                 
+                                // Récupérer les actions autorisées pour ce joueur
+                                fetchAuthorizedActions({{ game.id }}, playerId);
+                                
                                 // Ajouter les écouteurs d'événements pour les boutons d'action
                                 addActionEventListeners();
                             })
@@ -192,6 +196,105 @@
                 });
             });
 
+            function fetchAuthorizedActions(gameId, playerId) {
+                fetch(`/game/${gameId}/player/${playerId}/authorized-actions`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Erreur:', data.error);
+                            return;
+                        }
+                        
+                        authorizedActions = data.authorized_actions;
+                        updateActionButtons();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des actions autorisées:', error);
+                    });
+            }
+            
+            function updateActionButtons() {
+                // Si une action est en cours, tous les boutons sont désactivés
+                if (currentAction && actionStatus === 'in_progress') {
+                    document.querySelectorAll('.action-btn').forEach(button => {
+                        button.disabled = true;
+                        button.classList.add('opacity-50', 'cursor-not-allowed');
+                        button.title = 'Une action est déjà en cours';
+                    });
+                    return;
+                }
+                
+                // Sinon, mettre à jour les boutons en fonction des autorisations
+                document.querySelectorAll('.action-btn').forEach(button => {
+                    const action = button.dataset.action;
+                    
+                    // Si nous avons reçu des informations d'autorisation du serveur
+                    if (authorizedActions && typeof authorizedActions[action] !== 'undefined') {
+                        if (authorizedActions[action] === false) {
+                            // Action non autorisée
+                            disableActionButton(button);
+                        } else {
+                            // Action autorisée
+                            enableActionButton(button);
+                        }
+                    } else {
+                        // Si nous n'avons pas encore reçu de réponse du serveur, utiliser les valeurs par défaut
+                        const defaultEnabled = button.dataset.defaultEnabled === 'true';
+                        if (defaultEnabled) {
+                            enableActionButton(button);
+                        } else {
+                            disableActionButton(button);
+                        }
+                    }
+                });
+            }
+            
+            function disableActionButton(button) {
+                const action = button.dataset.action;
+                button.disabled = true;
+                button.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                button.classList.remove('hover:bg-gray-400', getActionButtonColorClass(action));
+                button.title = 'Action non autorisée pour ce joueur';
+                
+                // Ajouter l'indicateur visuel d'action non autorisée
+                button.setAttribute('data-disabled-reason', 'unauthorized');
+            }
+            
+            function enableActionButton(button) {
+                const action = button.dataset.action;
+                button.disabled = false;
+                button.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                button.classList.add(getActionButtonColorClass(action));
+                button.title = getActionDescription(action);
+                
+                // Supprimer l'indicateur d'action non autorisée
+                button.removeAttribute('data-disabled-reason');
+            }
+            
+            function getActionDescription(action) {
+                switch (action) {
+                    case 'move': return 'Déplacer le joueur sur le terrain';
+                    case 'block': return 'Effectuer un blocage contre un joueur adjacent';
+                    case 'blitz': return 'Combiner mouvement et blocage en une seule action';
+                    case 'pass': return 'Passer le ballon à un autre joueur';
+                    case 'handoff': return 'Transmettre le ballon à un joueur adjacent';
+                    case 'foul': return 'Agresser un joueur au sol (action risquée)';
+                    default: return '';
+                }
+            }
+
+            function getActionButtonColorClass(action) {
+                switch (action) {
+                    case 'move': return 'bg-blue-600 hover:bg-blue-700';
+                    case 'block': return 'bg-red-600 hover:bg-red-700';
+                    case 'blitz': return 'bg-purple-600 hover:bg-purple-700';
+                    case 'pass': return 'bg-green-600 hover:bg-green-700';
+                    case 'handoff': return 'bg-yellow-600 hover:bg-yellow-700';
+                    case 'foul': return 'bg-gray-600 hover:bg-gray-700';
+                    default: return '';
+                }
+            }
+
             function addActionEventListeners() {
                 // Boutons d'action
                 document.querySelectorAll('.action-btn').forEach(button => {
@@ -200,6 +303,12 @@
                         
                         if (!selectedPlayerId) {
                             alert('Veuillez sélectionner un joueur');
+                            return;
+                        }
+                        
+                        // Vérifier si une action est déjà en cours
+                        if (currentAction && actionStatus === 'in_progress') {
+                            alert('Une action est déjà en cours. Veuillez terminer ou annuler l\'action actuelle avant d\'en démarrer une nouvelle.');
                             return;
                         }
                         
@@ -234,6 +343,9 @@
                                 data.action === 'pass' || data.action === 'handoff') {
                                 fetchAvailableMoves({{ game.id }}, selectedPlayerId);
                             }
+                            
+                            // Rafraîchir l'état du joueur depuis la base de données
+                            refreshPlayerState({{ game.id }}, selectedPlayerId);
                         });
                     });
                 });
@@ -275,6 +387,9 @@
                             document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
                                 cell.classList.remove('available-move', 'dice-roll-required');
                             });
+                            
+                            // Rafraîchir l'état du joueur depuis la base de données
+                            refreshPlayerState({{ game.id }}, selectedPlayerId);
                         });
                     });
                 }
@@ -316,6 +431,9 @@
                             document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
                                 cell.classList.remove('available-move', 'dice-roll-required');
                             });
+                            
+                            // Rafraîchir l'état du joueur depuis la base de données
+                            refreshPlayerState({{ game.id }}, selectedPlayerId);
                         });
                     });
                 }
@@ -360,11 +478,8 @@
                     // Cacher l'action en cours
                     actionStatusDiv.classList.add('hidden');
                     
-                    // Activer les boutons d'action
-                    document.querySelectorAll('.action-btn').forEach(button => {
-                        button.disabled = false;
-                        button.classList.remove('opacity-50', 'cursor-not-allowed');
-                    });
+                    // Réactiver les boutons d'action en fonction des autorisations
+                    updateActionButtons();
                 }
             }
             
@@ -452,7 +567,32 @@
                     
                     // Récupérer les nouveaux mouvements disponibles
                     fetchAvailableMoves(gameId, playerId);
+                    
+                    // Rafraîchir l'état du joueur depuis la base de données
+                    refreshPlayerState(gameId, playerId);
                 });
+            }
+            
+            // Rafraîchir l'état du joueur depuis la base de données
+            function refreshPlayerState(gameId, playerId) {
+                fetch(`/game/${gameId}/player/${playerId}/state`)
+                    .then(response => response.json())
+                    .then(stateData => {
+                        currentAction = stateData.currentAction;
+                        actionStatus = stateData.actionStatus;
+                        
+                        updateActionUI({
+                            currentAction: stateData.currentAction,
+                            actionStatus: stateData.actionStatus,
+                            remainingMovement: stateData.remainingMovement
+                        });
+                        
+                        // Récupérer aussi les actions autorisées
+                        fetchAuthorizedActions(gameId, playerId);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération de l\'état du joueur:', error);
+                    });
             }
             
             // Obtenir le libellé d'une action
@@ -496,9 +636,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border: 2px solid #10B981;
+            border: 2px solid #3B82F6;
             z-index: 5;
             animation: pulse 2s infinite;
+            border-radius: 0;
         }
         .dice-roll-required {
             position: relative;
@@ -527,6 +668,81 @@
                 transform: scale(1);
                 opacity: 1;
             }
+        }
+        
+        /* Styles pour les boutons d'action */
+        .action-btn {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .action-btn:disabled {
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .action-btn:disabled::before {
+            content: '⛔';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 14px;
+            z-index: 10;
+        }
+        
+        /* Style pour les boutons en attente de chargement */
+        .action-btn[data-disabled-reason="unauthorized"]::before {
+            content: '⛔';
+        }
+        
+        /* Style pour les tooltips */
+        .action-btn[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+        
+        /* Indicateur de chargement pour les actions */
+        .action-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 0.25rem;
+            z-index: 5;
+        }
+        
+        /* Label d'état des actions */
+        .action-status-label {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        
+        .action-status-allowed {
+            background-color: #10B981;
+            color: white;
+        }
+        
+        .action-status-forbidden {
+            background-color: #EF4444;
+            color: white;
         }
     </style>
 {% endblock %} 

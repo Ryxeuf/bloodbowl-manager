@@ -133,10 +133,11 @@ class GetAvailableMovesController extends AbstractController
         $currentX = $playerState->getX();
         $currentY = $playerState->getY();
         
-        // Utiliser le mouvement restant si l'action est en cours, sinon utiliser le mouvement total
-        $maxMovement = ($playerState->getActionStatus() === PlayerGameState::ACTION_STATUS_IN_PROGRESS)
-            ? $playerState->getRemainingMovement()
-            : $player->getM();
+        // Vérifier s'il reste du mouvement
+        $remainingMovement = $playerState->getRemainingMovement();
+        if ($remainingMovement <= 0) {
+            return new JsonResponse(['availableMoves' => []]);
+        }
 
         // Récupérer toutes les positions occupées
         $occupiedPositions = $this->playerGameStateRepository->findBy(['game' => $game]);
@@ -172,57 +173,23 @@ class GetAvailableMovesController extends AbstractController
             }
         }
 
-        // Initialiser les structures pour l'algorithme
-        $visited = [];
-        $queue = new \SplPriorityQueue();
-        $distances = [];
+        // Obtenir uniquement les cases adjacentes
+        $adjacentMoves = $this->getNeighbors($currentX, $currentY, $occupied, $traversable);
         $availableMoves = [];
 
-        // Position initiale
-        $queue->insert(
-            ['x' => $currentX, 'y' => $currentY, 'traversableOnly' => false],
-            0
-        );
-        $distances["$currentX,$currentY"] = 0;
-
-        // Tant qu'il y a des cases à explorer et qu'on n'a pas dépassé le mouvement maximum
-        while (!$queue->isEmpty()) {
-            $current = $queue->extract();
-            $currentDistance = $distances[$current['x'].','.$current['y']];
-
-            // Si on a déjà visité cette case ou si on a dépassé le mouvement maximum
-            if (isset($visited[$current['x'].','.$current['y']]) || $currentDistance > $maxMovement) {
-                continue;
-            }
-
-            // Marquer comme visitée
-            $visited[$current['x'].','.$current['y']] = true;
-
-            // Si ce n'est pas la position de départ et que ce n'est pas une case traversable uniquement
-            if (($current['x'] !== $currentX || $current['y'] !== $currentY) && !$current['traversableOnly']) {
-                $availableMoves[] = [
-                    'x' => $current['x'], 
-                    'y' => $current['y'],
-                    'requiresDiceRoll' => $this->isAdjacentToOpponent($current['x'], $current['y'], $opponentPositions),
-                    'distance' => $currentDistance // Ajouter la distance pour information
-                ];
-            }
-
-            // Explorer les voisins
-            foreach ($this->getNeighbors($current['x'], $current['y'], $occupied, $traversable) as $neighbor) {
-                $newDistance = $currentDistance + 1;
-                $key = $neighbor['x'].','.$neighbor['y'];
-
-                if (!isset($distances[$key]) || $newDistance < $distances[$key]) {
-                    $distances[$key] = $newDistance;
-                    $queue->insert($neighbor, -$newDistance);
-                }
-            }
+        // Filtrer uniquement les cases adjacentes accessibles
+        foreach ($adjacentMoves as $move) {
+            $availableMoves[] = [
+                'x' => $move['x'],
+                'y' => $move['y'],
+                'requiresDiceRoll' => $this->isAdjacentToOpponent($move['x'], $move['y'], $opponentPositions),
+                'distance' => 1 // Toujours 1 car on ne se déplace que d'une case
+            ];
         }
 
         return new JsonResponse([
             'availableMoves' => $availableMoves,
-            'remainingMovement' => $maxMovement
+            'remainingMovement' => $remainingMovement
         ]);
     }
 } 
