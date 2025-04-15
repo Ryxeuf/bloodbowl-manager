@@ -18,6 +18,18 @@ class GetAvailableMovesController extends AbstractController
     ) {
     }
 
+    private function isAdjacentToOpponent(int $x, int $y, array $opponentPositions): bool
+    {
+        foreach ($opponentPositions as $pos) {
+            $dx = abs($x - $pos['x']);
+            $dy = abs($y - $pos['y']);
+            if ($dx <= 1 && $dy <= 1 && !($dx === 0 && $dy === 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private function getNeighbors(int $x, int $y, array $occupied, array $traversable): array
     {
         $neighbors = [];
@@ -88,12 +100,27 @@ class GetAvailableMovesController extends AbstractController
         $occupiedPositions = $this->playerGameStateRepository->findBy(['game' => $game]);
         $occupied = [];
         $traversable = [];
+        $opponentPositions = [];
+
+        // Déterminer l'équipe du joueur actuel
+        $playerTeam = $player->getTeam();
+
         foreach ($occupiedPositions as $state) {
             if ($state->getX() && $state->getY()) {
                 $occupied[] = [
                     'x' => $state->getX(), 
                     'y' => $state->getY()
                 ];
+
+                // Si c'est un joueur adverse debout, on l'ajoute aux positions adverses
+                if ($state->getPlayer()->getTeam() !== $playerTeam && 
+                    $state->getState() === 'available') {
+                    $opponentPositions[] = [
+                        'x' => $state->getX(),
+                        'y' => $state->getY()
+                    ];
+                }
+
                 if ($state->getState() === 'prone' || $state->getState() === 'stunned') {
                     $traversable[] = [
                         'x' => $state->getX(), 
@@ -131,7 +158,11 @@ class GetAvailableMovesController extends AbstractController
 
             // Si ce n'est pas la position de départ et que ce n'est pas une case traversable uniquement
             if (($current['x'] !== $currentX || $current['y'] !== $currentY) && !$current['traversableOnly']) {
-                $availableMoves[] = ['x' => $current['x'], 'y' => $current['y']];
+                $availableMoves[] = [
+                    'x' => $current['x'], 
+                    'y' => $current['y'],
+                    'requiresDiceRoll' => $this->isAdjacentToOpponent($current['x'], $current['y'], $opponentPositions)
+                ];
             }
 
             // Explorer les voisins
@@ -141,7 +172,7 @@ class GetAvailableMovesController extends AbstractController
 
                 if (!isset($distances[$key]) || $newDistance < $distances[$key]) {
                     $distances[$key] = $newDistance;
-                    $queue->insert($neighbor, -$newDistance); // Priorité négative car SplPriorityQueue trie par plus grande valeur
+                    $queue->insert($neighbor, -$newDistance);
                 }
             }
         }

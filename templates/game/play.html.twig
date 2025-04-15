@@ -136,8 +136,8 @@
                         }
 
                         // Retirer les cases disponibles
-                        document.querySelectorAll('.available-move').forEach(cell => {
-                            cell.classList.remove('available-move');
+                        document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                            cell.classList.remove('available-move', 'dice-roll-required');
                         });
 
                         // Ajouter la sélection au nouveau joueur
@@ -183,15 +183,15 @@
                                 .then(data => {
                                     console.log('Available moves:', data.availableMoves);
                                     // Retirer les anciennes cases disponibles
-                                    document.querySelectorAll('.available-move').forEach(cell => {
-                                        cell.classList.remove('available-move');
+                                    document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                                        cell.classList.remove('available-move', 'dice-roll-required');
                                     });
 
                                     // Ajouter les nouvelles cases disponibles
                                     data.availableMoves.forEach(move => {
                                         const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
                                         if (cell) {
-                                            cell.classList.add('available-move');
+                                            cell.classList.add(move.requiresDiceRoll ? 'dice-roll-required' : 'available-move');
                                         }
                                     });
                                 })
@@ -213,8 +213,8 @@
                     selectedPlayerId = null;
                 }
                 // Retirer les cases disponibles
-                document.querySelectorAll('.available-move').forEach(cell => {
-                    cell.classList.remove('available-move');
+                document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                    cell.classList.remove('available-move', 'dice-roll-required');
                 });
             });
         });
@@ -247,6 +247,20 @@
             right: 0;
             bottom: 0;
             border: 2px solid #10B981;
+            z-index: 5;
+            animation: pulse 2s infinite;
+        }
+        .dice-roll-required {
+            position: relative;
+        }
+        .dice-roll-required::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid #F97316;
             z-index: 5;
             animation: pulse 2s infinite;
         }
