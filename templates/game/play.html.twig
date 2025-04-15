@@ -122,7 +122,8 @@
             const closePanel = document.getElementById('closePanel');
             const playerCells = document.querySelectorAll('.player-cell');
             let selectedPlayerId = null;
-            let availableMoves = [];
+            let currentAction = null;
+            let actionStatus = null;
 
             playerCells.forEach(cell => {
                 cell.addEventListener('click', function() {
@@ -150,12 +151,39 @@
                         playerPanel.classList.remove('hidden');
 
                         // Récupérer les informations du joueur
-                        fetch(`/player/${playerId}/info`)
+                        fetch(`/player/${playerId}/info?gameId={{ game.id }}`)
                             .then(response => response.text())
                             .then(html => {
                                 playerInfo.innerHTML = html;
-                                // Ajouter les écouteurs d'événements aux boutons d'action
-                                addActionButtonListeners();
+                                
+                                // Récupérer l'état actuel du joueur
+                                fetch(`/game/{{ game.id }}/player/${playerId}/state`)
+                                    .then(response => response.json())
+                                    .then(stateData => {
+                                        currentAction = stateData.currentAction;
+                                        actionStatus = stateData.actionStatus;
+                                        
+                                        // Mise à jour de l'UI selon l'état
+                                        if (stateData.currentAction && stateData.currentAction !== 'none') {
+                                            updateActionUI({
+                                                currentAction: stateData.currentAction,
+                                                actionStatus: stateData.actionStatus,
+                                                remainingMovement: stateData.remainingMovement
+                                            });
+                                            
+                                            // Si une action de mouvement est en cours, afficher les mouvements disponibles
+                                            if ((stateData.currentAction === 'move' || 
+                                                stateData.currentAction === 'blitz' || 
+                                                stateData.currentAction === 'pass' || 
+                                                stateData.currentAction === 'handoff') && 
+                                                stateData.actionStatus === 'in_progress') {
+                                                    fetchAvailableMoves({{ game.id }}, playerId);
+                                            }
+                                        }
+                                    });
+                                
+                                // Ajouter les écouteurs d'événements pour les boutons d'action
+                                addActionEventListeners();
                             })
                             .catch(error => {
                                 console.error('Erreur lors de la récupération des informations du joueur:', error);
@@ -164,43 +192,133 @@
                 });
             });
 
-            function addActionButtonListeners() {
-                const actionButtons = playerInfo.querySelectorAll('.action-btn');
-                console.log('Action buttons found:', actionButtons.length);
-                
-                actionButtons.forEach(button => {
+            function addActionEventListeners() {
+                // Boutons d'action
+                document.querySelectorAll('.action-btn').forEach(button => {
                     button.addEventListener('click', function() {
-                        console.log('Button clicked:', this.dataset.action);
                         const action = this.dataset.action;
-                        if (action === 'move' && selectedPlayerId) {
-                            console.log('Fetching available moves for player:', selectedPlayerId);
-                            // Récupérer les cases disponibles
-                            fetch(`/game/{{ game.id }}/player/${selectedPlayerId}/available-moves`)
-                                .then(response => {
-                                    console.log('Response status:', response.status);
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    console.log('Available moves:', data.availableMoves);
-                                    // Retirer les anciennes cases disponibles
-                                    document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
-                                        cell.classList.remove('available-move', 'dice-roll-required');
-                                    });
-
-                                    // Ajouter les nouvelles cases disponibles
-                                    data.availableMoves.forEach(move => {
-                                        const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
-                                        if (cell) {
-                                            cell.classList.add(move.requiresDiceRoll ? 'dice-roll-required' : 'available-move');
-                                        }
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Erreur lors de la récupération des cases disponibles:', error);
-                                });
+                        
+                        if (!selectedPlayerId) {
+                            alert('Veuillez sélectionner un joueur');
+                            return;
                         }
+                        
+                        fetch(`/game/{{ game.id }}/player/${selectedPlayerId}/action`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                action: action,
+                                status: 'start'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                                return;
+                            }
+                            
+                            currentAction = data.action;
+                            actionStatus = data.status;
+                            
+                            updateActionUI({
+                                currentAction: data.action,
+                                actionStatus: data.status,
+                                remainingMovement: data.remainingMovement
+                            });
+                            
+                            // Récupérer les mouvements disponibles pour les actions de mouvement
+                            if (data.action === 'move' || data.action === 'blitz' || 
+                                data.action === 'pass' || data.action === 'handoff') {
+                                fetchAvailableMoves({{ game.id }}, selectedPlayerId);
+                            }
+                        });
                     });
                 });
+                
+                // Compléter une action
+                const completeBtn = document.getElementById('complete-action');
+                if (completeBtn) {
+                    completeBtn.addEventListener('click', function() {
+                        if (!selectedPlayerId || !currentAction) {
+                            return;
+                        }
+                        
+                        fetch(`/game/{{ game.id }}/player/${selectedPlayerId}/action`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                status: 'complete'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                                return;
+                            }
+                            
+                            currentAction = data.action;
+                            actionStatus = data.status;
+                            
+                            updateActionUI({
+                                currentAction: data.action,
+                                actionStatus: data.status,
+                                remainingMovement: 0
+                            });
+                            
+                            // Retirer les cases disponibles
+                            document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                                cell.classList.remove('available-move', 'dice-roll-required');
+                            });
+                        });
+                    });
+                }
+                
+                // Annuler une action
+                const cancelBtn = document.getElementById('cancel-action');
+                if (cancelBtn) {
+                    cancelBtn.addEventListener('click', function() {
+                        if (!selectedPlayerId || !currentAction) {
+                            return;
+                        }
+                        
+                        fetch(`/game/{{ game.id }}/player/${selectedPlayerId}/action`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                status: 'cancel'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                                return;
+                            }
+                            
+                            currentAction = data.action;
+                            actionStatus = data.status;
+                            
+                            updateActionUI({
+                                currentAction: data.action,
+                                actionStatus: data.status,
+                                remainingMovement: 0
+                            });
+                            
+                            // Retirer les cases disponibles
+                            document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                                cell.classList.remove('available-move', 'dice-roll-required');
+                            });
+                        });
+                    });
+                }
             }
 
             closePanel.addEventListener('click', function() {
@@ -217,6 +335,138 @@
                     cell.classList.remove('available-move', 'dice-roll-required');
                 });
             });
+
+            // Mise à jour de l'interface des actions
+            function updateActionUI(data) {
+                const actionStatusDiv = document.querySelector('.action-status');
+                if (!actionStatusDiv) return;
+                
+                if (data.currentAction && data.currentAction !== 'none' && data.actionStatus === 'in_progress') {
+                    // Afficher l'action en cours
+                    const currentActionEl = document.getElementById('current-action');
+                    const remainingMovementEl = document.getElementById('remaining-movement');
+                    
+                    if (currentActionEl) currentActionEl.textContent = getActionLabel(data.currentAction);
+                    if (remainingMovementEl) remainingMovementEl.textContent = data.remainingMovement || 0;
+                    
+                    actionStatusDiv.classList.remove('hidden');
+                    
+                    // Désactiver les boutons d'action
+                    document.querySelectorAll('.action-btn').forEach(button => {
+                        button.disabled = true;
+                        button.classList.add('opacity-50', 'cursor-not-allowed');
+                    });
+                } else {
+                    // Cacher l'action en cours
+                    actionStatusDiv.classList.add('hidden');
+                    
+                    // Activer les boutons d'action
+                    document.querySelectorAll('.action-btn').forEach(button => {
+                        button.disabled = false;
+                        button.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                }
+            }
+            
+            // Récupérer les mouvements disponibles
+            function fetchAvailableMoves(gameId, playerId) {
+                // Retirer les anciennes cases disponibles
+                document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                    cell.classList.remove('available-move', 'dice-roll-required');
+                });
+                
+                fetch(`/game/${gameId}/player/${playerId}/available-moves`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Available moves:', data.availableMoves);
+                        
+                        // Retirer les anciennes cases disponibles
+                        document.querySelectorAll('.available-move, .dice-roll-required').forEach(cell => {
+                            cell.classList.remove('available-move', 'dice-roll-required');
+                        });
+                        
+                        // Ajouter les nouvelles cases disponibles
+                        data.availableMoves.forEach(move => {
+                            const cell = document.querySelector(`[data-x="${move.x}"][data-y="${move.y}"]`);
+                            if (cell) {
+                                cell.classList.add(move.requiresDiceRoll ? 'dice-roll-required' : 'available-move');
+                                
+                                // Ajouter un gestionnaire d'événements pour déplacer le joueur
+                                cell.addEventListener('click', function() {
+                                    if (!selectedPlayerId) return;
+                                    
+                                    movePlayer(gameId, selectedPlayerId, move.x, move.y);
+                                });
+                            }
+                        });
+                    });
+            }
+            
+            // Déplacer un joueur
+            function movePlayer(gameId, playerId, x, y) {
+                fetch(`/game/${gameId}/player/${playerId}/move`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        x: x,
+                        y: y
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    
+                    // Mettre à jour la position visuelle du joueur
+                    const playerCell = document.querySelector(`.player-cell-${playerId}`);
+                    if (playerCell) {
+                        // Récupérer les coordonnées actuelles
+                        const oldX = playerCell.dataset.x;
+                        const oldY = playerCell.dataset.y;
+                        
+                        // Récupérer la case actuelle et la nouvelle case
+                        const oldCell = document.querySelector(`[data-x="${oldX}"][data-y="${oldY}"]`);
+                        const newCell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                        
+                        if (oldCell && newCell) {
+                            // Retirer les classes et attributs de l'ancienne case
+                            oldCell.classList.remove(`player-cell-${playerId}`);
+                            oldCell.dataset.playerId = '';
+                            
+                            // Ajouter les classes et attributs à la nouvelle case
+                            newCell.classList.add(`player-cell-${playerId}`);
+                            newCell.dataset.playerId = playerId;
+                            newCell.classList.add('selected-player');
+                        }
+                    }
+                    
+                    // Mettre à jour le mouvement restant
+                    const remainingMovementEl = document.getElementById('remaining-movement');
+                    if (remainingMovementEl) {
+                        remainingMovementEl.textContent = data.remainingMovement;
+                    }
+                    
+                    // Récupérer les nouveaux mouvements disponibles
+                    fetchAvailableMoves(gameId, playerId);
+                });
+            }
+            
+            // Obtenir le libellé d'une action
+            function getActionLabel(action) {
+                const labels = {
+                    'move': 'Mouvement',
+                    'block': 'Blocage',
+                    'blitz': 'Blitz',
+                    'pass': 'Passe',
+                    'handoff': 'Transmission',
+                    'foul': 'Agression'
+                };
+                return labels[action] || action;
+            }
         });
     </script>
 

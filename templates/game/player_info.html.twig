@@ -1,0 +1,58 @@
+<div class="space-y-4">
+    <div>
+        <h3 class="text-lg font-bold">{{ player.name|default('Joueur ' ~ player.number) }}</h3>
+        <p class="text-sm text-gray-600">{{ player.position.name }}</p>
+        <p class="text-sm text-gray-600">{{ player.team.name }}</p>
+    </div>
+    
+    {{ include('components/player_row/_stats.html.twig') }}
+    {{ include('components/player_row/_skills.html.twig') }}
+    
+    {% if isPlayerTeamActive and isPlayerAvailable %}
+        <div class="mt-5 border-t border-gray-200 pt-5">
+            <h4 class="text-md font-medium text-gray-900 mb-3">Actions disponibles</h4>
+            <div class="player-actions flex flex-wrap gap-2 mb-4">
+                <button type="button" data-action="move" class="action-btn px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
+                    Mouvement
+                </button>
+                <button type="button" data-action="block" class="action-btn px-3 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700">
+                    Blocage
+                </button>
+                <button type="button" data-action="blitz" class="action-btn px-3 py-2 bg-purple-600 text-white text-sm font-medium rounded hover:bg-purple-700">
+                    Blitz
+                </button>
+                <button type="button" data-action="pass" class="action-btn px-3 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700">
+                    Passe
+                </button>
+                <button type="button" data-action="handoff" class="action-btn px-3 py-2 bg-yellow-600 text-white text-sm font-medium rounded hover:bg-yellow-700">
+                    Transmission
+                </button>
+                <button type="button" data-action="foul" class="action-btn px-3 py-2 bg-gray-600 text-white text-sm font-medium rounded hover:bg-gray-700">
+                    Agression
+                </button>
+            </div>
+            <div class="action-status hidden">
+                <div class="mb-2 p-2 bg-gray-100 rounded">
+                    <p class="text-sm text-gray-700">Action en cours: <span id="current-action" class="font-medium"></span></p>
+                    <p class="text-sm text-gray-700">Mouvement restant: <span id="remaining-movement" class="font-medium"></span></p>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" id="complete-action" class="px-3 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700">
+                        Terminer l'action
+                    </button>
+                    <button type="button" id="cancel-action" class="px-3 py-2 bg-gray-600 text-white text-sm font-medium rounded hover:bg-gray-700">
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="mt-5 border-t border-gray-200 pt-5">
+            <div class="p-4 bg-gray-100 rounded text-gray-700">
+                {% if not isPlayerAvailable %}
+                    <p>Ce joueur n'est pas disponible pour agir.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div> 

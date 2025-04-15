@@ -19,6 +19,20 @@ class PlayerGameState
     public const STATE_INJURED = 'injured';
     public const STATE_DEAD = 'dead';
 
+    // Actions possibles pour un joueur
+    public const ACTION_NONE = 'none';
+    public const ACTION_MOVE = 'move';
+    public const ACTION_BLOCK = 'block';
+    public const ACTION_BLITZ = 'blitz';
+    public const ACTION_PASS = 'pass';
+    public const ACTION_HANDOFF = 'handoff';
+    public const ACTION_FOUL = 'foul';
+
+    // Statuts des actions
+    public const ACTION_STATUS_NOT_STARTED = 'not_started';
+    public const ACTION_STATUS_IN_PROGRESS = 'in_progress';
+    public const ACTION_STATUS_COMPLETED = 'completed';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,6 +57,15 @@ class PlayerGameState
 
     #[ORM\Column]
     private bool $hasPlayed = false;
+
+    #[ORM\Column(length: 255)]
+    private string $currentAction = self::ACTION_NONE;
+
+    #[ORM\Column(length: 255)]
+    private string $actionStatus = self::ACTION_STATUS_NOT_STARTED;
+
+    #[ORM\Column]
+    private int $remainingMovement = 0;
 
     public function getId(): ?int
     {
@@ -112,6 +135,73 @@ class PlayerGameState
     public function setHasPlayed(bool $hasPlayed): self
     {
         $this->hasPlayed = $hasPlayed;
+        return $this;
+    }
+
+    public function getCurrentAction(): string
+    {
+        return $this->currentAction;
+    }
+
+    public function setCurrentAction(string $action): self
+    {
+        $this->currentAction = $action;
+        return $this;
+    }
+
+    public function getActionStatus(): string
+    {
+        return $this->actionStatus;
+    }
+
+    public function setActionStatus(string $status): self
+    {
+        $this->actionStatus = $status;
+        return $this;
+    }
+
+    public function getRemainingMovement(): int
+    {
+        return $this->remainingMovement;
+    }
+
+    public function setRemainingMovement(int $movement): self
+    {
+        $this->remainingMovement = $movement;
+        return $this;
+    }
+
+    public function startAction(string $action): self
+    {
+        $this->currentAction = $action;
+        $this->actionStatus = self::ACTION_STATUS_IN_PROGRESS;
+        
+        // Si c'est une action de mouvement, on initialise le mouvement restant
+        if ($action === self::ACTION_MOVE || $action === self::ACTION_BLITZ) {
+            $this->remainingMovement = $this->player->getM();
+        }
+        
+        return $this;
+    }
+
+    public function completeAction(): self
+    {
+        $this->actionStatus = self::ACTION_STATUS_COMPLETED;
+        $this->remainingMovement = 0;
+        return $this;
+    }
+
+    public function resetAction(): self
+    {
+        $this->currentAction = self::ACTION_NONE;
+        $this->actionStatus = self::ACTION_STATUS_NOT_STARTED;
+        $this->remainingMovement = 0;
+        return $this;
+    }
+
+    public function moveBy(int $distance): self
+    {
+        $this->remainingMovement = max(0, $this->remainingMovement - $distance);
         return $this;
     }
 } 

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\PlayerGameState;
 
 #[Route('/game/{game}/player/{player}/available-moves', name: 'app_game_available_moves', methods: ['GET'])]
 class GetAvailableMovesController extends AbstractController
@@ -87,14 +88,55 @@ class GetAvailableMovesController extends AbstractController
             return new JsonResponse(['error' => 'Player state not found'], Response::HTTP_NOT_FOUND);
         }
 
+        // Vérifier si l'équipe du joueur est l'équipe active
+        $activeTeam = ($game->getCurrentTurn() % 2 === 1) ? $game->getHomeTeam() : $game->getAwayTeam();
+        if ($player->getTeam() !== $activeTeam) {
+            return new JsonResponse([
+                'availableMoves' => [],
+                'error' => 'Ce joueur ne fait pas partie de l\'équipe active'
+            ]);
+        }
+
+        // Vérifier si le joueur est disponible
+        if ($playerState->getState() !== PlayerGameState::STATE_AVAILABLE) {
+            return new JsonResponse([
+                'availableMoves' => [],
+                'error' => 'Ce joueur n\'est pas disponible pour agir'
+            ]);
+        }
+
         // Si le joueur a déjà joué, on ne peut plus bouger
         if ($playerState->hasPlayed()) {
             return new JsonResponse(['availableMoves' => []]);
         }
 
+        // Si le joueur n'a pas d'action en cours liée au mouvement, on ne peut pas bouger
+        $validActions = [
+            PlayerGameState::ACTION_MOVE,
+            PlayerGameState::ACTION_BLITZ,
+            PlayerGameState::ACTION_PASS,
+            PlayerGameState::ACTION_HANDOFF
+        ];
+        
+        if (!in_array($playerState->getCurrentAction(), $validActions)) {
+            return new JsonResponse([
+                'availableMoves' => [],
+                'error' => 'Player must select a valid action first'
+            ]);
+        }
+        
+        // Si l'action est complétée, on ne peut plus bouger
+        if ($playerState->getActionStatus() === PlayerGameState::ACTION_STATUS_COMPLETED) {
+            return new JsonResponse(['availableMoves' => []]);
+        }
+
         $currentX = $playerState->getX();
         $currentY = $playerState->getY();
-        $maxMovement = $player->getM();
+        
+        // Utiliser le mouvement restant si l'action est en cours, sinon utiliser le mouvement total
+        $maxMovement = ($playerState->getActionStatus() === PlayerGameState::ACTION_STATUS_IN_PROGRESS)
+            ? $playerState->getRemainingMovement()
+            : $player->getM();
 
         // Récupérer toutes les positions occupées
         $occupiedPositions = $this->playerGameStateRepository->findBy(['game' => $game]);
@@ -161,7 +203,8 @@ class GetAvailableMovesController extends AbstractController
                 $availableMoves[] = [
                     'x' => $current['x'], 
                     'y' => $current['y'],
-                    'requiresDiceRoll' => $this->isAdjacentToOpponent($current['x'], $current['y'], $opponentPositions)
+                    'requiresDiceRoll' => $this->isAdjacentToOpponent($current['x'], $current['y'], $opponentPositions),
+                    'distance' => $currentDistance // Ajouter la distance pour information
                 ];
             }
 
@@ -178,7 +221,8 @@ class GetAvailableMovesController extends AbstractController
         }
 
         return new JsonResponse([
-            'availableMoves' => $availableMoves
+            'availableMoves' => $availableMoves,
+            'remainingMovement' => $maxMovement
         ]);
     }
 } 
