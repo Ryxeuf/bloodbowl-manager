@@ -171,7 +171,18 @@ class MovePlayerController extends AbstractController
                 $playerState->setState(PlayerGameState::STATE_PRONE);
                 $playerState->completeAction();
                 
-                // Ajouter un log pour ce mouvement raté
+                // Jet d'armure (2D6) pour voir si le joueur est blessé
+                $armorRoll1 = random_int(1, 6);
+                $armorRoll2 = random_int(1, 6);
+                $armorTotal = $armorRoll1 + $armorRoll2;
+                $playerArmor = $player->getAr();
+                
+                $injuryRoll1 = 0;
+                $injuryRoll2 = 0;
+                $injuryTotal = 0;
+                $injuryResult = null;
+                
+                // Log pour l'échec d'esquive
                 $this->gameLogService->addLog(
                     $game,
                     sprintf('%s (#%d) tente de quitter une zone de tacle mais tombe en (%d,%d)! (Jet: %d, AG: %d)', 
@@ -186,6 +197,59 @@ class MovePlayerController extends AbstractController
                     'movement-failed'
                 );
                 
+                // Si le jet d'armure est supérieur ou égal à l'armure du joueur, on fait un jet de blessure
+                if ($armorTotal >= $playerArmor) {
+                    $injuryRoll1 = random_int(1, 6);
+                    $injuryRoll2 = random_int(1, 6);
+                    $injuryTotal = $injuryRoll1 + $injuryRoll2;
+                    
+                    // Déterminer la blessure en fonction du résultat
+                    if ($injuryTotal <= 7) {
+                        $playerState->setState(PlayerGameState::STATE_STUNNED);
+                        $injuryResult = 'stunned';
+                    } elseif ($injuryTotal <= 9) {
+                        $playerState->setState(PlayerGameState::STATE_KO);
+                        $injuryResult = 'ko';
+                    } else {
+                        $playerState->setState(PlayerGameState::STATE_DEAD);
+                        $injuryResult = 'dead';
+                    }
+                    
+                    // Log pour la blessure
+                    $this->gameLogService->addLog(
+                        $game,
+                        sprintf('%s (#%d) est blessé! (Armure: %d+%d=%d/%d, Blessure: %d+%d=%d, Résultat: %s)', 
+                            $player->getName() ?: $player->getPosition()->getName(), 
+                            $player->getNumber(),
+                            $armorRoll1,
+                            $armorRoll2,
+                            $armorTotal,
+                            $playerArmor,
+                            $injuryRoll1,
+                            $injuryRoll2,
+                            $injuryTotal,
+                            $injuryResult
+                        ),
+                        $player,
+                        'injury-' . $injuryResult
+                    );
+                } else {
+                    // Log pour le jet d'armure raté
+                    $this->gameLogService->addLog(
+                        $game,
+                        sprintf('%s (#%d) tombe mais son armure le protège (Armure: %d+%d=%d/%d)', 
+                            $player->getName() ?: $player->getPosition()->getName(), 
+                            $player->getNumber(),
+                            $armorRoll1,
+                            $armorRoll2,
+                            $armorTotal,
+                            $playerArmor
+                        ),
+                        $player,
+                        'armor-save'
+                    );
+                }
+                
                 $this->entityManager->flush();
                 
                 return new JsonResponse([
@@ -196,8 +260,20 @@ class MovePlayerController extends AbstractController
                     ],
                     'diceRoll' => $diceRoll,
                     'agility' => $agility,
+                    'armorRoll' => [
+                        'dice1' => $armorRoll1,
+                        'dice2' => $armorRoll2,
+                        'total' => $armorTotal,
+                        'armor' => $playerArmor
+                    ],
+                    'injuryRoll' => $injuryTotal > 0 ? [
+                        'dice1' => $injuryRoll1,
+                        'dice2' => $injuryRoll2,
+                        'total' => $injuryTotal,
+                        'result' => $injuryResult
+                    ] : null,
                     'reason' => 'Player failed dodge roll',
-                    'newState' => PlayerGameState::STATE_PRONE
+                    'newState' => $playerState->getState()
                 ], Response::HTTP_OK);
             }
             

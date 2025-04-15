@@ -30,7 +30,7 @@ class GameLogRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('gl')
             ->andWhere('gl.game = :game')
             ->setParameter('game', $game)
-            ->orderBy('gl.createdAt', 'DESC')
+            ->orderBy('gl.id DESC, gl.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
