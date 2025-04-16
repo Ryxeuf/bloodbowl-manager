@@ -55,6 +55,8 @@ class PlayerInfoController extends AbstractController
                 
                 // Vérifier si le joueur est disponible
                 $isPlayerAvailable = ($playerState->getState() === PlayerGameState::STATE_AVAILABLE);
+
+                $hasPlayed = $playerState->hasPlayed();
                 
                 // Déterminer les actions possibles
                 if ($isPlayerTeamActive && $isPlayerAvailable) {
@@ -79,6 +81,7 @@ class PlayerInfoController extends AbstractController
             'playerState' => $playerState,
             'isPlayerTeamActive' => $isPlayerTeamActive,
             'isPlayerAvailable' => $isPlayerAvailable,
+            'hasPlayed' => $hasPlayed,
             'actions' => [
                 'canMove' => $canMove,
                 'canBlock' => $canBlock,
