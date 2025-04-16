@@ -76,6 +76,7 @@ class PlayerInfoController extends AbstractController
         
         return $this->render('game/player_info.html.twig', [
             'player' => $player,
+            'playerState' => $playerState,
             'isPlayerTeamActive' => $isPlayerTeamActive,
             'isPlayerAvailable' => $isPlayerAvailable,
             'actions' => [
